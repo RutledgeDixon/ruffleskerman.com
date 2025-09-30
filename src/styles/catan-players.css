@@ -1,6 +1,15 @@
 /* Catan Player Components CSS */
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+body {
+    background-color: #464648;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    margin: 0;
+    font-family: "Exo 2", sans-serif;
+}
+
 /* Players Container Styles */
 .players-container {
     display: flex;
@@ -23,6 +32,7 @@
     box-shadow: 0px 2px 10px rgba(0,0,0,0.15);
     transition: all 0.3s ease;
     font-family: 'Exo 2', sans-serif;
+    margin-bottom: 20px; /* Adjust as needed for spacing */
 }
 
 .player-header {
@@ -377,6 +387,58 @@
   width: 100%;
 }
 
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    color: white;
+    font-size: 3.5rem;
+}
+
+/* Dice Styles */
+.diceDiv {
+    padding-bottom: 100px;
+    margin-bottom: 20px;
+}
+
+.dice {
+    background: white;
+    color: #464648; /* Keep for consistency, but buttons may override; test and adjust */
+    float: left;
+    width: 9%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    margin-right: 1.1%;
+    border-radius: 20px;
+    text-align: center;
+    font-family: "Exo 2", sans-serif;
+    font-size: 3rem;
+    font-weight: 800;
+    transition: 0.2s;
+    border: none; /* Add for button styling */
+    cursor: pointer; /* Add for interactivity */
+}
+
+#dice12 {
+    margin-right: 0%;
+}
+
+.dice:hover {
+    color: steelblue;
+    box-shadow: 0px 0px 10px 1px steelblue;
+}
+
+.main-catan-center {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+
 /* Responsive Design */
 @media (max-width: 1400px) {
     .players-container {
@@ -393,6 +455,16 @@
     }
     .dice-inputs {
         grid-template-columns: repeat(4, 1fr);
+    }
+    .dice {
+        font-size: 2rem;
+    }
+    h1 {
+        font-size: 2.5rem;
+    }
+    #playerHands {
+        width: 100%;
+        float: none;
     }
 }
 
@@ -428,6 +500,29 @@
     .action-btn {
         padding: 10px 12px;
         font-size: 0.9rem;
+    }
+    
+    body {
+        padding: 10px;
+    }
+
+    .dice {
+        font-size: 1.5rem;
+        width: 18%;
+        margin-bottom: 10px;
+    }
+
+    .diceDiv {
+        padding-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    #numButton {
+        font-size: 0.4em;
+        padding: 5px;
     }
 }
 

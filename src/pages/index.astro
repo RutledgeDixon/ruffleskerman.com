@@ -2,10 +2,10 @@
 //main imports
 import Layout from "../layouts/mainLayout.astro";
 import "../styles/global.css";
-import defineConfig from "astro.config.mjs"
+import defineConfig from "astro.config.mjs";
 // Component Imports
 import { Button } from "@/components/ui/button";
-import { navigate } from "astro:transitions/client";
+import ProjectCard from "@/components/projectCard";
 
 // Full Astro Component Syntax:
 // https://docs.astro.build/basics/astro-components/
@@ -20,45 +20,44 @@ import { navigate } from "astro:transitions/client";
 			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
 				Lots of cool stuff will be here.
 			</p>
-			<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-				<a href={defineConfig.base + "listen"} class="inline-block">
+			<div
+				class="flex flex-col sm:flex-row gap-4 justify-center items-center"
+			>
+				<!-- <a href={defineConfig.base + "listen"} class="inline-block">
 					<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
 				</a>
 				<a href={defineConfig.base + "broadcast"} class="inline-block">
 					<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
-				</a>
+				</a> -->
 			</div>
 		</div>
-		
+
 		<!-- Feature cards -->
 		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
-			<div class="bg-green-900 p-6 rounded-lg shadow-md">
-				<h3 class="text-xl font-semibold mb-3">🎧 Listen</h3>
-				<p class="text-gray-400">Feature card 1.</p>
-				<div class="mt-6 text-center">
-					<a href={defineConfig.base + "listen"} class="inline-block">
-						<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
-					</a>
-				</div>
-			</div>
-			<div class="bg-green-900 p-6 rounded-lg shadow-md">
-				<h3 class="text-xl font-semibold mb-3">📻 Broadcast</h3>
-				<p class="text-gray-400">Feature card 2.</p>
-				<div class="mt-6 text-center">
-					<a href={defineConfig.base + "broadcast"} class="inline-block">
-						<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
-					</a>
-				</div>
-			</div>
-			<div class="bg-green-900 p-6 rounded-lg shadow-md">
-				<h3 class="text-xl font-semibold mb-3">🌐 Cheat</h3>
-				<p class="text-gray-400">I mean what.</p>
-				<div class="mt-6 text-center">
-					<a href={defineConfig.base + "catancounter"} class="inline-block">
-						<Button variant="letu" className="px-8 py-3 text-lg">Catan Counter</Button>
-					</a>
-				</div>
-			</div>
+			<ProjectCard
+				title="🛠️ LeTour"
+				description="Listen page"
+				href={defineConfig.base + "letour"}
+				buttonText="Listen"
+			/>
+			<ProjectCard
+				title="🛠️ LeTour"
+				description="Broadcast page"
+				href={defineConfig.base + "broadcast"}
+				buttonText="Broadcast"
+			/>
+			<ProjectCard
+				title="🎲 Catan Counter"
+				description="It's not cheating! It's just a counter."
+				href={defineConfig.base + "catancounter"}
+				buttonText="Catan Counter"
+			/>
+			<ProjectCard
+				title="🌐 Need help with Wordle?"
+				description="I have a bot for that... Eventually"
+				href={defineConfig.base + "wordlebot"}
+				buttonText="Wordle Bot"
+			/>
 		</div>
 	</div>
 </Layout>

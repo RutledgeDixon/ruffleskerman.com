@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
-const NumberOfPlayersButton: React.FC = () => {
+interface NumberOfPlayersButtonProps {
+  onChange: (count: number) => void;
+}
+
+const NumberOfPlayersButton = ({ onChange }: NumberOfPlayersButtonProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlayers, setSelectedPlayers] = useState(4);
 
@@ -11,6 +15,7 @@ const NumberOfPlayersButton: React.FC = () => {
   const handleLetsPlay = () => {
     window.dispatchEvent(new CustomEvent('updatePlayers', { detail: selectedPlayers }));
     setIsModalOpen(false);
+    onChange(selectedPlayers);
   };
 
   return (
