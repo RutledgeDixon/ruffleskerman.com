@@ -22,27 +22,31 @@ interface PlayerData {
     };
 }
 
+const setBlankPlayer = (i: number) => {
+    return {
+        id: i + 1,
+        name: `Player ${i + 1}`,
+        resources: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+        diceConfig: {
+            2: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            3: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            4: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            5: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            6: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            8: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            9: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            10: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            11: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
+            12: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 }
+        }
+    }
+}
+
 const CatanGame = () => {
     //Initialize players
     const [numberOfPlayers, setNumberOfPlayers] = useState(4);
     const [players, setPlayers] = useState<PlayerData[]>(() =>
-        Array.from({ length: numberOfPlayers }, (_, i) => ({
-            id: i + 1,
-            name: `Player ${i + 1}`,
-            resources: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-            diceConfig: {
-                2: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                3: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                4: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                5: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                6: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                8: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                9: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                10: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                11: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                12: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 }
-            }
-        }))
+        Array.from({ length: numberOfPlayers }, (_, i) => setBlankPlayer(i))
     );
 
     //updates each player resource with the correct number, based on their dice config
@@ -66,6 +70,7 @@ const CatanGame = () => {
     }
 
     // Update players when numberOfPlayers changes
+    // Returns the new array of players
     const handleNumberOfPlayersChange = (newCount: number) => {
         setNumberOfPlayers(newCount);
         setPlayers((prevPlayers) => {
@@ -73,23 +78,7 @@ const CatanGame = () => {
         if (newCount > prevPlayers.length) {
             // Add new players
             for (let i = prevPlayers.length; i < newCount; i++) {
-            updated.push({
-                id: i + 1,
-                name: `Player ${i + 1}`,
-                resources: { lumber: 0, brick: 0, wool: 0, wheat: 0, ore: 0 },
-                diceConfig: {
-                    2: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    3: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    4: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    5: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    6: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    8: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    9: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    10: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    11: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
-                    12: { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 }
-                }
-            });
+                updated.push(setBlankPlayer(i));
             }
         } else {
             // Remove excess players
@@ -125,12 +114,11 @@ const CatanGame = () => {
                   players={players}
                   onResourceChange={(playerId, resource, change) => {
                     setPlayers((prev) => prev.map((p) =>
-                      p.id === playerId ? { ...p, resources: { ...p.resources, [resource]: p.resources[resource] + change } } : p
+                      p.id === playerId ? { ...p, resources: { ...p.resources, [resource]: (p.resources[resource] + change) > 0 ? (p.resources[resource] + change) : 0 } } : p
                     ));
                   }}
                   onActionClick={(playerId, action) => {
                     // Handle building actions, e.g., deduct costs from resources
-                    // Example: if action === 'road', deduct costs and log
                     let cost = { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 };
                     if (action === 'road') cost = { brick: 1, lumber: 1, ore: 0, wheat: 0, wool: 0 };
                     else if (action === 'settlement') cost = { brick: 1, lumber: 1, ore: 0, wheat: 1, wool: 1 };
