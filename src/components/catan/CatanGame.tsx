@@ -4,6 +4,9 @@ import CatanPlayersContainer from './PlayersContainer';
 import NumberOfPlayersButton from './NumberOfPlayersButton';
 import '@/styles/catan-players.css';
 
+// TODO
+// - refactor and simplify
+
 interface PlayerData {
     id: number;
     name: string;
@@ -128,6 +131,23 @@ const CatanGame = () => {
                   onActionClick={(playerId, action) => {
                     // Handle building actions, e.g., deduct costs from resources
                     // Example: if action === 'road', deduct costs and log
+                    let cost = { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 };
+                    if (action === 'road') cost = { brick: 1, lumber: 1, ore: 0, wheat: 0, wool: 0 };
+                    else if (action === 'settlement') cost = { brick: 1, lumber: 1, ore: 0, wheat: 1, wool: 1 };
+                    else if (action === 'city') cost = { brick: 0, lumber: 0, ore: 3, wheat: 2, wool: 0 };
+                    else if (action === 'devcard') cost = { brick: 0, lumber: 0, ore: 1, wheat: 1, wool: 1 };
+                    //deduct the cost from the player with playerId
+                    setPlayers((prev) => prev.map((p) =>
+                        p.id === playerId ? {
+                            ...p,
+                            resources: {
+                            ...p.resources,
+                            ...Object.fromEntries(
+                                Object.entries(cost).map(([res, amt]) => [res, p.resources[res as keyof typeof p.resources] - amt])
+                            )
+                            }
+                        } : p
+                    ));
                     console.log(`Player ${playerId} built a ${action}`);
                   }}
                   onDiceConfigChange={(playerId, diceNumber, resource, value) => {
