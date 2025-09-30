@@ -11,18 +11,55 @@ import { navigate } from "astro:transitions/client";
 // https://docs.astro.build/basics/astro-components/
 ---
 
-<Layout title="LeTour Home">
-	<div class="grid place-items-center h-screen content-center">
-		<!-- <NavigateButton client:only="react" page="listen" text="Go to listen" /> -->
-		<a href={defineConfig.base + "listen"} class="p-4 underline">
-			<Button variant="letu">Go to Listen</Button>
-		</a>
-		<a href={defineConfig.base + "broadcast"} class="p-4 underline">
-			<Button variant="letu">Go to Broadcast</Button>
-		</a>
-		<a href="https://linkedin.com/in/rutledgedixon" class="p-4 underline">
-			<Button variant="letu">Can we access the web?</Button>
-		</a>
+<Layout title="RK Home" description="Ruffles Kerman Home">
+	<div class="container mx-auto px-4">
+		<div class="text-center py-20">
+			<h1 class="text-4xl md:text-6xl font-bold text-gray-400 mb-6">
+				Welcome to ruffleskerman.com
+			</h1>
+			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+				Lots of cool stuff will be here.
+			</p>
+			<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+				<a href={defineConfig.base + "listen"} class="inline-block">
+					<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
+				</a>
+				<a href={defineConfig.base + "broadcast"} class="inline-block">
+					<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
+				</a>
+			</div>
+		</div>
+		
+		<!-- Feature cards -->
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
+			<div class="bg-green-900 p-6 rounded-lg shadow-md">
+				<h3 class="text-xl font-semibold mb-3">🎧 Listen</h3>
+				<p class="text-gray-400">Feature card 1.</p>
+				<div class="mt-6 text-center">
+					<a href={defineConfig.base + "listen"} class="inline-block">
+						<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
+					</a>
+				</div>
+			</div>
+			<div class="bg-green-900 p-6 rounded-lg shadow-md">
+				<h3 class="text-xl font-semibold mb-3">📻 Broadcast</h3>
+				<p class="text-gray-400">Feature card 2.</p>
+				<div class="mt-6 text-center">
+					<a href={defineConfig.base + "broadcast"} class="inline-block">
+						<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
+					</a>
+				</div>
+			</div>
+			<div class="bg-green-900 p-6 rounded-lg shadow-md">
+				<h3 class="text-xl font-semibold mb-3">🌐 Cheat</h3>
+				<p class="text-gray-400">I mean what.</p>
+				<div class="mt-6 text-center">
+					<a href={defineConfig.base + "catancounter"} class="inline-block">
+						<Button variant="letu" className="px-8 py-3 text-lg">Catan Counter</Button>
+					</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </Layout>
 
