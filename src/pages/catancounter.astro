@@ -1,5 +1,13 @@
 ---
 // Catan Card Counter - Converted to Astro
+
+// TODO
+// - add credit
+// - make dice work with react components
+// - add home button
+
+import CatanPlayersContainer from '../components/catan/PlayersContainer.tsx';
+import '../styles/catan-players.css';
 ---
 
 <html lang="en">
@@ -147,136 +155,29 @@
             box-shadow: 0px 0px 10px 1px steelblue;
         }
 
-        #cardSettings {
-            background: steelblue;
-            height: 30%;
-            width: 35%;
-            float: right;
-            text-align: center;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
 
-        #cardSettingsHeader {
-            float: center;
-            color: white;
-        }
 
-        div.player {
-            border: none;
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-            background-color: white;
-        }
-
-        div#playerHands h1 {
-            color: white;
-        }
-
-        .hiddendisplay {
-            border-top: 1px solid black;
-            padding-top: 5px;
-            height: 0px;
-            transition: 0.2s;
-            opacity: 0;
-        }
-
-        .addingButton {
-            display: none;
-        }
-
-        .hiddendisplay div.diceNums {
-            display: none;
-        }
-
-        .diceNums {
-            border-top: 1px solid black;
-        }
-
-        .diceNums div.diceNum {
-            display: none;
-        }
-
-        .player:hover div.hiddendisplay {
-            height: auto;
-            opacity: 1;
-        }
-
-        .player:hover .addingButton {
-            display: inline-block;
-        }
-
-        .player:hover .hiddendisplay div.diceNums {
-            display: block;
-        }
-
-        .player:hover .diceNums div.diceNum {
-            display: block;
-        }
-
-        .showDisplay {
-            display: block !important;
-            height: auto !important;
-            opacity: 1 !important;
-        }
-
-        .showNums {
-            display: block !important;
-        }
-
-        .showButtons {
-            display: inline-block !important;
-        }
-
+        /* Player Hand Section (Your Hand) */
         div#playerHands {
             float: left;
             width: 60%;
             text-align: center;
-        }
-
-        .topBorder {
-            border-top: 1px solid black;
-            padding-top: 5px;
-        }
-
-        div.buying {
-            border: 3px solid red;
-        }
-
-        div.diceNums span.resourceNums span {
-            color: black;
-        }
-
-        div.diceNums span.resourceNums span input {
-            border: none;
-            color: black;
             background: white;
-            text-align: center;
-            width: 30px;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
         }
 
-        .addingButton {
-            border: none;
-            padding: 5px;
-            margin: 2px;
-            border-radius: 10px;
-            background: steelblue;
-            color: white;
-            transition: 0.2s;
-        }
-
-        .addingButton:hover {
-            background: white;
-            color: steelblue;
-            border: 2px solid steelblue;
+        div#playerHands h1 {
+            color: black;
+            margin-bottom: 20px;
         }
 
         .resourceDisplay {
             font-size: 2rem;
             font-weight: 700;
             color: black;
+            margin-bottom: 10px;
         }
 
         .resourceDisplay span {
@@ -293,6 +194,7 @@
             color: white;
             transition: 0.2s;
             font-size: 1.5rem;
+            cursor: pointer;
         }
 
         .deckButton:hover {
@@ -301,27 +203,13 @@
             border: 2px solid steelblue;
         }
 
-        #p1h1,
-        #p2h1,
-        #p3h1,
-        #p4h1,
-        #p5h1,
-        #p6h1 {
-            color: black;
-        }
-
+        /* Responsive Design */
         @media (max-width: 1200px) {
             div.dice {
                 font-size: 2rem;
             }
             h1.header {
                 font-size: 2.5rem;
-            }
-            #cardSettings {
-                width: 100%;
-                height: auto;
-                float: none;
-                clear: both;
             }
             div#playerHands {
                 width: 100%;
@@ -330,17 +218,24 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
             div.dice {
                 font-size: 1.5rem;
                 width: 18%;
                 margin-bottom: 10px;
             }
+            
             div.diceDiv {
                 padding-bottom: 20px;
             }
+            
             h1.header {
                 font-size: 2rem;
             }
+            
             #numButton {
                 font-size: 0.4em;
                 padding: 5px;
@@ -372,169 +267,8 @@
       <div class="dice" id="dice12">12</div>
     </div>
 
-    <div id="cardSettings">
-      <h1 id="cardSettingsHeader">Adjust Roll Effects</h1>
-        <div class="player" id="p1">
-            <h1 id="p1h1">Player 1</h1>
-            <div class="hiddendisplay">
-              <div>
-                <div>
-                  <button class="addingButton" id="p1brickA">+ Brick</button>
-                  <button class="addingButton" id="p1brickS">- Brick</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p1lumberA">+ Lumber</button>
-                  <button class="addingButton" id="p1lumberS">- Lumber</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p1oreA">+ Ore</button>
-                  <button class="addingButton" id="p1oreS">- Ore</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p1wheatA">+ Wheat</button>
-                  <button class="addingButton" id="p1wheatS">- Wheat</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p1woolA">+ Wool</button>
-                  <button class="addingButton" id="p1woolS">- Wool</button>
-                </div>
-                <div class="topBorder">
-                  <button class="addingButton" id="p1R">Road</button>
-                  <button class="addingButton" id="p1S">Settlement</button>
-                  <button class="addingButton" id="p1C">City</button>
-                  <button class="addingButton" id="p1D">D. Card</button>
-                </div>
-              </div>
-  
-              <div class="diceNums">
-                <div class="diceNum">2
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick2" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber2" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore2" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat2" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool2" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">3
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick3" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber3" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore3" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat3" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool3" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">4
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick4" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber4" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore4" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat4" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool4" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">5
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick5" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber5" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore5" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat5" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool5" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">6
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick6" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber6" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore6" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat6" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool6" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">8
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick8" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber8" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore8" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat8" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool8" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">9
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick9" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber9" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore9" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat9" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool9" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">10
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick10" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber10" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore10" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat10" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool10" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">11
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick11" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber11" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore11" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat11" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool11" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-                <div class="diceNum">12
-                  <span class="resourceNums">:
-                    <span>Brick: <input id="p1brick12" type="number" value="0" min="0"></span> | 
-                    <span>Lumber: <input id="p1lumber12" type="number" value="0" min="0"></span> | 
-                    <span>Ore: <input id="p1ore12" type="number" value="0" min="0"></span> | 
-                    <span>Wheat: <input id="p1wheat12" type="number" value="0" min="0"></span> | 
-                    <span>Wool: <input id="p1wool12" type="number" value="0" min="0"></span>
-                  </span>
-                </div>
-              </div>
-            </div>
-        </div>
-        <!-- Additional players would be generated here... I'll include the first 2 players for now -->
-        <div class="player" id="p2">
-            <h1 id="p2h1">Player 2</h1>
-            <div class="hiddendisplay">
-              <div>
-                <div>
-                  <button class="addingButton" id="p2brickA">+ Brick</button>
-                  <button class="addingButton" id="p2brickS">- Brick</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p2lumberA">+ Lumber</button>
-                  <button class="addingButton" id="p2lumberS">- Lumber</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p2oreA">+ Ore</button>
-                  <button class="addingButton" id="p2oreS">- Ore</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p2wheatA">+ Wheat</button>
-                  <button class="addingButton" id="p2wheatS">- Wheat</button>
-                </div>
-                <div>
-                  <button class="addingButton" id="p2woolA">+ Wool</button>
-                  <button class="addingButton" id="p2woolS">- Wool</button>
-                </div>
-                <div class="topBorder">
-                  <button class="addingButton" id="p2R">Road</button>
-                  <button class="addingButton" id="p2S">Settlement</button>
-                  <button class="addingButton" id="p2C">City</button>
-                  <button class="addingButton" id="p2D">D. Card</button>
-                </div>
-              </div>
-            </div>
-        </div>
-    </div>
+    <!-- React Players Component -->
+    <CatanPlayersContainer client:load numberOfPlayers={6} />
 
     <div id="playerHands">
       <h1>Your Hand</h1>
