@@ -2,7 +2,7 @@
 // - Change the dice configuration to have a button for each number,
 //   and then only show that number's config at a time - DONE
 import React from 'react';
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 interface Resources {
   brick: number;
