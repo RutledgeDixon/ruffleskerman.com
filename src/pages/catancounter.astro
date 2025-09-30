@@ -7,7 +7,11 @@
 // - add home button
 
 import CatanPlayersContainer from '../components/catan/PlayersContainer.tsx';
+import NumberOfPlayersButton from '../components/catan/NumberOfPlayersButton.tsx';
 import '../styles/catan-players.css';
+
+//variables
+let numberOfPlayers = 4;
 ---
 
 <html lang="en">
@@ -27,107 +31,19 @@ import '../styles/catan-players.css';
             font-family: 'Exo 2', sans-serif;
         }
 
-        #theHideDiv {
-            position: absolute;
-            z-index: 2;
-            height: 100%;
-            width: 100%;
-            display: none;
-            margin-left: -20px;
-            margin-top: -35px;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        #theDiv {
-            position: absolute;
-            z-index: 3;
-            top:-60%;
-            width: 50%;
-            left: 25%;
-            padding: 2%;
-            background: #464647;
-            color: white;
-            border-radius: 20px;
-            box-shadow: 0px 0px 20px 1px black;
-            text-align: center;
-            transition: 0.5s;
-        }
-
-        #theDiv input {
-            text-align: center;
-            background: none;
-            color: white;
-            width: 30%;
-            height: 20%;
-            border: 2px solid steelblue;
-            outline: none;
-            margin-bottom: 15px;
-            font-size: 2rem;
-            border-radius: 30px;
-            transition: 0.2s;
-        }
-
-        #theDiv input:hover {
-            background: steelblue;
-        }
-
-        #theDiv input::-webkit-outer-spin-button,
-        #theDiv input::-webkit-inner-spin-button {
-            display: none;
-        }
-
-        #theDiv button {
-            display: block;
-            margin: auto;
-            text-align: center;
-            background: none;
-            color: white;
-            width: 30%;
-            height: 20%;
-            border: 2px solid steelblue;
-            outline: none;
-            font-size: 2rem;
-            border-radius: 30px;
-            transition: 0.2s;
-        }
-
-        #theDiv button:hover {
-            background: steelblue;
-        }
-
-        #catanHeader {
-            float: left;
-        }
-
-        h1.header {
-            text-align: center;
+        h1 {
             color: white;
             font-size: 3.5rem;
         }
 
-        #numButton {
-            background:  #464647;
-            color: white;
-            font-size: 0.5em;
-            padding: 10px;
-            border: 2px solid steelblue;
-            border-radius: 15px;
-            margin: auto;
-            transition: 0.2s;
-            float: right;
-            outline: none;
-        }
-
-        #numButton:hover {
-            background: steelblue;
-            border: 2px solid steelblue;
-        }
-
-        #numButton::-moz-focus-inner {
-            border: 0;
-        }
-
         div.diceDiv {
-            padding-bottom: 170px;
+            padding-bottom: 100px;
         }
 
         div.dice {
@@ -157,50 +73,11 @@ import '../styles/catan-players.css';
 
 
 
-        /* Player Hand Section (Your Hand) */
-        div#playerHands {
-            float: left;
-            width: 60%;
-            text-align: center;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        div#playerHands h1 {
-            color: black;
-            margin-bottom: 20px;
-        }
-
-        .resourceDisplay {
-            font-size: 2rem;
-            font-weight: 700;
-            color: black;
-            margin-bottom: 10px;
-        }
-
-        .resourceDisplay span {
-            color: steelblue;
-            font-size: 1.5rem;
-        }
-
-        .deckButton {
-            border: none;
-            padding: 20px;
-            margin: 10px;
-            border-radius: 20px;
-            background: steelblue;
-            color: white;
-            transition: 0.2s;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .deckButton:hover {
-            background: white;
-            color: steelblue;
-            border: 2px solid steelblue;
+        .main-catan-center {
+            display: flex;
+            justify-content: center;   /* Center children horizontally */
+            align-items: flex-start;   /* Align to top, or use center for vertical centering */
+            width: 100%;
         }
 
         /* Responsive Design */
@@ -208,7 +85,7 @@ import '../styles/catan-players.css';
             div.dice {
                 font-size: 2rem;
             }
-            h1.header {
+            h1 {
                 font-size: 2.5rem;
             }
             div#playerHands {
@@ -232,7 +109,7 @@ import '../styles/catan-players.css';
                 padding-bottom: 20px;
             }
             
-            h1.header {
+            h1 {
                 font-size: 2rem;
             }
             
@@ -244,15 +121,12 @@ import '../styles/catan-players.css';
     </style>
   </head>
   <body>
-
-    <div id="theHideDiv"></div>
-    <div id="theDiv">
-      <h1>How many people are playing? (Other than yourself, obviously)</h1>
-      <input type="number" id="numPlayers" value="5" step="1">
-      <button id="theButton2">Let's play!</button>
+    <div class="header">
+        <h1>
+            Catan Card Counter
+        </h1>
+        <NumberOfPlayersButton client:load />
     </div>
-
-    <h1 class="header"><a href="/" id="catanHeader"></a>Catan Card Counter<button id="numButton">Number of Players</button></h1>
 
     <div class="diceDiv">
       <div class="dice" id="dice2">2</div>
@@ -268,23 +142,12 @@ import '../styles/catan-players.css';
     </div>
 
     <!-- React Players Component -->
-    <CatanPlayersContainer client:load numberOfPlayers={6} />
-
-    <div id="playerHands">
-      <h1>Your Hand</h1>
-      <div class="resourceDisplay">Brick: <span id="playerbrick">0</span></div>
-      <div class="resourceDisplay">Lumber: <span id="playerlumber">0</span></div>
-      <div class="resourceDisplay">Ore: <span id="playerore">0</span></div>
-      <div class="resourceDisplay">Wheat: <span id="playerwheat">0</span></div>
-      <div class="resourceDisplay">Wool: <span id="playerwool">0</span></div>
-      <br>
-      <button class="deckButton" id="roadB">Road</button>
-      <button class="deckButton" id="settlementB">Settlement</button>
-      <button class="deckButton" id="cityB">City</button>
-      <button class="deckButton" id="devCardB">Dev Card</button>
+    <div class="main-catan-center">
+        <CatanPlayersContainer client:load numberOfPlayers={numberOfPlayers} />
     </div>
 
     <!-- Load external script -->
     <script is:inline src="/scripts/catan-counter.js"></script>
+    
   </body>
 </html>
