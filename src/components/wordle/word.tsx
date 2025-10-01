@@ -49,6 +49,7 @@ export default function word({ word }: { word: string; }) {
 
     return (
         <div
+            className="word-display"
             style={{ 
                 display: 'flex', 
                 flexDirection: 'row', 

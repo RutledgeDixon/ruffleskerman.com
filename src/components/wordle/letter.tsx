@@ -10,27 +10,10 @@
 */
 
 export default function Letter({ letter, status, onClick }: { letter: string; status: 'correct' | 'present' | 'absent'; onClick: () => void; }) {
-    let backgroundColor;
-    
-    switch (status) {
-        case 'correct':
-            backgroundColor = 'green';
-            break;
-        case 'present':
-            backgroundColor = 'goldenrod';
-            break;
-        case 'absent':
-            backgroundColor = 'lightgray';
-            break;
-        default:
-            backgroundColor = 'red'; //red for debugging, change to lightgray once finished
-            break;
-    }
-
     return (
         <div>
             <button 
-                style={{ backgroundColor }} 
+                className={`letter ${status}`}
                 onClick={onClick}
             >
                 {letter}

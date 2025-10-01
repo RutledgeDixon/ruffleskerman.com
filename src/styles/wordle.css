@@ -1,9 +1,5 @@
 /* Center the entire page content */
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
     flex-direction: column;  /* Stack elements vertically if needed */
 }
@@ -13,4 +9,104 @@ body {
     text-align: center;
     width: 100%;
     max-width: 600px;  /* Limit width for better layout */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+    margin: 20px auto;  /* Center horizontally */
+}
+
+/* Style the input field */
+.wordle-container input {
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+    margin: 10px 0;
+    transition: border-color 0.3s;
+}
+
+.wordle-container input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Style the buttons */
+.wordle-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.wordle-container button:hover {
+    background-color: #007bff;
+    color: black;
+}
+
+/* Style the word display */
+.wordle-container .word-display {
+    margin: 20px 0;
+}
+
+/* Style the letter buttons */
+.wordle-container .word-display button {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.wordle-container .word-display button:hover {
+    border-color: #007bff;
+}
+
+/* Letter status colors */
+.wordle-container .word-display .letter.correct {
+    background-color: green;
+    color: black;
+}
+
+.wordle-container .word-display .letter.present {
+    background-color: goldenrod;
+    color: black;
+}
+
+.wordle-container .word-display .letter.absent {
+    background-color: lightgray;
+    color: black;
+}
+
+/* Style the possible words list */
+.wordle-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.wordle-container li {
+    background-color: #fff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style headings */
+.wordle-container h2, .wordle-container h3 {
+    color: black;
+    margin-bottom: 10px;
+}
+
+.wordle-container .check-button, .wordle-container .clear-button {
+    border: 2px solid black;
 }

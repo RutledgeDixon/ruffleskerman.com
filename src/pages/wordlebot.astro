@@ -3,7 +3,7 @@
 
 // TODO
 
-
+import Layout from "../layouts/mainLayout.astro";
 import Check from "@/components/wordle/check";
 import "../styles/wordle.css";
 
@@ -11,19 +11,8 @@ import "../styles/wordle.css";
 
 ---
 
-<html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <title>Wordle Bot</title>
-    </head>
-    <body>
-        <div class="wordle-container">
-            <Check client:load wordList={["apple", "berry", "cherry"]} />
-        </div>
-    </body>
-</html>
+<Layout title="Wordle Bot" description="Helps solve Wordle">
+    <div class="wordle-container">
+        <Check client:load wordList={["apple", "berry", "cherry"]} />
+    </div>
+</Layout>

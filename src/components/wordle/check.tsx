@@ -40,8 +40,8 @@ export default function Check({ wordList }: { wordList: string[]; }) {
             />
             <Word word={guess.padEnd(5, ' ')}></Word>
             <div>
-                <button onClick={handleCheck}>Check</button>
-                <button onClick={handleClear}>Clear</button>
+                <button className="check-button" onClick={handleCheck}>Check</button>
+                <button className="clear-button" onClick={handleClear}>Clear</button>
             </div>
             <div>
                 <h3>Possible Words:</h3>
