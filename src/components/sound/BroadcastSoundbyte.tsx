@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 // This is the url of the server
-const WS_URL = "ws://localhost:3001"; // Update if your server runs elsewhere
+const WS_URL = "ws://47.160.11.249:50513"; // Update if your server runs elsewhere
 // This is the base url of the page
 const BASE_URL = import.meta.env.BASE_URL || "/";
 // This is the location of the soundbyte

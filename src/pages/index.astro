@@ -18,7 +18,7 @@ import ProjectCard from "@/components/projectCard";
 				Welcome to ruffleskerman.com
 			</h1>
 			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-				Lots of cool stuff will be here.
+				This is a new site, I'm working on it! Check out some of my projects.
 			</p>
 			<div
 				class="flex flex-col sm:flex-row gap-4 justify-center items-center"
@@ -34,29 +34,30 @@ import ProjectCard from "@/components/projectCard";
 
 		<!-- Feature cards -->
 		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
-			<ProjectCard
-				title="🛠️ LeTour"
-				description="Listen page"
-				href={defineConfig.base + "listen"}
-				buttonText="Listen"
-			/>
-			<ProjectCard
-				title="🛠️ LeTour"
-				description="Broadcast page"
-				href={defineConfig.base + "broadcast"}
-				buttonText="Broadcast"
-			/>
+			
 			<ProjectCard
 				title="🎲 Catan Counter"
-				description="It's not cheating! It's just a counter."
+				description="Keep track of others' cards to boost your strategy."
 				href={defineConfig.base + "catancounter"}
 				buttonText="Catan Counter"
 			/>
 			<ProjectCard
 				title="🌐 Need help with Wordle?"
-				description="I have a bot for that... Eventually"
+				description="I have a bot for that..."
 				href={defineConfig.base + "wordlebot"}
 				buttonText="Wordle Bot"
+			/>
+			<ProjectCard
+				title="🛠️ LeTour"
+				description="Listen page - Software Engineering 2 final project... In progress!"
+				href={defineConfig.base + "listen"}
+				buttonText="Listen"
+			/>
+			<ProjectCard
+				title="🛠️ LeTour"
+				description="Broadcast page - Software Engineering 2 final project... In progress!"
+				href={defineConfig.base + "broadcast"}
+				buttonText="Broadcast"
 			/>
 		</div>
 	</div>
