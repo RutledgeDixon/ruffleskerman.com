@@ -9,8 +9,8 @@
     - 5 letters are used for word
 */
 
-export default function Letter({ letter, status, onClick }: { letter: string; status: 'correct' | 'present' | 'absent' | 'empty'; onClick: () => void; }) {
-    let backgroundColor = 'lightgray'; //default
+export default function Letter({ letter, status, onClick }: { letter: string; status: 'correct' | 'present' | 'absent'; onClick: () => void; }) {
+    let backgroundColor;
     
     switch (status) {
         case 'correct':
