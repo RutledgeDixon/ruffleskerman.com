@@ -6,43 +6,21 @@
         - word is made up of 5 letters
         - word is used in check.tsx
 */
-import { useState, useEffect } from 'react';
+import React from 'react';
 import Letter from '@/components/wordle/letter';
 import '@/styles/wordle.css';
 
-export default function word({ word }: { word: string; }) {
-
-    const [letters, setLetters] = useState(() =>
-        Array.from({ length: 5 }, (_, i) => {
-            return {
-                letter: word[i] ? word[i].toUpperCase() : '♫',
-                status: 'absent' as 'correct' | 'present' | 'absent',
-                onClick: () => {}
-            };
-        })
-    );
-
-    //useEffect to sync letters when word prop changes
-    useEffect(() => {
-        setLetters(prevLetters =>
-            prevLetters.map((letter, i) => ({
-                ...letter,
-                letter: word[i] ? word[i].toUpperCase() : '♫',
-                status: 'absent'
-            }))
-        );
-    }, [word]);
+export default function Word({ letters, setLetters }: { letters: { letter: string; status: 'correct' | 'present' | 'absent' }[]; setLetters: (letters: { letter: string; status: 'correct' | 'present' | 'absent' }[]) => void; }) {
 
     // updates letter status of letter i to the next status
     const handleLetterClick = (index: number) => {
+        if (!letters[index].letter) return; // Don't change status if no letter
         const statusOrder = ['absent', 'present', 'correct'] as const;
-        setLetters(prevLetters =>
-            prevLetters.map((letter, i) =>
-                i === index
-                    ? { ...letter, status: statusOrder[(statusOrder.indexOf(letter.status) + 1) % statusOrder.length] }
-                    : letter
-            )
-        );
+        setLetters(letters.map((letter, i) =>
+            i === index
+                ? { ...letter, status: statusOrder[(statusOrder.indexOf(letter.status) + 1) % statusOrder.length] }
+                : letter
+        ));
 
         console.log(`Letter ${index} status changed`);
     }
