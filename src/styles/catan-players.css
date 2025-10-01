@@ -119,75 +119,61 @@ body {
 /* Resource Display Grid */
 .player-resources {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping if absolutely necessary, but aim to keep in one row */
+    gap: 10px; /* Add space between items for better alignment */
 }
 
 .resource-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 15px 8px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    border: 2px solid #e9ecef;
-    transition: all 0.2s ease;
-    flex: 1;
-    min-width: 30px;
-    max-width: 130px;
-}
-
-.resource-item:hover {
-    background: #e3f2fd;
-    border-color: steelblue;
-    transform: translateY(-2px);
+    flex: 1 1 auto; /* Allow items to grow/shrink equally to fit the row */
+    min-width: 0; /* Prevent items from being too wide and forcing wrap */
+    padding: 5px;
+    background-color: #e0e0e0; /* Changed to gray background for visibility */
+    border-radius: 15px;
 }
 
 .resource-label {
-    font-size: 0.85rem;
-    color: #666;
-    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: white;
     text-transform: capitalize;
-    font-weight: 600;
 }
 
 .resource-count {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: steelblue;
-    margin-bottom: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
 }
 
 .resource-controls {
     display: flex;
-    gap: 6px;
+    gap: 5px;
+    margin-top: 5px;
 }
 
 .resource-btn {
+    background: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    background: steelblue;
-    color: white;
+    border-radius: 8px; /* Changed from 50% to rectangular */
+    /* Removed fixed width and height to allow for text */
+    padding: 10px 15px; /* Increased padding for minimum size and centering */
     font-size: 1rem;
-    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 30px;
-    line-height: 1;
+    transition: 0.2s;
+    margin-top: 10px;
+    white-space: nowrap; /* Prevent text wrapping */
+    min-width: fit-content; /* Ensure button is at least as wide as its content */
+    text-align: center; /* Center the text horizontally */
 }
 
 .resource-btn:hover {
-    background: #315a7a;
-    transform: scale(1.1);
+    background: steelblue;
+    color: white;
 }
 
-.resource-btn:active {
-    transform: scale(0.95);
-}
 /* Active dice number button */
 .resource-btn.active {
   background: #315a7a;
@@ -480,8 +466,28 @@ h1 {
     }
     
     .player-resources {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        gap: 5px; /* Reduce gap on mobile */
+        justify-content: center; /* Center items if they wrap */
+    }
+    
+    .resource-item {
+        flex: 1 1 18%; /* Roughly 18% width each (90% total for 5 items, leaving room for gaps) */
+        padding: 3px; /* Smaller padding */
+        min-width: 50px; /* Ensure minimum size to prevent squishing */
+    }
+    
+    .resource-label {
+        font-size: 0.7rem; /* Smaller font */
+    }
+
+    .resource-count {
+        font-size: 1rem; /* Smaller font */
+    }
+
+    .resource-btn {
+        padding: 6px 10px; /* Adjusted padding for mobile */
+        font-size: 0.8rem;
+        text-align: center; /* Center the text horizontally */
     }
     
     .dice-inputs {
