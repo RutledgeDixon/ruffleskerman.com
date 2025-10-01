@@ -1,0 +1,16 @@
+/* Center the entire page content */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;  /* Stack elements vertically if needed */
+}
+
+/* Optional: Ensure components inside are centered */
+.wordle-container {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;  /* Limit width for better layout */
+}
