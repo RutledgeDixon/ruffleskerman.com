@@ -42,6 +42,7 @@ body {
     gap: 10px;
     margin-bottom: 20px;
     min-height: 40px;
+    user-select: none;
 }
 
 .player h3 {
@@ -118,60 +119,63 @@ body {
 
 /* Resource Display Grid */
 .player-resources {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Allow wrapping if absolutely necessary, but aim to keep in one row */
-    gap: 10px; /* Add space between items for better alignment */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: no-wrap;
+  gap: 10px;
 }
 
 .resource-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1 1 auto; /* Allow items to grow/shrink equally to fit the row */
-    min-width: 0; /* Prevent items from being too wide and forcing wrap */
-    padding: 5px;
-    background-color: #e0e0e0; /* Changed to gray background for visibility */
-    border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 50px;
+  padding: 5px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  cursor: pointer; /* Added for interactivity */
+  transition: background-color 0.2s; /* Optional: subtle hover effect */
+}
+
+.resource-item:hover {
+  background-color: #d0d0d0; /* Optional: darker on hover */
 }
 
 .resource-label {
-    font-size: 0.9rem;
-    color: white;
-    text-transform: capitalize;
+  font-size: 0.9rem;
+  color: white;
+  text-transform: capitalize;
+  user-select: none;
 }
 
 .resource-count {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  user-select: none;
 }
 
-.resource-controls {
-    display: flex;
-    gap: 5px;
-    margin-top: 5px;
-}
+/* Removed .resource-controls and .resource-btn styles (keep .resource-btn if used elsewhere, e.g., show details) */
 
 .resource-btn {
-    background: white;
-    border: none;
-    border-radius: 8px; /* Changed from 50% to rectangular */
-    /* Removed fixed width and height to allow for text */
-    padding: 10px 15px; /* Increased padding for minimum size and centering */
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-top: 10px;
-    white-space: nowrap; /* Prevent text wrapping */
-    min-width: fit-content; /* Ensure button is at least as wide as its content */
-    text-align: center; /* Center the text horizontally */
+  background: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+  min-width: fit-content;
+  text-align: center; /* Ensure text is centered */
+  user-select: none;
 }
 
 .resource-btn:hover {
-    background: steelblue;
-    color: white;
+  background: steelblue;
+  color: white;
 }
 
 /* Active dice number button */
@@ -486,7 +490,7 @@ h1 {
 
     .resource-btn {
         padding: 6px 10px; /* Adjusted padding for mobile */
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         text-align: center; /* Center the text horizontally */
     }
     

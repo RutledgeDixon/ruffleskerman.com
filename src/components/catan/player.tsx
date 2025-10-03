@@ -53,6 +53,9 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
     devcard: { brick: 0, lumber: 0, ore: 1, wheat: 1, wool: 1 }
   };
 
+  // Add state for managing click timeouts per resource
+  const [clickTimeouts, setClickTimeouts] = useState<{ [key: string]: NodeJS.Timeout }>({});
+
   const canAfford = (action: keyof typeof buildingCosts) => {
     const cost = buildingCosts[action];
     return Object.entries(cost).every(([resource, amount]) => 
@@ -62,6 +65,57 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
 
   const handleResourceChange = (resource: keyof Resources, change: number) => {
     onResourceChange?.(playerId, resource, change);
+  };
+
+  // New handler for resource clicks (single for +1, double for -1)
+  const handleResourceClick = (resource: keyof Resources) => {
+    const key = resource as string;
+    if (clickTimeouts[key]) {
+      // Double-click detected: clear timeout and subtract
+      clearTimeout(clickTimeouts[key]);
+      setClickTimeouts((prev) => {
+        const updated = { ...prev };
+        delete updated[key];
+        return updated;
+      });
+      handleResourceChange(resource, -1);
+    } else {
+      // Single-click: set timeout for add
+      const timeoutId = setTimeout(() => {
+        handleResourceChange(resource, 1);
+        setClickTimeouts((prev) => {
+          const updated = { ...prev };
+          delete updated[key];
+          return updated;
+        });
+      }, 300); // 300ms delay to detect double-click
+      setClickTimeouts((prev) => ({ ...prev, [key]: timeoutId }));
+    }
+  };
+
+  const handleConfigClick = (resource: keyof Resources) => {
+    const key = resource as string;
+    if (clickTimeouts[key]) {
+      // Double-click detected: clear timeout and subtract
+      clearTimeout(clickTimeouts[key]);
+      setClickTimeouts((prev) => {
+        const updated = { ...prev };
+        delete updated[key];
+        return updated;
+      });
+      handleResourceChange(resource, -1);
+    } else {
+      // Single-click: set timeout for add
+      const timeoutId = setTimeout(() => {
+        handleResourceChange(resource, 1);
+        setClickTimeouts((prev) => {
+          const updated = { ...prev };
+          delete updated[key];
+          return updated;
+        });
+      }, 300); // 300ms delay to detect double-click
+      setClickTimeouts((prev) => ({ ...prev, [key]: timeoutId }));
+    }
   };
 
   const handleActionClick = (action: string) => {
@@ -125,26 +179,18 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
 
         {/* Resources Display */}
         <div className="player-resources">
-            {resourceNames.map((resource) => (
-            <div key={resource} className="resource-item">
-                <div className="resource-label">{resource}</div>
-                <div className="resource-count">{resources[resource]}</div>
-                <div className="resource-controls">
-                <button 
-                    className="resource-btn"
-                    onClick={() => handleResourceChange(resource, -1)}
-                >
-                    −
-                </button>
-                <button 
-                    className="resource-btn"
-                    onClick={() => handleResourceChange(resource, 1)}
-                >
-                    +
-                </button>
-                </div>
+          {resourceNames.map((resource) => (
+            <div
+              key={resource}
+              className="resource-item"
+              onClick={() => handleResourceClick(resource)}
+              onDoubleClick={() => {}} // Placeholder; logic handled in onClick
+            >
+              <div className="resource-label">{resource}</div>
+              <div className="resource-count">{resources[resource]}</div>
+              {/* Removed .resource-controls and + / - buttons */}
             </div>
-            ))}
+          ))}
         </div>
 
         <button 
