@@ -103,11 +103,11 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
         delete updated[key];
         return updated;
       });
-      handleResourceChange(resource, -1);
+      handleDiceConfigChange(activeDiceNumber, resource, -1);
     } else {
       // Single-click: set timeout for add
       const timeoutId = setTimeout(() => {
-        handleResourceChange(resource, 1);
+        handleDiceConfigChange(activeDiceNumber, resource, 1);
         setClickTimeouts((prev) => {
           const updated = { ...prev };
           delete updated[key];
@@ -186,15 +186,35 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
               onClick={() => handleResourceClick(resource)}
               onDoubleClick={() => {}} // Placeholder; logic handled in onClick
               style={{
-                backgroundImage: `url(/images/${resource}.png)`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                position: 'relative',
+                display: 'inline-block'
               }}
             >
-              {/* <div className="resource-label">{resource}</div> */}
-              <div className="resource-count">{resources[resource]}</div>
-              {/* Removed .resource-controls and + / - buttons */}
+              <img
+                src={`/images/${resource}.png`}
+                alt={resource}
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                  filter: 'brightness(0.7)'
+                }}
+              />
+              <div 
+                className="resource-count"
+                style={{
+                  position: 'absolute',
+                  bottom: '5px',
+                  right: '5px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  padding: '2px 4px',
+                  borderRadius: '3px',
+                  fontSize: '2rem',
+                  fontWeight: 'bold'
+                }}
+              >
+                {resources[resource]}
+              </div>
             </div>
           ))}
         </div>
@@ -258,17 +278,29 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
                 <div className="dice-input-group">
                     <div className="dice-label">{activeDiceNumber}</div>
                     {resourceNames.map((resource) => (
-                    <input
+                    // <input
+                    //     key={`${activeDiceNumber}-${resource}`}
+                    //     type="number"
+                    //     min="0"
+                    //     max="15"
+                    //     className="dice-input"
+                    //     value={diceConfig[activeDiceNumber]?.[resource] || 0}
+                    //     onChange={(e) => handleDiceConfigChange(activeDiceNumber, resource, parseInt(e.target.value) || 0)}
+                    //     title={`${resource} on ${activeDiceNumber}`}
+                    // />
+                      <div
                         key={`${activeDiceNumber}-${resource}`}
-                        type="number"
-                        min="0"
-                        max="15"
                         className="dice-input"
-                        value={diceConfig[activeDiceNumber]?.[resource] || 0}
-                        onChange={(e) => handleDiceConfigChange(activeDiceNumber, resource, parseInt(e.target.value) || 0)}
-                        title={`${resource} on ${activeDiceNumber}`}
-                    />
-                    ))}
+                        onClick={() => handleConfigClick(resource)}
+                        onDoubleClick={() => {}} // Placeholder; logic handled in onClick
+                        style={{
+                          backgroundImage: `url(/path/to/${resource}.png)`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: 'center',
+                          backgroundRepeat: 'no-repeat'
+                        }}
+                      ></div>
+                  ))}
                 </div>
             </div>
           </>
