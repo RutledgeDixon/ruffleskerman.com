@@ -185,8 +185,14 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
               className="resource-item"
               onClick={() => handleResourceClick(resource)}
               onDoubleClick={() => {}} // Placeholder; logic handled in onClick
+              style={{
+                backgroundImage: `url(/images/${resource}.png)`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
             >
-              <div className="resource-label">{resource}</div>
+              {/* <div className="resource-label">{resource}</div> */}
               <div className="resource-count">{resources[resource]}</div>
               {/* Removed .resource-controls and + / - buttons */}
             </div>
