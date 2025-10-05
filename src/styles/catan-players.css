@@ -593,3 +593,25 @@ h1 {
         font-size: 0.8rem;
     }
 }
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .player {
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .player-resources {
+        flex-wrap: nowrap;
+        gap: 5px;
+    }
+
+    .resource-item {
+        flex: 0 1 auto;
+    }
+
+    .resource-item img {
+        max-width: 60px;
+        height: auto;
+    }
+}
