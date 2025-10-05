@@ -206,7 +206,7 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
                   position: 'absolute',
                   bottom: '5px',
                   right: '5px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.4)',
                   padding: '2px 4px',
                   borderRadius: '3px',
                   fontSize: '2rem',
@@ -288,18 +288,24 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
                     //     onChange={(e) => handleDiceConfigChange(activeDiceNumber, resource, parseInt(e.target.value) || 0)}
                     //     title={`${resource} on ${activeDiceNumber}`}
                     // />
-                      <div
+                        <div
                         key={`${activeDiceNumber}-${resource}`}
                         className="dice-input"
                         onClick={() => handleConfigClick(resource)}
                         onDoubleClick={() => {}} // Placeholder; logic handled in onClick
                         style={{
-                          backgroundImage: `url(/path/to/${resource}.png)`,
-                          backgroundSize: 'cover',
+                          backgroundImage: `url(/images/${resource}.png)`,
+                          backgroundSize: '60px auto',
                           backgroundPosition: 'center',
-                          backgroundRepeat: 'no-repeat'
+                          backgroundRepeat: 'no-repeat',
+                          userSelect: 'none',
+                          filter: 'brightness(0.8)'
                         }}
-                      ></div>
+                        >
+                        <span style={{ color: 'white' }}>
+                          {diceConfig[activeDiceNumber]?.[resource] ?? 0}
+                        </span>
+                        </div>
                   ))}
                 </div>
             </div>

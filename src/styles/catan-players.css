@@ -155,7 +155,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: brightness(0.6);
+    filter: brightness(0.4);
     border-radius: 5px;
     z-index: 0;
 }
@@ -324,6 +324,11 @@ body {
   text-align: center;
   font-size: 1rem;
   background: white;
+  transition: transform 0.1s ease;
+}
+
+.dice-input:active {
+  transform: scale(0.95);
 }
 
 .dice-input:focus {
