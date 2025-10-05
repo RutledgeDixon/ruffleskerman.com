@@ -134,7 +134,7 @@ body {
     align-items: center;
     justify-content: center;
     flex: 1 1 auto;
-    min-width: 50px;
+    min-width: 0px;
     aspect-ratio: 7 / 10;
     padding: 5px;
     background-color: #e0e0e0;
@@ -594,24 +594,3 @@ h1 {
     }
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .player {
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .player-resources {
-        flex-wrap: nowrap;
-        gap: 5px;
-    }
-
-    .resource-item {
-        flex: 0 1 auto;
-    }
-
-    .resource-item img {
-        max-width: 60px;
-        height: auto;
-    }
-}
