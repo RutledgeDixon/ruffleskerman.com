@@ -276,18 +276,8 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
                     ))}
                 </div>
                 <div className="dice-input-group">
-                    <div className="dice-label">{activeDiceNumber}</div>
+                    <div className="dice-label">{activeDiceNumber + " :"}</div>
                     {resourceNames.map((resource) => (
-                    // <input
-                    //     key={`${activeDiceNumber}-${resource}`}
-                    //     type="number"
-                    //     min="0"
-                    //     max="15"
-                    //     className="dice-input"
-                    //     value={diceConfig[activeDiceNumber]?.[resource] || 0}
-                    //     onChange={(e) => handleDiceConfigChange(activeDiceNumber, resource, parseInt(e.target.value) || 0)}
-                    //     title={`${resource} on ${activeDiceNumber}`}
-                    // />
                         <div
                         key={`${activeDiceNumber}-${resource}`}
                         className="dice-input"

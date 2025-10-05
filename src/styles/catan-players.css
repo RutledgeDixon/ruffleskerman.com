@@ -101,7 +101,7 @@ body {
     padding: 8px 12px;
     background: white;
     text-align: center;
-    min-width: 200px;
+    min-width: 100px;
     transition: all 0.2s ease;
     line-height: 1.2;
     height: auto;
@@ -510,9 +510,10 @@ h1 {
     }
     
     .resource-item {
-        flex: 1 1 18%; /* Roughly 18% width each (90% total for 5 items, leaving room for gaps) */
-        padding: 3px; /* Smaller padding */
-        min-width: 50px; /* Ensure minimum size to prevent squishing */
+        flex: 1 1 18%; 
+        padding: 0;
+        background-color: transparent;
+        border-radius: 0;
     }
     
     .resource-label {
@@ -581,7 +582,7 @@ h1 {
     }
     
     .resource-item {
-        padding: 12px;
+        padding: 2px;
     }
     
     .resource-count {
