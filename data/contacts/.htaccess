@@ -1,0 +1,9 @@
+# Deny all access to this directory
+# This prevents web browsers from accessing contact submission files
+Order Deny,Allow
+Deny from all
+
+# Alternative for newer Apache versions
+<RequireAll>
+    Require all denied
+</RequireAll>
