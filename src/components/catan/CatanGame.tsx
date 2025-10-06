@@ -144,7 +144,11 @@ const CatanGame = () => {
                         ...p,
                         diceConfig: {
                           ...p.diceConfig,
-                          [diceNumber]: { ...p.diceConfig?.[diceNumber], [resource]: value }
+                          [diceNumber]: { 
+                            ...p.diceConfig?.[diceNumber], 
+                            [resource]: p.diceConfig?.[diceNumber][resource] + value < 0 
+                                ? 0 
+                                : p.diceConfig?.[diceNumber][resource] + value }
                         }
                       } : p
                     ));

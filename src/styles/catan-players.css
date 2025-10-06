@@ -15,7 +15,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-bottom: 20px;
+        .resource-count {
+        font-size: 3.5rem;
+    }gin-bottom: 20px;
     width: 100%;
     clear: both;
     padding: 20px 0;
@@ -99,7 +101,7 @@ body {
     padding: 8px 12px;
     background: white;
     text-align: center;
-    min-width: 200px;
+    min-width: 100px;
     transition: all 0.2s ease;
     line-height: 1.2;
     height: auto;
@@ -127,16 +129,35 @@ body {
 }
 
 .resource-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1 1 auto;
-  min-width: 50px;
-  padding: 5px;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  cursor: pointer; /* Added for interactivity */
-  transition: background-color 0.2s; /* Optional: subtle hover effect */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-width: 0px;
+    aspect-ratio: 7 / 10;
+    padding: 5px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer; /* Added for interactivity */
+    transition: background-color 0.2s; /* Optional: subtle hover effect */
+    position: relative;
+}
+
+.resource-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.4);
+    border-radius: 5px;
+    z-index: 0;
 }
 
 .resource-item:hover {
@@ -148,6 +169,12 @@ body {
   color: white;
   text-transform: capitalize;
   user-select: none;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: none; /* Hide the label */
 }
 
 .resource-count {
@@ -155,6 +182,8 @@ body {
   font-weight: bold;
   color: white;
   user-select: none;
+  position: relative;
+  z-index: 1;
 }
 
 /* Removed .resource-controls and .resource-btn styles (keep .resource-btn if used elsewhere, e.g., show details) */
@@ -164,6 +193,7 @@ body {
   border: none;
   border-radius: 8px;
   padding: 10px 15px;
+  margin-top: 15px;
   font-size: 1rem;
   cursor: pointer;
   transition: 0.2s;
@@ -294,6 +324,11 @@ body {
   text-align: center;
   font-size: 1rem;
   background: white;
+  transition: transform 0.1s ease;
+}
+
+.dice-input:active {
+  transform: scale(0.95);
 }
 
 .dice-input:focus {
@@ -391,8 +426,8 @@ h1 {
 
 /* Dice Styles */
 .diceDiv {
-    padding-bottom: 100px;
-    margin-bottom: 20px;
+    padding-bottom: 50px;
+    margin-bottom: 100px;
 }
 
 .dice {
@@ -475,9 +510,10 @@ h1 {
     }
     
     .resource-item {
-        flex: 1 1 18%; /* Roughly 18% width each (90% total for 5 items, leaving room for gaps) */
-        padding: 3px; /* Smaller padding */
-        min-width: 50px; /* Ensure minimum size to prevent squishing */
+        flex: 1 1 18%; 
+        padding: 0;
+        background-color: transparent;
+        border-radius: 0;
     }
     
     .resource-label {
@@ -485,7 +521,7 @@ h1 {
     }
 
     .resource-count {
-        font-size: 1rem; /* Smaller font */
+        font-size: 2.5rem; /* Smaller font */
     }
 
     .resource-btn {
@@ -523,7 +559,7 @@ h1 {
     }
 
     .diceDiv {
-        padding-bottom: 20px;
+        padding-bottom: 50px;
     }
 
     h1 {
@@ -546,11 +582,11 @@ h1 {
     }
     
     .resource-item {
-        padding: 12px;
+        padding: 2px;
     }
     
     .resource-count {
-        font-size: 1.2rem;
+        font-size: 2.5rem;
     }
     
     .action-btn {
@@ -558,3 +594,4 @@ h1 {
         font-size: 0.8rem;
     }
 }
+
