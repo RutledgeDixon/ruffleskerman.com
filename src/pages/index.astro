@@ -18,7 +18,8 @@ import ProjectCard from "@/components/projectCard";
 				Welcome to ruffleskerman.com
 			</h1>
 			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-				This is a new site, I'm working on it! Check out some of my projects.
+				This is a new site, I'm working on it! Check out some of my
+				projects.
 			</p>
 			<div
 				class="flex flex-col sm:flex-row gap-4 justify-center items-center"
@@ -34,7 +35,6 @@ import ProjectCard from "@/components/projectCard";
 
 		<!-- Feature cards -->
 		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
-			
 			<ProjectCard
 				title="🎲 Catan Counter"
 				description="Keep track of others' cards to boost your strategy."
@@ -46,6 +46,12 @@ import ProjectCard from "@/components/projectCard";
 				description="I have a bot for that..."
 				href={defineConfig.base + "wordlebot"}
 				buttonText="Wordle Bot"
+			/>
+			<ProjectCard
+				title="Catch the Scammers"
+				description="If you get scammed, send them to this site to 'transfer the funds'. Most probably won't fall for it but it's worth a shot."
+				href={defineConfig.base + "create-account-p4A7EA1"}
+				buttonText="Go"
 			/>
 			<ProjectCard
 				title="🛠️ LeTour"
