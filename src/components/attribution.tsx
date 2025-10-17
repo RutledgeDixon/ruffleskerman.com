@@ -11,10 +11,13 @@ export default function attribution({description, href, creditText}: attribution
             <div className="attribution-description">
                 {description}
             </div>
+            <div className="attribution-credit">
+                Credit: {creditText}
+            </div>
             <p className="attribution-links">
                 {new Date().getFullYear()} Ruffles Kerman.  |  
-                <a href="/privacy">Privacy Policy</a>  |  
-                <a href="/terms">Terms of Service</a>
+                <a href="/no">Don't click</a>  |  
+                <a href="/no1">Don't click this either</a>
             </p>
         </div>
     );
