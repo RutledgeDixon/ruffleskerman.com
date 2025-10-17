@@ -7,10 +7,9 @@
 // - refactor and simplify, clean up!!!
 
 import CatanGame from "../components/catan/CatanGame";
+import Attribution from "../components/attribution";
 import "../styles/catan-players.css";
-
-//variables
-let numberOfPlayers = 4;
+import "../styles/generic.css";
 ---
 
 <html lang="en">
@@ -26,5 +25,10 @@ let numberOfPlayers = 4;
     </head>
     <body>
         <CatanGame client:load />
+        <Attribution
+            description="This site help you keep track of cards in the game Settlers of Catan. It is useful for strategic robber placement, playing the monopoly dev card, and dynamic planning against opponents."
+            href="/catancounter"
+            creditText="Originally made in Python by Rutledge Dixon. Converted to html and js by Owen Dixon. Converted to Astro using react by Rutledge Dixon."
+        />
     </body>
 </html>
