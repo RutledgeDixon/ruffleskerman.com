@@ -5,19 +5,19 @@ interface cardProps {
     description: string;
     answer: string;
     imageurl: string;
-    category: string;
     checked: boolean;
+    toggleChecked: (checked: boolean) => void;
 }
 
-export default function Card({title, description, answer, imageurl, category, checked}: cardProps) {
+export default function Card({title, description, answer, imageurl, checked, toggleChecked}: cardProps) {
 
     return (
-        <div>
-            <h2>{title}</h2>
-            <p>{description}</p>
+        <div className="bg-green-900 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-3">{title}</h3>
+            <p className="text-gray-400">{description}</p>
             <p>{answer}</p>
             <img src={imageurl} alt={title} />
-            <input type="checkbox" checked={checked} />
+            <input type="checkbox" checked={checked} onChange={(e) => toggleChecked?.(e.target.checked)} />
         </div>
     );
 }
