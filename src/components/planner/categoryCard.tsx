@@ -18,7 +18,7 @@ export default function CategoryCard({title, description, progress, showCards, t
             <progress value={progress} max="100"></progress>
             <div className="mt-6 text-center">
                 <Button variant="letu" className="px-8 py-3 text-lg" onClick={toggleShowCards}>
-                    Show
+                    {showCards ? 'Hide' : 'Show'}
                 </Button>
             </div>
         </div>
