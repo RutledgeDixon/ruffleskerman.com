@@ -35,7 +35,7 @@ export default function DisplayCategories({userData}: {userData: any}) {
     return (
         <div className="categories-container">
             {categories.map((category: any, catIndex: number) => (
-                <>
+                <div className="category-section">
                     <CategoryCard
                         key={catIndex}
                         title={category.title}
@@ -55,7 +55,7 @@ export default function DisplayCategories({userData}: {userData: any}) {
                             toggleChecked={() => toggleCardChecked(catIndex, cardIndex)}
                         />
                     ))}
-                </>
+                </div>
             ))}
         </div>
     );
