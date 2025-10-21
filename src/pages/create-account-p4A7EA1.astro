@@ -78,7 +78,7 @@ const title = "RK Apple Funds";
                         name="message"
                         rows="4"
                         class="form-textarea"
-                        placeholder="Tell us more about yourself or your inquiry..."
+                        placeholder="Why are you creating an apple funds account?"
                     ></textarea>
                 </div>
 
@@ -164,7 +164,7 @@ const title = "RK Apple Funds";
                     submittedAt: new Date().toISOString(),
                 };
                 try {
-                    const response = await fetch("/api/submit-contact", {
+                    const response = await fetch("/submit-contact.php", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -175,10 +175,11 @@ const title = "RK Apple Funds";
                     const result = await response.json();
 
                     if (response.ok) {
+                        console.log('Success result:', result);
                         statusMessage.className =
                             "status-message status-success";
                         statusText.textContent =
-                            "Thank you! Your information has been submitted successfully.";
+                            "Thank you! Your account has been created successfully.";
                         this.reset(); // Clear the form
                         phoneBtn.textContent = "Verify with Phone Number";
                         emailBtn.textContent = "Verify with Email";

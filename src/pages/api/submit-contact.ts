@@ -3,8 +3,11 @@ import path from 'path';
 import type { APIRoute } from 'astro';
 
 export const POST: APIRoute = async ({ request }) => {
+  console.log('Contact submission API called');
+  console.log('process.cwd():', process.cwd());
   try {
     const data = await request.json();
+    console.log('Received data:', data);
     
     // Validate required fields
     if (!data.name || !data.email || !data.phone) {
@@ -50,33 +53,45 @@ export const POST: APIRoute = async ({ request }) => {
                  'unknown'
     };
 
-    // Create secure data directory outside public web folder
-    // This will be stored in a private folder not accessible via web
-    const dataDir = path.join(process.cwd(), '..', 'contact-submissions');
+    // Create secure data directory outside public_html folder (for production)
+    const secureDataDir = path.join(process.cwd(), '..', 'contact-submissions');
     
-    // Fallback to local data folder if parent directory isn't writable (for development)
-    let actualDataDir = dataDir;
+    // Fallback to local data folder if outside directory isn't writable (for development)
+    let dataDir = secureDataDir;
     try {
-      if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
+      if (!fs.existsSync(secureDataDir)) {
+        fs.mkdirSync(secureDataDir, { recursive: true });
       }
       // Test write permissions
-      const testFile = path.join(dataDir, '.test');
+      const testFile = path.join(secureDataDir, '.test');
       fs.writeFileSync(testFile, 'test');
       fs.unlinkSync(testFile);
     } catch (error) {
-      console.log('Using local data directory (development mode)');
-      actualDataDir = path.join(process.cwd(), 'data', 'contacts');
-      if (!fs.existsSync(actualDataDir)) {
-        fs.mkdirSync(actualDataDir, { recursive: true });
+      console.error('Failed to write to secure contact-submissions directory:', error);
+      console.log('Cannot write to secure directory, using local data directory');
+      dataDir = path.join(process.cwd(), 'data', 'contact-submissions');
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
       }
     }
 
-    // Save to JSON file
-    const filePath = path.join(actualDataDir, filename);
-    fs.writeFileSync(filePath, JSON.stringify(contactData, null, 2));
+    console.log(`Using data directory: ${dataDir}`);
 
-    console.log(`New contact submission saved: ${filename} in ${actualDataDir}`);
+    // Save to JSON file
+    try {
+      const filePath = path.join(dataDir, filename);
+      fs.writeFileSync(filePath, JSON.stringify(contactData, null, 2));
+
+      console.log(`New contact submission saved: ${filename} in ${dataDir}`);
+    } catch (saveError) {
+      console.error('Failed to save contact submission:', saveError);
+      return new Response(JSON.stringify({ 
+        error: 'Failed to save submission. Please try again later.' 
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
     return new Response(JSON.stringify({ 
       success: true, 
