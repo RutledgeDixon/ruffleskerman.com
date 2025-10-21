@@ -1,10 +1,6 @@
 //TODO:
-// - Add a save function that saves the state of all user data.
-//   This will be a button next to show/hide that updates the json file with the new data.
-//   When this is in a DB, it will update the DB instead of the json file.
-// - The save could also be per card, that might be more intuitive.
-// - The save function will pass back to the webpage a json response formatted like
-//   what displayCategories.tsx received.
+// - Add a function called in saveCard that will save the updated userDataState to a json file.
+//   and later to the DB
 
 import { useState } from "react";
 import CategoryCard from "./categoryCard";
@@ -15,6 +11,11 @@ export default function DisplayCategories({userData}: {userData: any}) {
     if (!userData || !userData.categories) {
         return <div>No user data or categories available.</div>;
     }
+    //store user data in a useState to update when saving cards
+    const [userDataState, setUserDataState] = useState(userData);
+
+    //store saved data as a usestate in order to check if changes have been made
+    const [savedCard, setSavedCard] = useState<boolean[][]>(userData.categories.map((cat: any) => cat.cards.map((card: any) => true)));
     
     const categories = userData.categories;
     console.log("categories: ", categories);
@@ -41,6 +42,12 @@ export default function DisplayCategories({userData}: {userData: any}) {
         const newCardChecked = [...cardChecked];
         newCardChecked[catIndex][cardIndex] = !cardChecked[catIndex][cardIndex];
         setCardChecked(newCardChecked);
+        //set saved to false for the card since it changed
+        setSavedCard(prevSaved => {
+            const newSaved = [...prevSaved];
+            newSaved[catIndex][cardIndex] = false;
+            return newSaved;
+        });
     };
 
     //usestate to set the answer for each card in each category
@@ -50,6 +57,32 @@ export default function DisplayCategories({userData}: {userData: any}) {
         const newAnswers = [...answers];
         newAnswers[catIndex][cardIndex] = newAnswer;
         setAnswers(newAnswers);
+        //set saved to false for the card since it changed
+        setSavedCard(prevSaved => {
+            const newSaved = [...prevSaved];
+            newSaved[catIndex][cardIndex] = false;
+            return newSaved;
+        });
+    }
+
+    //useState to save card
+    const saveCard = (catIndex: number, cardIndex: number) => {
+        console.log(`Saving card for cat ${catIndex} card ${cardIndex}`);
+        //update savedData
+        const newUserData = { ...userDataState };
+        newUserData.categories[catIndex].cards[cardIndex] = {
+            ...newUserData.categories[catIndex].cards[cardIndex],
+            answer: answers[catIndex][cardIndex],
+            checked: cardChecked[catIndex][cardIndex]
+        };
+        setUserDataState(newUserData);
+
+        //update savedCard to true
+        setSavedCard(prevSaved => {
+            const newSaved = [...prevSaved];
+            newSaved[catIndex][cardIndex] = true;
+            return newSaved;
+        });
     }
 
     return (
@@ -72,8 +105,11 @@ export default function DisplayCategories({userData}: {userData: any}) {
                             answer={answers[catIndex][cardIndex]}
                             updateAnswer={(newAnswer: string) => updateAnswer(catIndex, cardIndex, newAnswer)}
                             imageurl={card.imageurl}
+                            url={card.url}
                             checked={cardChecked[catIndex][cardIndex]}
                             toggleChecked={() => toggleCardChecked(catIndex, cardIndex)}
+                            saved={savedCard[catIndex][cardIndex]}
+                            saveFunc={() => saveCard(catIndex, cardIndex)}
                         />
                     ))}
                 </div>

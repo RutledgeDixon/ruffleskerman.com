@@ -25,6 +25,7 @@
                             "title": "vanilla",
                             "description": "Do you like vanilla?",
                             "answer": "",
+                            "url": "https://en.wikipedia.org/wiki/Vanilla",
                             "imageurl": "",
                             "checked": false
                         }

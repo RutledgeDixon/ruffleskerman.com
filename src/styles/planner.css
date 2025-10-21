@@ -21,9 +21,19 @@
 }
 /* bg-green-900 p-6 rounded-lg shadow-md */
 .planning-card {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
     background-color: #14532d; /* green-900 */
     padding: 1.5rem; /* p-6 */
     margin: 0.5rem; /* optional spacing between cards */
     border-radius: 0.5rem; /* rounded-lg */
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-md */
+}
+
+.planning-card-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem;
 }
