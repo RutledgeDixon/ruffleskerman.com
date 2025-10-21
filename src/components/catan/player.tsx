@@ -1,8 +1,4 @@
 // TODO
-// - Change the dice configuration to have a button for each number,
-//   and then only show that number's config at a time - DONE
-// - Give colors to each resource wherever they appear, or put the card image in the background
-// - When the player name is clicked, show building actions and dice configuration, otherwise hide them
 
 import React from 'react';
 import { useState } from "react";

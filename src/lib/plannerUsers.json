@@ -1,0 +1,62 @@
+{
+    "users": [
+        {
+            "id": 0,
+            "name": "chocolate",
+            "password": "chocolate",
+            "categories": [
+                {
+                    "id": 0,
+                    "title": "food",
+                    "description": "Choose your food",
+                    "progress": 30,
+                    "showCards": false,
+                    "cards": [
+                        {
+                            "id": 0,
+                            "title": "chocolate",
+                            "description": "Do you like chocolate?",
+                            "answer": "Yes",
+                            "imageurl": "/images/chocolate.jpg",
+                            "checked": true
+                        },
+                        {
+                            "id": 1,
+                            "title": "vanilla",
+                            "description": "Do you like vanilla?",
+                            "answer": "",
+                            "imageurl": "",
+                            "checked": false
+                        }
+                    ]
+                },
+                
+                {
+                    "id": 1,
+                    "title": "pictures",
+                    "description": "Take pictures of your guests and hosts",
+                    "progress": 0,
+                    "showCards": false,
+                    "cards": [
+                        {
+                            "id": 0,
+                            "title": "guests",
+                            "description": "Have you taken pictures of all your guests?",
+                            "answer": "",
+                            "imageurl": "",
+                            "checked": false
+                        },
+                        {
+                            "id": 1,
+                            "title": "hosts",
+                            "description": "Have you taken pictures of all your hosts?",
+                            "answer": "",
+                            "imageurl": "",
+                            "checked": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

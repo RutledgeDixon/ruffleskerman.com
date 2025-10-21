@@ -1,15 +1,29 @@
 ---
 import "../styles/global.css";
-import Navigation from "../components/Navigation.astro";
+import "../styles/generic.css";
+import Navigation from "../components/navigation.astro";
 //export const MainLayout = true;
-const { title, description, showNavigation = true, navigationItems } = Astro.props;
+const {
+	title,
+	description,
+	showNavigation = true,
+	navigationItems,
+} = Astro.props;
 const base = import.meta.env.BASE_URL || "/";
 
 // Default navigation items
 const defaultNavigationItems = [
-  { label: "Home", href: "/" },
-  { label: "Github", href: "https://github.com/rutledgedixon", external: true },
-  { label: "LinkedIn", href: "https://linkedin.com/in/rutledgedixon", external: true }
+	{ label: "Home", href: "/" },
+	{
+		label: "Github",
+		href: "https://github.com/rutledgedixon",
+		external: true,
+	},
+	{
+		label: "LinkedIn",
+		href: "https://linkedin.com/in/rutledgedixon",
+		external: true,
+	},
 ];
 
 const navItems = navigationItems || defaultNavigationItems;
@@ -30,6 +44,5 @@ const navItems = navigationItems || defaultNavigationItems;
 				<slot />
 			</main>
 		</div>
-		
 	</body>
 </html>

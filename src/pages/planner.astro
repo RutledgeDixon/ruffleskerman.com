@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/plannerLayout.astro";
+import { readFileSync } from "fs";
+import "../styles/planner.css";
+import DisplayCategories from "@/components/planner/displayCategories.tsx";
+
+//read JSON file in /src/lib (switch to DB later)
+const data = JSON.parse(readFileSync("./src/lib/plannerUsers.json", "utf8"));
+// console.log(data.users);
+const userName = "chocolate";
+const user = data.users.find((u: any) => u.name === userName);
+// console.log("User: ", user);
+---
+
+<Layout title="RK Planner" description="Chocolate">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold text-gray-400 my-8 text-center">
+            {userName}
+        </h1>
+        <DisplayCategories client:load userData={user} />
+    </div>
+</Layout>
