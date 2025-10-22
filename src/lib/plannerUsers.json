@@ -16,9 +16,9 @@
               "id": 0,
               "title": "chocolate",
               "description": "Do you like chocolate?",
-              "answer": "no",
+              "answer": "YES",
               "imageurl": "/images/chocolate.jpg",
-              "checked": false,
+              "checked": true,
               "url": "chocolate.chocolate"
             },
             {
