@@ -24,7 +24,35 @@ try {
     
     error_log("Received data: " . json_encode($data));
     
-    // Validate required fields
+    // Check if this is planner data
+    if (isset($data['userData'])) {
+        // Handle planner save
+        $newData = $data['userData'];
+        $filePath = __DIR__ . '/../src/lib/plannerUsers.json';
+        
+        // Read full data
+        $fullData = json_decode(file_get_contents($filePath), true);
+        
+        // Find and update user
+        $userIndex = -1;
+        foreach ($fullData['users'] as $index => $user) {
+            if ($user['name'] === $newData['name']) {
+                $userIndex = $index;
+                break;
+            }
+        }
+        
+        if ($userIndex !== -1) {
+            $fullData['users'][$userIndex] = $newData;
+            file_put_contents($filePath, json_encode($fullData, JSON_PRETTY_PRINT));
+            echo json_encode(['success' => true, 'message' => 'User updated']);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'User not found']);
+        }
+        exit;
+    }
+    
+    // Handle contact form data
     if (empty($data['name']) || empty($data['email']) || empty($data['phone'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Missing required fields: name, email, and phone are required']);

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
-    "@astrojs/node": "^9.4.4",
+    "@astrojs/node": "^9.5.0",
     "@astrojs/react": "^4.3.1",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-slot": "^1.2.3",
@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "docker": "^1.0.0",
+    "ee-first": "^1.1.1",
     "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

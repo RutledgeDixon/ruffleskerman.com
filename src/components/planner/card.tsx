@@ -8,13 +8,14 @@ interface cardProps {
     updateAnswer: (newAnswer: string) => void;
     imageurl?: string;
     url?: string;
+    updateUrl: (newUrl: string) => void;
     checked: boolean;
     toggleChecked: (checked: boolean) => void;
     saved: boolean;
     saveFunc: () => void;
 }
 
-export default function Card({title, description, answer, updateAnswer, imageurl, url, checked, toggleChecked, saved, saveFunc}: cardProps) {
+export default function Card({title, description, answer, updateAnswer, imageurl, url, updateUrl, checked, toggleChecked, saved, saveFunc}: cardProps) {
 
     return (
         <div className="planning-card">
@@ -23,7 +24,7 @@ export default function Card({title, description, answer, updateAnswer, imageurl
                     <h3 className="text-xl font-semibold mb-3">{title}</h3>
                     <p className="text-gray-400 mb-2">{description}</p>
                 </div>
-                {!saved && <Button variant="letu" className="px-4 py-2 text-sm" onClick={() => saveFunc()}>Save</Button>}
+                {!saved && <Button type="button" variant="letu" className="px-4 py-2 text-sm self-start" onClick={(e) => { e.preventDefault(); saveFunc(); }}>Save</Button>}
             </div>
             <textarea
                 value={answer}
@@ -34,7 +35,14 @@ export default function Card({title, description, answer, updateAnswer, imageurl
             {imageurl && imageurl !== "" && <img src={imageurl} alt={title} />}
             <div className = "planning-card-top">
                 <div>
-                    {url && url !== "" && <a href={url} target="_blank" rel="noopener noreferrer">Link</a>}
+                    <input
+                        className="url-input"
+                        type="url"
+                        value={url}
+                        onChange={(e) => updateUrl(e.target.value)}
+                        placeholder="Enter URL here"
+                    />
+                    {url && url !== "" && <a href={url} target="_blank" rel="noopener noreferrer">Visit site</a>}
                 </div>
                 <input type="checkbox" checked={checked} onChange={(e) => toggleChecked?.(e.target.checked)} />
             </div>

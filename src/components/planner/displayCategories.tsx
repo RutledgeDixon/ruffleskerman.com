@@ -18,8 +18,9 @@ export default function DisplayCategories({userData}: {userData: any}) {
     const [savedCard, setSavedCard] = useState<boolean[][]>(userData.categories.map((cat: any) => cat.cards.map((card: any) => true)));
     
     const categories = userData.categories;
-    console.log("categories: ", categories);
+    // console.log("categories: ", categories);
 
+    //calculate progress bar for categories
     const progress = (category: any) => {
         const checkedCards = category.cards.filter((card: any) => card.checked).length;
         const totalCards = category.cards.length;
@@ -34,6 +35,21 @@ export default function DisplayCategories({userData}: {userData: any}) {
         newShowCards[index] = !newShowCards[index];
         setShowCards(newShowCards);
     };
+
+    //usestate to keep track of urls for each card in each category
+    const [urls, setUrls] = useState<string[][]>(userData.categories.map((cat: any) => cat.cards.map((card: any) => card.url)));
+    const updateUrl = (catIndex: number, cardIndex: number, newUrl: string) => {
+        console.log(`Updating URL for cat ${catIndex} card ${cardIndex} to ${newUrl}`);
+        const newUrls = [...urls];
+        newUrls[catIndex][cardIndex] = newUrl;
+        setUrls(newUrls);
+        //set saved to false for the card since it changed
+        setSavedCard(prevSaved => {
+            const newSaved = [...prevSaved];
+            newSaved[catIndex][cardIndex] = false;
+            return newSaved;
+        });
+    }
 
     //usestate to keep track of checked state for each card in each category
     const [cardChecked, setCardChecked] = useState<boolean[][]>(userData.categories.map((cat: any) => cat.cards.map((card: any) => card.checked)));
@@ -66,13 +82,14 @@ export default function DisplayCategories({userData}: {userData: any}) {
     }
 
     //useState to save card
-    const saveCard = (catIndex: number, cardIndex: number) => {
+    const saveCard = async (catIndex: number, cardIndex: number) => {
         console.log(`Saving card for cat ${catIndex} card ${cardIndex}`);
         //update savedData
         const newUserData = { ...userDataState };
         newUserData.categories[catIndex].cards[cardIndex] = {
             ...newUserData.categories[catIndex].cards[cardIndex],
             answer: answers[catIndex][cardIndex],
+            url: urls[catIndex][cardIndex],
             checked: cardChecked[catIndex][cardIndex]
         };
         setUserDataState(newUserData);
@@ -83,6 +100,23 @@ export default function DisplayCategories({userData}: {userData: any}) {
             newSaved[catIndex][cardIndex] = true;
             return newSaved;
         });
+
+        //call API to save the updated userData
+        try {
+            const response = await fetch('/api/update-user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newUserData)
+            });
+            const result = await response.json();
+            if (response.ok) {
+                console.log('Save successful:', result.message);
+            } else {
+                console.error('Save failed:', result.error);
+            }
+        } catch (error) {
+            console.error('Error saving:', error);
+        }
     }
 
     return (
@@ -105,7 +139,8 @@ export default function DisplayCategories({userData}: {userData: any}) {
                             answer={answers[catIndex][cardIndex]}
                             updateAnswer={(newAnswer: string) => updateAnswer(catIndex, cardIndex, newAnswer)}
                             imageurl={card.imageurl}
-                            url={card.url}
+                            url={urls[catIndex][cardIndex]}
+                            updateUrl={(newUrl: string) => updateUrl(catIndex, cardIndex, newUrl)}
                             checked={cardChecked[catIndex][cardIndex]}
                             toggleChecked={() => toggleCardChecked(catIndex, cardIndex)}
                             saved={savedCard[catIndex][cardIndex]}

@@ -1,63 +1,88 @@
 {
-    "users": [
+  "users": [
+    {
+      "id": 0,
+      "name": "chocolate",
+      "password": "chocolate",
+      "categories": [
         {
-            "id": 0,
-            "name": "chocolate",
-            "password": "chocolate",
-            "categories": [
-                {
-                    "id": 0,
-                    "title": "food",
-                    "description": "Choose your food",
-                    "progress": 30,
-                    "showCards": false,
-                    "cards": [
-                        {
-                            "id": 0,
-                            "title": "chocolate",
-                            "description": "Do you like chocolate?",
-                            "answer": "Yes",
-                            "imageurl": "/images/chocolate.jpg",
-                            "checked": true
-                        },
-                        {
-                            "id": 1,
-                            "title": "vanilla",
-                            "description": "Do you like vanilla?",
-                            "answer": "",
-                            "url": "https://en.wikipedia.org/wiki/Vanilla",
-                            "imageurl": "",
-                            "checked": false
-                        }
-                    ]
-                },
-                
-                {
-                    "id": 1,
-                    "title": "pictures",
-                    "description": "Take pictures of your guests and hosts",
-                    "progress": 0,
-                    "showCards": false,
-                    "cards": [
-                        {
-                            "id": 0,
-                            "title": "guests",
-                            "description": "Have you taken pictures of all your guests?",
-                            "answer": "",
-                            "imageurl": "",
-                            "checked": false
-                        },
-                        {
-                            "id": 1,
-                            "title": "hosts",
-                            "description": "Have you taken pictures of all your hosts?",
-                            "answer": "",
-                            "imageurl": "",
-                            "checked": false
-                        }
-                    ]
-                }
-            ]
+          "id": 0,
+          "title": "food",
+          "description": "Choose your food",
+          "progress": 30,
+          "showCards": false,
+          "cards": [
+            {
+              "id": 0,
+              "title": "chocolate",
+              "description": "Do you like chocolate?",
+              "answer": "no",
+              "imageurl": "/images/chocolate.jpg",
+              "checked": false,
+              "url": "chocolate.chocolate"
+            },
+            {
+              "id": 1,
+              "title": "vanilla",
+              "description": "Do you like vanilla?",
+              "answer": "Why yes I do",
+              "url": "https://en.wikipedia.org/wiki/Vanilla",
+              "imageurl": "",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "title": "pictures",
+          "description": "Take pictures of your guests and hosts",
+          "progress": 0,
+          "showCards": false,
+          "cards": [
+            {
+              "id": 0,
+              "title": "guests",
+              "description": "Have you taken pictures of all your guests?",
+              "answer": "",
+              "imageurl": "",
+              "checked": false
+            },
+            {
+              "id": 1,
+              "title": "hosts",
+              "description": "Have you taken pictures of all your hosts?",
+              "answer": "",
+              "imageurl": "",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "activities",
+          "description": "Plan activities for your event",
+          "progress": 0,
+          "showCards": false,
+          "cards": [
+            {
+              "id": 0,
+              "title": "games",
+              "description": "Have you planned any games?",
+              "answer": "",
+              "imageurl": "",
+              "checked": true
+            },
+            {
+              "id": 1,
+              "title": "music",
+              "description": "Have you arranged for music?",
+              "answer": "",
+              "imageurl": "",
+              "checked": true
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }

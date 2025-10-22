@@ -37,3 +37,11 @@
     justify-content: space-between;
     padding: 1.5rem;
 }
+
+.url-input {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
