@@ -4,16 +4,16 @@ import "../styles/planner.css";
 import DisplayCategories from "@/components/planner/displayCategories.tsx";
 
 //call API to fetch user data
-const userName = "chocolate";
+const userName = "RuRu";
 const response = await fetch(
     new URL(
-        `/api/update-user?name=${userName}`,
+        `/api/access-db?name=${userName}`,
         import.meta.env.SITE || "http://localhost:4321",
     ),
 );
 if (!response.ok) {
     console.error("Failed to fetch user data");
-    return;
+    return new Response("Error fetching user data", { status: 500 });
 }
 const user = await response.json();
 console.log("User: ", user);
@@ -24,6 +24,29 @@ console.log("User: ", user);
         <h1 class="text-4xl font-bold text-gray-400 my-8 text-center">
             {userName}
         </h1>
-        <DisplayCategories client:load userData={user} />
+        <DisplayCategories client:load userData={user}/>
     </div>
 </Layout>
+
+<!-- Script that calls the API to save user data. Must be a
+     global script so displayCategories.tsx can see it. -->
+<script define:vars={{ userName }}>
+    // Define the save function globally so the React component can call it
+    window.saveUserData = async (newUserData) => {
+        try {
+            const response = await fetch('/api/access-db', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: userName, userData: newUserData })
+            });
+            const result = await response.json();
+            if (response.ok) {
+                console.log('Save successful:', result.message);
+            } else {
+                console.error('Save failed:', result.error);
+            }
+        } catch (error) {
+            console.error('Error saving:', error);
+        }
+    };
+</script>

@@ -1,12 +1,21 @@
 //TODO:
-// - Add a function called in saveCard that will save the updated userDataState to a json file.
-//   and later to the DB
+// - Make it so that when a save button is pressed, the site doesn't automatically reload
+
+declare global {
+    interface Window {
+        saveUserData: (newUserData: any) => Promise<void>;
+    }
+}
 
 import { useState } from "react";
 import CategoryCard from "./categoryCard";
 import Card from "./card";
 
-export default function DisplayCategories({userData}: {userData: any}) {
+interface DisplayCategoriesProps {
+    userData: any;
+}
+
+export default function DisplayCategories({userData}: DisplayCategoriesProps) {
     //return early if no userData or no categories
     if (!userData || !userData.categories) {
         return <div>No user data or categories available.</div>;
@@ -102,27 +111,13 @@ export default function DisplayCategories({userData}: {userData: any}) {
         });
 
         //call API to save the updated userData
-        try {
-            const response = await fetch('/api/update-user', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newUserData)
-            });
-            const result = await response.json();
-            if (response.ok) {
-                console.log('Save successful:', result.message);
-            } else {
-                console.error('Save failed:', result.error);
-            }
-        } catch (error) {
-            console.error('Error saving:', error);
-        }
+        await window.saveUserData(newUserData);
     }
 
     return (
         <div className="categories-container">
             {categories.map((category: any, catIndex: number) => (
-                <div className="category-section">
+                <div key={catIndex}className="category-section">
                     <CategoryCard
                         key={catIndex}
                         title={category.title}
