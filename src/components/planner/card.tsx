@@ -1,4 +1,4 @@
-import "../../styles/planner.css";
+import "@/styles/planner.css";
 import { Button } from "@/components/ui/button";
 
 interface cardProps {
