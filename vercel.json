@@ -1,4 +1,5 @@
 {
-  "installCommand": "npm install --include=optional",
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/client",
+  "installCommand": "npm install --include=optional"
 }

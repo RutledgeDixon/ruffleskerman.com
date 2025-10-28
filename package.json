@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "start": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "postinstall": "node -e \"try{require('@rollup/rollup-linux-x64-gnu')}catch(e){}\""
