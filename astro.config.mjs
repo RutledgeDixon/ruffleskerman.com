@@ -3,15 +3,15 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
-import vercel from '@astrojs/vercel';
+import vercel from '@astrojs/vercel/serverless';
 
 const base = '' // make this the directory where all the pages go
 
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static',
-  adapter: vercel(),
+  output: 'server',
+  adapter: vercel({}),
   base: base, //where the project is deployed
   vite: {
     css: {
