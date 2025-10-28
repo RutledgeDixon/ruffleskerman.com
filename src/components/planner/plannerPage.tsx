@@ -37,7 +37,7 @@ export default function PlannerPage() {
     return (
         <div className="planner-page">
             <h1 className="text-4xl font-bold text-gray-400 my-8 text-center">
-                RK Planner
+                {userName ? `${userName}'s Planner` : 'RK Planner'}
             </h1>
             {!userData ? (
                 <Login setUserData={handleLogin}/>
