@@ -3,7 +3,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 
 const base = '' // make this the directory where all the pages go
 
@@ -11,18 +11,13 @@ const base = '' // make this the directory where all the pages go
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: node({
-    mode: 'standalone'
+  adapter: vercel({
+    edgeMiddleware: true
   }),
   base: base, //where the project is deployed
   vite: {
     css: {
       postcss: './postcss.config.js',
-    },
-    resolve: {
-      alias: {
-        '@rollup/rollup-linux-x64-gnu': '@rollup/rollup-linux-x64-gnu'
-      }
     }
   },
 
