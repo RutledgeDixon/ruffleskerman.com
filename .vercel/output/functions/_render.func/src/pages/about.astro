@@ -1,0 +1,42 @@
+---
+//main imports
+import Layout from "../layouts/projectLayout.astro";
+import "../styles/global.css";
+//variables
+---
+
+<Layout title="About" description="About">
+    <div class="flex flex-col sm:flex-row justify-start gap-4">
+        <div class="card bg-white shadow-lg rounded-lg p-6 m-4 flex-1">
+            <h2 class="text-gray-800 font-bold mb-2">Education</h2>
+            <p class="text-gray-700 whitespace-pre-line">
+                Bachelor of Science in Computer Science Engineering from Letourneau University.
+                Minor in mathematics.
+                GPA 4.0 - Expected graduation date: May 2026
+            </p>
+        </div>
+        <div class="flex flex-col gap-4 flex-1">
+            <div class="card bg-white shadow-lg rounded-lg p-6 m-4 flex-1">
+                <h2 class="text-gray-800 font-bold mb-2">Experience</h2>
+                <p class="text-gray-700 whitespace-pre-line">
+                    Software Development / IT Intern at Righteous Rides
+                    - Summer 2025 - Warrenton, MO
+                    - Developed web applications using react and electron
+                    - Integrated databases and CRMs with APIs
+                    - Wrote Python scripts to automate CRM management tasks
+                    - Provided IT support for internal systems and server infrastructure
+                </p>
+            </div>
+            <div class="card bg-white shadow-lg rounded-lg p-6 m-4 flex-1">
+                <h2 class="text-gray-800 font-bold mb-2">Hobbies</h2>
+                <p class="text-gray-700 whitespace-pre-line">
+                    - Playing piano
+                    - Making tea
+                    - Swimming
+                    - Working on this website
+                    - Spending time with family
+                </p>
+            </div>
+        </div>
+    </div>
+</Layout>

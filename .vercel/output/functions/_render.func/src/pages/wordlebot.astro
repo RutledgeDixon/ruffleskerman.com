@@ -1,0 +1,21 @@
+---
+// Wordle Bot
+
+// TODO
+
+import Layout from "../layouts/mainLayout.astro";
+import Check from "@/components/wordle/check";
+import "../styles/wordle.css";
+import wordListRaw from '/materials/wordleList.txt?raw';
+
+const wordList = wordListRaw.trim().split('\n').map(word => word.trim().toUpperCase());
+
+//variables
+
+---
+
+<Layout title="Wordle Bot" description="Helps solve Wordle">
+    <div class="wordle-container">
+        <Check client:load wordList={wordList} />
+    </div>
+</Layout>

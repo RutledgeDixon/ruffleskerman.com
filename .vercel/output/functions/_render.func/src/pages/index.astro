@@ -1,0 +1,89 @@
+---
+//main imports
+import Layout from "../layouts/mainLayout.astro";
+import "../styles/global.css";
+import defineConfig from "astro.config.mjs";
+// Component Imports
+import { Button } from "@/components/ui/button";
+import ProjectCard from "@/components/projectCard";
+
+// Full Astro Component Syntax:
+// https://docs.astro.build/basics/astro-components/
+---
+
+<Layout title="RK Home" description="Ruffles Kerman Home">
+	<div class="container mx-auto px-4">
+		<div class="text-center py-20">
+			<h1 class="text-4xl md:text-6xl font-bold text-gray-400 mb-6">
+				Welcome to ruffleskerman.com
+			</h1>
+			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+				This is a new site, I'm working on it! Check out some of my
+				projects.
+			</p>
+			<div
+				class="flex flex-col sm:flex-row gap-4 justify-center items-center"
+			>
+				<!-- <a href={defineConfig.base + "listen"} class="inline-block">
+					<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
+				</a>
+				<a href={defineConfig.base + "broadcast"} class="inline-block">
+					<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
+				</a> -->
+			</div>
+		</div>
+
+		<!-- Feature cards -->
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
+			<ProjectCard
+				title="🎲 Catan Counter"
+				description="Keep track of others' cards to boost your strategy."
+				href={defineConfig.base + "catancounter"}
+				buttonText="Catan Counter"
+			/>
+			<ProjectCard
+				title="🌐 Need help with Wordle?"
+				description="I have a bot for that..."
+				href={defineConfig.base + "wordlebot"}
+				buttonText="Wordle Bot"
+			/>
+			<!-- scammer project -->
+			<!-- <ProjectCard
+				title="Catch the Scammers"
+				description="If you get scammed, send them to this site to 'transfer the funds'. Most probably won't fall for it but it's worth a shot."
+				href={defineConfig.base + "create-account-p4A7EA1"}
+				buttonText="Go"
+			/> -->
+			<ProjectCard
+				title="🛠️ LeTour"
+				description="Listen page - Software Engineering 2 final project... In progress!"
+				href={defineConfig.base + "listen"}
+				buttonText="Listen"
+			/>
+			<ProjectCard
+				title="🛠️ LeTour"
+				description="Broadcast page - Software Engineering 2 final project... In progress!"
+				href={defineConfig.base + "broadcast"}
+				buttonText="Broadcast"
+			/>
+		</div>
+	</div>
+</Layout>
+
+<!-- Original html without using the main layout -->
+<!-- <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>LeTour</title>
+	</head>
+
+	<body>
+		<div class="grid place-items-center h-screen content-center">
+			<Button onClick={() => navigate('/listen')}>Go to Listen</Button>
+			<a href="/listen" class="p-4 underline">Go to Listen</a>
+		</div>
+	</body>
+</html> -->
