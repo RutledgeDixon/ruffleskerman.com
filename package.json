@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postinstall": "node -e \"try{require('@rollup/rollup-linux-x64-gnu')}catch(e){}\""
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.5",
