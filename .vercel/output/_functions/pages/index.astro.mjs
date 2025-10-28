@@ -989,7 +989,11 @@ const base = ''; // make this the directory where all the pages go
 // https://astro.build/config
 const defineConfig = defineConfig$1({
   output: 'server',
-  adapter: vercelAdapter(),
+  adapter: vercelAdapter({
+    webAnalytics: {
+      enabled: false
+    }
+  }),
   base: base, //where the project is deployed
   vite: {
     css: {
