@@ -3,7 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
+    "dev": "vercel dev",
+    "dev:astro": "astro dev",
     "build": "astro build",
     "start": "node ./dist/server/entry.mjs",
     "preview": "astro preview",
@@ -42,6 +43,7 @@
     "@types/bcrypt": "^6.0.0",
     "@vercel/node": "^5.5.0",
     "astro": "^5.14.1",
-    "tw-animate-css": "^1.3.8"
+    "tw-animate-css": "^1.3.8",
+    "vercel": "^48.6.0"
   }
 }
