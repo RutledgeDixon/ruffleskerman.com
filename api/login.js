@@ -1,4 +1,3 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 
@@ -10,7 +9,7 @@ const dbConfig = {
     database: process.env.DB_NAME,
 };
 
-async function loginUser(name: string, password: string) {
+async function loginUser(name, password) {
     let connection;
     try {
         console.log('Attempting to connect to database...');
@@ -24,7 +23,7 @@ async function loginUser(name: string, password: string) {
         connection = await mysql.createConnection(dbConfig);
         console.log('Database connected successfully');
         
-        const [userRows] = await connection.execute('SELECT id, name, hashed_password FROM user WHERE name = ?', [name]) as [any[], any];
+        const [userRows] = await connection.execute('SELECT id, name, hashed_password FROM user WHERE name = ?', [name]);
         if (userRows.length === 0) {
             return { success: false, error: 'User not found' };
         }
@@ -39,9 +38,9 @@ async function loginUser(name: string, password: string) {
         // Fetch categories
         const [categoryRows] = await connection.execute('SELECT * FROM category WHERE user_id = ?', [user.id]);
         const categories = [];
-        for (const category of categoryRows as any[]) {
+        for (const category of categoryRows) {
             const [cardRows] = await connection.execute('SELECT * FROM card WHERE category_id = ?', [category.id]);
-            const cards = (cardRows as any[]).map((card: any) => ({
+            const cards = cardRows.map((card) => ({
                 id: card.id,
                 title: card.title,
                 description: card.description,
@@ -78,14 +77,14 @@ async function loginUser(name: string, password: string) {
     }
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     try {
-        let name: string | undefined;
-        let password: string | undefined;
+        let name;
+        let password;
 
         // Check if it's FormData or JSON
         const contentType = req.headers['content-type'] || '';

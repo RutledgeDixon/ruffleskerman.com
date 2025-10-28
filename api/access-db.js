@@ -1,31 +1,4 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mysql from 'mysql2/promise';
-
-interface UserData {
-    id?: number;
-    name: string;
-    password?: string;
-    categories: Category[];
-}
-
-interface Category {
-    id?: number;
-    title: string;
-    description: string;
-    progress: number;
-    showCards?: boolean;
-    cards: Card[];
-}
-
-interface Card {
-    id?: number;
-    title: string;
-    description: string;
-    answer: string;
-    imageurl: string;
-    url: string;
-    checked: boolean;
-}
 
 const dbConfig = {
     host: process.env.DB_HOST,
@@ -35,7 +8,7 @@ const dbConfig = {
     database: process.env.DB_NAME,
 };
 
-async function handleSave(name: string, userData: UserData) {
+async function handleSave(name, userData) {
     if (!name || !userData) {
         throw new Error('Missing name or userData');
     }
@@ -46,7 +19,7 @@ async function handleSave(name: string, userData: UserData) {
         await connection.beginTransaction();
 
         const [userRows] = await connection.execute('SELECT id FROM user WHERE name = ?', [name]);
-        const userId = (userRows as any[])[0]?.id;
+        const userId = userRows[0]?.id;
         if (!userId) throw new Error('User ID not found');
 
         await connection.execute('DELETE FROM card WHERE category_id IN (SELECT id FROM category WHERE user_id = ?)', [userId]);
@@ -57,7 +30,7 @@ async function handleSave(name: string, userData: UserData) {
                 'INSERT INTO category (title, description, progress, user_id) VALUES (?, ?, ?, ?)',
                 [category.title, category.description, category.progress, userId]
             );
-            const categoryId = (categoryResult as any).insertId;
+            const categoryId = categoryResult.insertId;
 
             for (const card of category.cards) {
                 await connection.execute(
@@ -77,7 +50,7 @@ async function handleSave(name: string, userData: UserData) {
     }
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
