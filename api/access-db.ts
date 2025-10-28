@@ -35,55 +35,6 @@ const dbConfig = {
     database: process.env.DB_NAME,
 };
 
-async function loginUser(name: string, password: string) {
-    const connection = await mysql.createConnection(dbConfig);
-    try {
-        const [userRows] = await connection.execute('SELECT id, name, password FROM user WHERE name = ?', [name]) as [any[], any];
-        if (userRows.length === 0) {
-            return { success: false, error: 'User not found' };
-        }
-        const user = userRows[0];
-
-        // Fetch categories
-        const [categoryRows] = await connection.execute('SELECT * FROM category WHERE user_id = ?', [user.id]);
-        const categories = [];
-        for (const category of categoryRows as any[]) {
-            const [cardRows] = await connection.execute('SELECT * FROM card WHERE category_id = ?', [category.id]);
-            const cards = (cardRows as any[]).map((card: any) => ({
-                id: card.id,
-                title: card.title,
-                description: card.description,
-                answer: card.answer,
-                imageurl: card.imageurl,
-                checked: card.checked,
-                url: card.url,
-            }));
-            categories.push({
-                id: category.id,
-                title: category.title,
-                description: category.description,
-                progress: category.progress,
-                showCards: false,
-                cards: cards,
-            });
-        }
-
-        const userData = {
-            id: user.id,
-            name: user.name,
-            password: user.password,
-            categories: categories,
-        };
-
-        return { success: true, data: userData };
-    } catch (error) {
-        console.error('Login error:', error);
-        return { success: false, error: 'Database error' };
-    } finally {
-        await connection.end();
-    }
-}
-
 async function handleSave(name: string, userData: UserData) {
     if (!name || !userData) {
         throw new Error('Missing name or userData');
@@ -144,17 +95,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({ error: 'Action is required' });
         }
 
-        if (action === 'login') {
-            if (!name || !password) {
-                return res.status(400).json({ error: 'Name and password are required' });
-            }
-            const result = await loginUser(name, password);
-            if (result.success) {
-                return res.status(200).json(result.data);
-            } else {
-                return res.status(400).json({ error: result.error });
-            }
-        } else if (action === 'save') {
+        if (action === 'save') {
             if (!name || !userData) {
                 return res.status(400).json({ error: 'Name and userData are required' });
             }

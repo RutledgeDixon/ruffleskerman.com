@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import mysql from 'mysql2/promise';
+import bcrypt from 'bcrypt';
 
 const dbConfig = {
     host: process.env.DB_HOST,
@@ -23,11 +24,17 @@ async function loginUser(name: string, password: string) {
         connection = await mysql.createConnection(dbConfig);
         console.log('Database connected successfully');
         
-        const [userRows] = await connection.execute('SELECT id, name, password FROM user WHERE name = ?', [name]) as [any[], any];
+        const [userRows] = await connection.execute('SELECT id, name, hashed_password FROM user WHERE name = ?', [name]) as [any[], any];
         if (userRows.length === 0) {
             return { success: false, error: 'User not found' };
         }
         const user = userRows[0];
+
+        // Verify password using bcrypt
+        const passwordMatch = await bcrypt.compare(password, user.hashed_password);
+        if (!passwordMatch) {
+            return { success: false, error: 'Invalid password' };
+        }
 
         // Fetch categories
         const [categoryRows] = await connection.execute('SELECT * FROM category WHERE user_id = ?', [user.id]);
@@ -56,7 +63,7 @@ async function loginUser(name: string, password: string) {
         const userData = {
             id: user.id,
             name: user.name,
-            password: user.password,
+            hashed_password: user.hashed_password,
             categories: categories,
         };
 
