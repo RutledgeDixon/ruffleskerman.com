@@ -12,11 +12,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   console.log('Contact submission API called');
   
   try {
-    const data = req.body;
+    // Parse body if it's a string (Vercel sometimes doesn't auto-parse)
+    let data = req.body;
+    if (typeof data === 'string') {
+      data = JSON.parse(data);
+    }
+    
     console.log('Received data:', data);
     
     // Validate required fields
-    if (!data.name || !data.email || !data.phone) {
+    if (!data || !data.name || !data.email || !data.phone) {
       return res.status(400).json({ 
         error: 'Missing required fields: name, email, and phone are required' 
       });

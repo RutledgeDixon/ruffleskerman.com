@@ -64,7 +64,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        const { name, password } = req.body;
+        // Parse body if it's a string (Vercel sometimes doesn't auto-parse)
+        let body = req.body;
+        if (typeof body === 'string') {
+            body = JSON.parse(body);
+        }
+        
+        const { name, password } = body || {};
+        
+        if (!name || !password) {
+            console.error('Missing name or password in request body:', body);
+            return res.status(400).json({ success: false, error: 'Name and password are required' });
+        }
+        
         console.log(`Login attempt for user: ${name}`);
 
         const result = await loginUser(name, password);
@@ -79,6 +91,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
     } catch (error) {
         console.error('Request error:', error);
-        return res.status(500).json({ error: 'Request failed' });
+        return res.status(500).json({ error: 'Request failed', details: error instanceof Error ? error.message : 'Unknown error' });
     }
 }

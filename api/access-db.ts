@@ -132,9 +132,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        const { action, name, password, userData } = req.body;
+        // Parse body if it's a string (Vercel sometimes doesn't auto-parse)
+        let body = req.body;
+        if (typeof body === 'string') {
+            body = JSON.parse(body);
+        }
+        
+        const { action, name, password, userData } = body || {};
+        
+        if (!action) {
+            return res.status(400).json({ error: 'Action is required' });
+        }
 
         if (action === 'login') {
+            if (!name || !password) {
+                return res.status(400).json({ error: 'Name and password are required' });
+            }
             const result = await loginUser(name, password);
             if (result.success) {
                 return res.status(200).json(result.data);
@@ -142,6 +155,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                 return res.status(400).json({ error: result.error });
             }
         } else if (action === 'save') {
+            if (!name || !userData) {
+                return res.status(400).json({ error: 'Name and userData are required' });
+            }
             const result = await handleSave(name, userData);
             return res.status(200).json(result);
         } else {
@@ -149,6 +165,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
     } catch (error) {
         console.error('Request error:', error);
-        return res.status(500).json({ error: 'Request failed' });
+        return res.status(500).json({ error: 'Request failed', details: error instanceof Error ? error.message : 'Unknown error' });
     }
 }
