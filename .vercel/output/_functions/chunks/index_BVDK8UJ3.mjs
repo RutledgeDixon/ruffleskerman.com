@@ -418,9 +418,7 @@ const MIDDLEWARE_PATH = "_middleware";
 const ISR_PATH = `/_isr?${ASTRO_PATH_PARAM}=$0`;
 const SUPPORTED_NODE_VERSIONS = {
   18: {
-    status: "retiring",
-    removal: /* @__PURE__ */ new Date("September 1 2025"),
-    warnDate: /* @__PURE__ */ new Date("October 1 2024")
+    status: "deprecated"
   },
   20: {
     status: "available"
@@ -456,6 +454,16 @@ function getAdapter({
       sharpImageService: "stable",
       i18nDomains: "experimental",
       envGetSecret: "stable"
+    },
+    client: {
+      internalFetchHeaders: skewProtection ? () => {
+        const deploymentId = process.env.VERCEL_DEPLOYMENT_ID;
+        if (deploymentId) {
+          return { "x-deployment-id": deploymentId };
+        }
+        return {};
+      } : void 0,
+      assetQueryParams: skewProtection && process.env.VERCEL_DEPLOYMENT_ID ? new URLSearchParams({ dpl: process.env.VERCEL_DEPLOYMENT_ID }) : void 0
     }
   };
 }
@@ -469,7 +477,7 @@ function vercelAdapter({
   edgeMiddleware = false,
   maxDuration,
   isr = false,
-  skewProtection = false,
+  skewProtection = process.env.VERCEL_SKEW_PROTECTION_ENABLED === "1",
   experimentalStaticHeaders = false
 } = {}) {
   if (maxDuration) {
@@ -930,13 +938,10 @@ function getRuntime(process2, logger) {
     return `nodejs${major}.x`;
   }
   if (support.status === "deprecated") {
-    const removeDate = new Intl.DateTimeFormat(void 0, {
-      dateStyle: "long"
-    }).format(support.removal);
     logger.warn(
       `
 	Your project is being built for Node.js ${major} as the runtime.
-	This version is deprecated by Vercel Serverless Functions, and scheduled to be disabled on ${removeDate}.
+	This version is deprecated by Vercel Serverless Functions.
 	Consider upgrading your local version to 22.
 `
     );

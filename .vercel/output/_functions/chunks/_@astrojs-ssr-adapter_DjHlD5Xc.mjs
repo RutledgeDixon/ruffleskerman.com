@@ -12,7 +12,7 @@ import colors from 'picocolors';
 import { N as NOOP_MIDDLEWARE_FN } from './noop-middleware_D6nNdzD0.mjs';
 import { unflatten as unflatten$1, stringify as stringify$1 } from 'devalue';
 import { createStorage, builtinDrivers } from 'unstorage';
-import { A as ASTRO_LOCALS_HEADER, a as ASTRO_MIDDLEWARE_SECRET_HEADER, b as ASTRO_PATH_HEADER, c as ASTRO_PATH_PARAM } from './index_C5NpXG-H.mjs';
+import { A as ASTRO_LOCALS_HEADER, a as ASTRO_MIDDLEWARE_SECRET_HEADER, b as ASTRO_PATH_HEADER, c as ASTRO_PATH_PARAM } from './index_BVDK8UJ3.mjs';
 
 function shouldAppendForwardSlash(trailingSlash, buildFormat) {
   switch (trailingSlash) {

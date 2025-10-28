@@ -30,7 +30,7 @@ import 'prompts';
 import '@astrojs/compiler';
 import react from '@vitejs/plugin-react';
 import { version as version$1 } from 'react-dom';
-import { v as vercelAdapter } from '../chunks/index_C5NpXG-H.mjs';
+import { v as vercelAdapter } from '../chunks/index_BVDK8UJ3.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { B as Button } from '../chunks/button_DHK_v4Xg.mjs';
 export { renderers } from '../renderers.mjs';
