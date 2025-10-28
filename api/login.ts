@@ -10,8 +10,19 @@ const dbConfig = {
 };
 
 async function loginUser(name: string, password: string) {
-    const connection = await mysql.createConnection(dbConfig);
+    let connection;
     try {
+        console.log('Attempting to connect to database...');
+        console.log('DB Config:', {
+            host: process.env.DB_HOST ? 'set' : 'missing',
+            port: process.env.DB_PORT || '3306',
+            user: process.env.DB_USER ? 'set' : 'missing',
+            database: process.env.DB_NAME ? 'set' : 'missing',
+        });
+        
+        connection = await mysql.createConnection(dbConfig);
+        console.log('Database connected successfully');
+        
         const [userRows] = await connection.execute('SELECT id, name, password FROM user WHERE name = ?', [name]) as [any[], any];
         if (userRows.length === 0) {
             return { success: false, error: 'User not found' };
@@ -54,7 +65,9 @@ async function loginUser(name: string, password: string) {
         console.error('Login error:', error);
         return { success: false, error: 'Database error' };
     } finally {
-        await connection.end();
+        if (connection) {
+            await connection.end();
+        }
     }
 }
 
