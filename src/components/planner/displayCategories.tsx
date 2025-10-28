@@ -1,21 +1,16 @@
 //TODO:
 // - Make it so that when a save button is pressed, the site doesn't automatically reload
 
-declare global {
-    interface Window {
-        saveUserData: (newUserData: any) => Promise<void>;
-    }
-}
-
 import { useState } from "react";
 import CategoryCard from "./categoryCard";
 import Card from "./card";
 
 interface DisplayCategoriesProps {
     userData: any;
+    saveUserData: (newUserData: any) => Promise<void>;
 }
 
-export default function DisplayCategories({userData}: DisplayCategoriesProps) {
+export default function DisplayCategories({userData, saveUserData}: DisplayCategoriesProps) {
     //return early if no userData or no categories
     if (!userData || !userData.categories) {
         return <div>No user data or categories available.</div>;
@@ -111,7 +106,7 @@ export default function DisplayCategories({userData}: DisplayCategoriesProps) {
         });
 
         //call API to save the updated userData
-        await window.saveUserData(newUserData);
+        await saveUserData(newUserData);
     }
 
     return (

@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 import bcrypt from 'bcrypt';
 import type { APIRoute } from 'astro';
 import type { UserData } from '../../lib/types';
+import { loginUser } from '../../lib/auth';
 
 //configure db connection
 const dbConfig = {
@@ -12,74 +13,16 @@ const dbConfig = {
     database: import.meta.env.DB_NAME,
 };
 
-// Helper function for login
-async function handleLogin(name: string, password: string) {
-    if (!name || !password) {
-        return new Response(JSON.stringify({ error: 'Missing name or password' }), { status: 400 });
-    }
-
-    const connection = await mysql.createConnection(dbConfig);
-
-    try {
-        // Fetch the user by name
-        const [userRows] = await connection.execute('SELECT id, name, hashed_password FROM user WHERE name = ?', [name]) as [any[], any];
-        if (userRows.length === 0) {
-            return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
-        }
-
-        const user = userRows[0];
-
-        // Verify the password
-        const isPasswordValid = await bcrypt.compare(password, user.hashed_password);
-        if (!isPasswordValid) {
-            return new Response(JSON.stringify({ error: 'Invalid password' }), { status: 401 });
-        }
-
-        // Fetch full user data (categories and cards)
-        const [categoryRows] = await connection.execute('SELECT id, title, description, progress FROM category WHERE user_id = ?', [user.id]) as [any[], any];
-        const categories = [];
-        for (const cat of categoryRows) {
-            const [cardRows] = await connection.execute('SELECT title, description, answer, imageurl, url, checked FROM card WHERE category_id = ?', [cat.id]) as [any[], any];
-            categories.push({
-                id: cat.id,
-                title: cat.title,
-                description: cat.description,
-                progress: cat.progress,
-                showCards: false,
-                cards: cardRows
-            });
-        }
-
-        return new Response(JSON.stringify({
-            id: user.id,
-            name: user.name,
-            categories
-        }), { status: 200 });
-    } catch (error) {
-        console.error('Login error:', error);
-        return new Response(JSON.stringify({ error: 'Login failed' }), { status: 500 });
-    } finally {
-        await connection.end();
-    }
-}
-
 // Helper function for saving user data
 async function handleSave(name: string, userData: UserData) {
-    if (!name || !userData || !userData.password) {
-        return new Response(JSON.stringify({ error: 'Missing name, userData, or password' }), { status: 400 });
+    if (!name || !userData) {
+        return new Response(JSON.stringify({ error: 'Missing name or userData' }), { status: 400 });
     }
 
     const connection = await mysql.createConnection(dbConfig);
 
     try {
         await connection.beginTransaction();
-
-        // Upsert user
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
-        await connection.execute(
-            'INSERT INTO user (name, password) VALUES (?, ?) ON DUPLICATE KEY UPDATE password = VALUES(password)',
-            [name, hashedPassword]
-        );
 
         // Get user ID
         const [userRows] = await connection.execute('SELECT id FROM user WHERE name = ?', [name]);
@@ -124,7 +67,12 @@ export const POST: APIRoute = async ({ request }) => {
         const { action, name, password, userData } = body;
 
         if (action === 'login') {
-            return await handleLogin(name, password);
+            const result = await loginUser(name, password);
+            if (result.success) {
+                return new Response(JSON.stringify(result.data), { status: 200 });
+            } else {
+                return new Response(JSON.stringify({ error: result.error }), { status: 400 });
+            }
         } else if (action === 'save') {
             return await handleSave(name, userData);
         } else {
