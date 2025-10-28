@@ -13,14 +13,13 @@ export default function Login({ setUserData }: { setUserData: (data: UserData) =
         e.preventDefault();
         setError('');
 
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('password', password);
-
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, password }),
             });
             const result = await response.json();
             if (result.success) {

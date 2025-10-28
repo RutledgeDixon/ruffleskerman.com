@@ -64,16 +64,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-        // Parse body if it's a string (Vercel sometimes doesn't auto-parse)
-        let body = req.body;
-        if (typeof body === 'string') {
-            body = JSON.parse(body);
+        let name: string | undefined;
+        let password: string | undefined;
+
+        // Check if it's FormData or JSON
+        const contentType = req.headers['content-type'] || '';
+        
+        if (contentType.includes('application/json')) {
+            // Parse body if it's JSON
+            let body = req.body;
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
+            name = body?.name;
+            password = body?.password;
+        } else if (contentType.includes('multipart/form-data')) {
+            // Handle FormData - it's already parsed by Vercel into req.body
+            name = req.body?.name;
+            password = req.body?.password;
+        } else {
+            // Try to get from body anyway
+            const body = req.body || {};
+            name = body.name;
+            password = body.password;
         }
         
-        const { name, password } = body || {};
-        
         if (!name || !password) {
-            console.error('Missing name or password in request body:', body);
+            console.error('Missing name or password. Content-Type:', contentType, 'Body:', req.body);
             return res.status(400).json({ success: false, error: 'Name and password are required' });
         }
         
