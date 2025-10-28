@@ -19,6 +19,7 @@
     "@types/canvas-confetti": "^1.9.0",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
+    "autoprefixer": "^10.4.21",
     "bcrypt": "^6.0.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",

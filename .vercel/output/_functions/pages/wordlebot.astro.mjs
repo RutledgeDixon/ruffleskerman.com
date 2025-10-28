@@ -1,5 +1,5 @@
 import { e as createComponent, n as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_BAyaMtYH.mjs';
-import { $ as $$MainLayout } from '../chunks/mainLayout_W91oO9Pl.mjs';
+import { $ as $$MainLayout } from '../chunks/mainLayout_BEyIlhAL.mjs';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 /* empty css                                     */

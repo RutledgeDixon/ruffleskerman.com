@@ -1,7 +1,7 @@
 // filepath: c:\Users\rutle\source\repos\ruffleskerman.com\postcss.config.js
-module.exports = {
+export default {
   plugins: {
-    tailwindcss: {},
+    '@tailwindcss/postcss': {},
     autoprefixer: {},
   },
 };
