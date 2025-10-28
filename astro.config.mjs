@@ -21,6 +21,11 @@ export default defineConfig({
     css: {
       postcss: './postcss.config.js',
     },
+    resolve: {
+      alias: {
+        '@rollup/rollup-linux-x64-gnu': '@rollup/rollup-linux-x64-gnu'
+      }
+    }
   },
 
   integrations: [react()],
