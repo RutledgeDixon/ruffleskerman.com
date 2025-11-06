@@ -8,9 +8,10 @@ interface DisplayCategoriesProps {
     userData: any;
     saveUserData: (newUserData: any) => Promise<void>;
     setShownCategory: (categoryIndex: number) => void;
+    currentCategoryIndex: number;
 }
 
-export default function DisplayCategories({userData, saveUserData, setShownCategory}: DisplayCategoriesProps) {
+export default function DisplayCategories({userData, saveUserData, setShownCategory, currentCategoryIndex}: DisplayCategoriesProps) {
     //return early if no userData or no categories
     if (!userData || !userData.categories) {
         return <div>No user data or categories available.</div>;
@@ -44,7 +45,7 @@ export default function DisplayCategories({userData, saveUserData, setShownCateg
                     description={category.description}
                     progress={progress(category)}
                     showCards={category.showCards || false}
-                    selected={category.showCards || false}
+                    selected={currentCategoryIndex === catIndex}
                     toggleShowCards={() => toggleShowCards(catIndex)}
                 />
             ))}

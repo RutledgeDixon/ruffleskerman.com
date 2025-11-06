@@ -11,9 +11,9 @@
     transition: background 0.2s, color 0.2s;
 }
 .category-card.selected {
-    background: #fff;
-    color: #535353;
-    border: none;
+    background: #14532d;
+    color: #fff;
+    border: 3px solid #fff;
 }
 /* Login form styles (used in login.tsx) */
 .login-container {

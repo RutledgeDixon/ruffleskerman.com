@@ -9,11 +9,11 @@ interface categoryCardProps {
     selected: boolean;
 }
 
-export default function CategoryCard({title, description, progress, showCards, toggleShowCards}: categoryCardProps) {
+export default function CategoryCard({title, description, progress, showCards, toggleShowCards, selected}: categoryCardProps) {
 
     return (
         <div
-            className={`category-card${showCards ? ' selected' : ''}`}
+            className={`category-card${selected ? ' selected' : ''}`}
             onClick={toggleShowCards}
         >
             <h3 className="text-xl font-semibold mb-3" style={{marginBottom: '8px'}}>{title}</h3>

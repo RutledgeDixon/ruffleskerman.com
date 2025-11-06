@@ -60,7 +60,12 @@ export default function PlannerPage() {
     return (
         <div className="planner-page">
             <div className="planner-sidebar">
-                <DisplayCategories userData={userData} saveUserData={saveUserData} setShownCategory={setCurrentCategoryIndex} />
+                <DisplayCategories
+                    userData={userData}
+                    saveUserData={saveUserData}
+                    setShownCategory={setCurrentCategoryIndex}
+                    currentCategoryIndex={currentCategoryIndex}
+                />
             </div>
             <div className="planner-content">
                 <h1 className="text-4xl font-bold text-gray-400 my-8 text-center">
