@@ -35,7 +35,7 @@ const navItems = navigationItems || defaultNavigationItems;
 	<body class="bg-blue-950 min-h-screen">
 		{showNavigation && <Navigation items={navItems} />}
 		<div class="text-white">
-			<main class={showNavigation ? "pt-16" : ""}>
+			<main>
 				<slot />
 			</main>
 		</div>

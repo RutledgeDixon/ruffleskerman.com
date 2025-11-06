@@ -12,15 +12,15 @@ export default function CategoryCard({title, description, progress, showCards, t
 
 
     return (
-        <div className="category-card">
+        <div className="category-card" onClick={toggleShowCards}>
             <h3 className="text-xl font-semibold mb-3">{title}</h3>
-            <p>{description}</p>
+            {/* <p>{description}</p> */}
             <progress value={progress} max="100"></progress>
-            <div className="mt-6 text-center">
+            {/* <div className="mt-6 text-center">
                 <Button variant="letu" className="px-8 py-3 text-lg" onClick={toggleShowCards}>
                     {showCards ? 'Hide' : 'Show'}
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 }

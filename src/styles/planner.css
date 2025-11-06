@@ -1,51 +1,4 @@
-/* grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16 */
-.categories-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    padding: 16px;
-}
-/* bg-gray-500 p-6 rounded-lg shadow-md */
-.category-card {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-.category-section {
-    background-color: #6b7280;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-/* bg-green-900 p-6 rounded-lg shadow-md */
-.planning-card {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    background-color: #14532d; /* green-900 */
-    padding: 1.5rem; /* p-6 */
-    margin: 0.5rem; /* optional spacing between cards */
-    border-radius: 0.5rem; /* rounded-lg */
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* shadow-md */
-}
-
-.planning-card-top {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 1.5rem;
-}
-
-.url-input {
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-right: 8px;
-}
-
+/* Login form styles (used in login.tsx) */
 .login-container {
     max-width: 400px;
     background-color: #14532d; /* green-900 */
@@ -66,4 +19,53 @@
     padding: 0.5rem;
     margin-bottom: 1rem;
     border-radius: 0.25rem; /* rounded */
+}
+.planner-page {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    min-height: 100vh;
+    width: 100vw;
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.planner-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    min-height: 100vh;
+    gap: 16px;
+    padding: 16px 0 16px 16px;
+    box-sizing: border-box;
+    position: sticky;
+    left: 0;
+    top: 0;
+    background: #535353;
+    z-index: 10;
+    color: #000000;
+    margin: 0 !important;
+}
+/* Main planner content area */
+.planner-content {
+    flex: 1;
+    padding: 24px;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 0 !important;
+}
+
+.planner-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 16px;
 }

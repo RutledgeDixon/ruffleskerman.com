@@ -8,9 +8,10 @@ import Card from "./card";
 interface DisplayCategoriesProps {
     userData: any;
     saveUserData: (newUserData: any) => Promise<void>;
+    setShownCategory: (categoryTitle: string) => void;
 }
 
-export default function DisplayCategories({userData, saveUserData}: DisplayCategoriesProps) {
+export default function DisplayCategories({userData, saveUserData, setShownCategory}: DisplayCategoriesProps) {
     //return early if no userData or no categories
     if (!userData || !userData.categories) {
         return <div>No user data or categories available.</div>;
@@ -34,10 +35,9 @@ export default function DisplayCategories({userData, saveUserData}: DisplayCateg
     //usestate to keep track of showCards for each category
     const [showCards, setShowCards] = useState<boolean[]>(userData.categories.map((cat: any) => cat.showCards));
     const toggleShowCards = (index: number) => {
-        console.log("Toggling showCards for index:", index);
-        const newShowCards = [...showCards];
-        newShowCards[index] = !newShowCards[index];
-        setShowCards(newShowCards);
+        console.log("Showing cards for index:", index);
+        const categoryTitle = categories[index].title;
+        setShownCategory(categoryTitle);
     };
 
     //usestate to keep track of urls for each card in each category
@@ -112,32 +112,24 @@ export default function DisplayCategories({userData, saveUserData}: DisplayCateg
     return (
         <div className="categories-container">
             {categories.map((category: any, catIndex: number) => (
-                <div key={catIndex}className="category-section">
-                    <CategoryCard
-                        key={catIndex}
-                        title={category.title}
-                        description={category.description}
-                        progress={progress(category)}
-                        showCards={showCards[catIndex]}
-                        toggleShowCards={() => toggleShowCards(catIndex)}
-                    />
-                    {showCards[catIndex] && category.cards.map((card: any, cardIndex: number) => (
-                        <Card
-                            key={cardIndex}
-                            title={card.title}
-                            description={card.description}
-                            answer={answers[catIndex][cardIndex]}
-                            updateAnswer={(newAnswer: string) => updateAnswer(catIndex, cardIndex, newAnswer)}
-                            imageurl={card.imageurl}
-                            url={urls[catIndex][cardIndex]}
-                            updateUrl={(newUrl: string) => updateUrl(catIndex, cardIndex, newUrl)}
-                            checked={cardChecked[catIndex][cardIndex]}
-                            toggleChecked={() => toggleCardChecked(catIndex, cardIndex)}
-                            saved={savedCard[catIndex][cardIndex]}
-                            saveFunc={() => saveCard(catIndex, cardIndex)}
-                        />
-                    ))}
-                </div>
+                <CategoryCard
+                    key={catIndex}
+                    title={category.title}
+                    description={category.description}
+                    progress={progress(category)}
+                    showCards={showCards[catIndex]}
+                    toggleShowCards={() => setShownCategory(category.title)}
+                />
+                // <div key={catIndex}className="category-section">
+                //     <CategoryCard
+                //         key={catIndex}
+                //         title={category.title}
+                //         description={category.description}
+                //         progress={progress(category)}
+                //         showCards={showCards[catIndex]}
+                //         toggleShowCards={() => toggleShowCards(catIndex)}
+                //     />
+                // </div>
             ))}
         </div>
     );
