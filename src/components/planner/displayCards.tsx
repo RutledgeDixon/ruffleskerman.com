@@ -1,15 +1,18 @@
 import { useState } from "react";
 import Card from "./card";
 
-interface DisplayCategoriesProps {
+interface DisplayCardsProps {
     cards: any;
     saveCards: (newUserData: any) => Promise<void>;
 }
 
-export default function DisplayCategories({cards, saveCards}: DisplayCategoriesProps) {
+export default function DisplayCards({cards, saveCards}: DisplayCardsProps) {
     //return early if no cards
     if (!cards) {
         return <div>Pick a category to view!</div>;
+    }
+    if (cards.length === 0) {
+        return <div>No cards in this category.</div>;
     }
 
     //store user data in a useState to update when saving cards
@@ -66,7 +69,7 @@ export default function DisplayCategories({cards, saveCards}: DisplayCategoriesP
     const saveCard = async (cardIndex: number) => {
         console.log(`Saving card for card ${cardIndex}`);
         //update savedData
-        const newCards = { ...cardsState };
+        const newCards = [ ...cardsState ];
         newCards[cardIndex] = {
             ...newCards[cardIndex],
             answer: answers[cardIndex],
@@ -91,12 +94,17 @@ export default function DisplayCategories({cards, saveCards}: DisplayCategoriesP
             {cards.map((card: any, cardIndex: number) => (
                 <Card
                     key={cardIndex}
-                    card={card}
-                    updateUrl={updateUrl}
-                    toggleCardChecked={toggleCardChecked}
-                    updateAnswer={updateAnswer}
-                    saveCard={saveCard}
+                    title={card.title}
+                    description={card.description}
+                    answer={answers[cardIndex]}
+                    updateUrl={(newUrl: string) => updateUrl(cardIndex, newUrl)}
+                    toggleChecked={(checked: boolean) => toggleCardChecked(cardIndex)}
+                    updateAnswer={(newAnswer: string) => updateAnswer(cardIndex, newAnswer)}
+                    saveFunc={() => saveCard(cardIndex)}
                     saved={savedCard[cardIndex]}
+                    imageurl={card.imageurl}
+                    url={urls[cardIndex]}
+                    checked={cardChecked[cardIndex]}
                 />
             ))}
         </div>

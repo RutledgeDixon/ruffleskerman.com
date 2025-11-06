@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Login from  './login';
 import DisplayCategories from './displayCategories';
 import DisplayCards from './displayCards';
@@ -39,7 +39,14 @@ export default function PlannerPage() {
         }
         //update newUserData with new cards and then save in correct category
         const newUserData = { ...userData };
-        newUserData.categories[0].cards = newCards;
+        const categoryIndex = newUserData.categories.findIndex((cat: any) => cat.title === currentCategory);
+        if (categoryIndex !== -1) {
+            newUserData.categories[categoryIndex].cards = newCards;
+            setUserData(newUserData); // <-- update userData state immediately
+        } else {
+            console.error("Current category not found:", currentCategory);
+            return;
+        }
         await saveUserData(newUserData);
     };
 
@@ -47,6 +54,14 @@ export default function PlannerPage() {
         setUserData(data);
         setUserName(data.name);
     };
+
+    //useEffect to update cards when currentCategory changes
+    useEffect(() => {
+        if (userData && currentCategory) {
+            const category = userData.categories.find((cat: any) => cat.title === currentCategory); 
+            setCards(category.cards);
+        }
+    }, [userData, currentCategory]);
 
     return (
         <div className="planner-page">
