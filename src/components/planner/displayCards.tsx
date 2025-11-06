@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "./card";
 
 interface DisplayCardsProps {
@@ -15,13 +15,25 @@ export default function DisplayCards({cards, saveCards}: DisplayCardsProps) {
         return <div>No cards in this category.</div>;
     }
 
-    //store user data in a useState to update when saving cards
-    const [cardsState, setCardsState] = useState(cards);
+    // No local cardsState; always use cards prop for rendering and saving
     //store saved data as a usestate in order to check if changes have been made
     const [savedCard, setSavedCard] = useState<boolean[]>(cards.map((card: any) => true));
 
     //usestate to keep track of urls for each card
     const [urls, setUrls] = useState<string[]>(cards.map((card: any) => card.url));
+    //usestate to keep track of checked state for each card
+    const [cardChecked, setCardChecked] = useState<boolean[]>(cards.map((card: any) => card.checked));
+    //usestate to set the answer for each card
+    const [answers, setAnswers] = useState<string[]>(cards.map((card: any) => card.answer));
+
+    // Reset all state when cards prop changes (i.e., when switching categories)
+    useEffect(() => {
+        setSavedCard(cards.map((card: any) => true));
+        setUrls(cards.map((card: any) => card.url));
+        setCardChecked(cards.map((card: any) => card.checked));
+        setAnswers(cards.map((card: any) => card.answer));
+    }, [cards]);
+
     const updateUrl = (cardIndex: number, newUrl: string) => {
         console.log(`Updating URL for card ${cardIndex} to ${newUrl}`);
         const newUrls = [...urls];
@@ -35,8 +47,6 @@ export default function DisplayCards({cards, saveCards}: DisplayCardsProps) {
         });
     }
 
-    //usestate to keep track of checked state for each card
-    const [cardChecked, setCardChecked] = useState<boolean[]>(cards.map((card: any) => card.checked));
     const toggleCardChecked = (cardIndex: number) => {
         console.log("Toggling card checked for card index:", cardIndex);
         const newCardChecked = [...cardChecked];
@@ -50,8 +60,6 @@ export default function DisplayCards({cards, saveCards}: DisplayCardsProps) {
         });
     };
 
-    //usestate to set the answer for each card
-    const [answers, setAnswers] = useState<string[]>(cards.map((card: any) => card.answer));
     const updateAnswer = (cardIndex: number, newAnswer: string) => {
         console.log(`Updating answer for card ${cardIndex} to ${newAnswer}`);
         const newAnswers = [...answers];
@@ -68,15 +76,17 @@ export default function DisplayCards({cards, saveCards}: DisplayCardsProps) {
     //useState to save card
     const saveCard = async (cardIndex: number) => {
         console.log(`Saving card for card ${cardIndex}`);
-        //update savedData
-        const newCards = [ ...cardsState ];
-        newCards[cardIndex] = {
-            ...newCards[cardIndex],
-            answer: answers[cardIndex],
-            url: urls[cardIndex],
-            checked: cardChecked[cardIndex]
-        };
-        setCardsState(newCards);
+        // Build new cards array from current prop and local state
+        const newCards = cards.map((card: any, idx: number) =>
+            idx === cardIndex
+                ? {
+                    ...card,
+                    answer: answers[idx],
+                    url: urls[idx],
+                    checked: cardChecked[idx]
+                }
+                : card
+        );
 
         //update savedCard to true
         setSavedCard(prevSaved => {
