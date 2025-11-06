@@ -117,19 +117,10 @@ export default function DisplayCategories({userData, saveUserData, setShownCateg
                     title={category.title}
                     description={category.description}
                     progress={progress(category)}
-                    showCards={showCards[catIndex]}
+                    showCards={category.showCards || false}
+                    selected={category.showCards || false}
                     toggleShowCards={() => setShownCategory(category.title)}
                 />
-                // <div key={catIndex}className="category-section">
-                //     <CategoryCard
-                //         key={catIndex}
-                //         title={category.title}
-                //         description={category.description}
-                //         progress={progress(category)}
-                //         showCards={showCards[catIndex]}
-                //         toggleShowCards={() => toggleShowCards(catIndex)}
-                //     />
-                // </div>
             ))}
         </div>
     );

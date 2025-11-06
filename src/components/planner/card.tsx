@@ -33,7 +33,7 @@ export default function Card({title, description, answer, updateAnswer, imageurl
                 className="w-full p-1 mb-2 border rounded"
             />
             {imageurl && imageurl !== "" && <img src={imageurl} alt={title} />}
-            <div className = "planning-card-top">
+            <div className="planning-card-top">
                 <div>
                     <input
                         className="url-input"
@@ -44,8 +44,13 @@ export default function Card({title, description, answer, updateAnswer, imageurl
                     />
                     {url && url !== "" && <a href={url} target="_blank" rel="noopener noreferrer">Visit site</a>}
                 </div>
-                <input type="checkbox" checked={checked} onChange={(e) => toggleChecked?.(e.target.checked)} />
             </div>
+            <input
+                type="checkbox"
+                checked={checked}
+                onChange={(e) => toggleChecked?.(e.target.checked)}
+                className="planning-card-checkbox"
+            />
         </div>
     );
 }

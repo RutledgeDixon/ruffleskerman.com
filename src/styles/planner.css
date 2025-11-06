@@ -1,3 +1,20 @@
+/* Sidebar category card styles */
+.category-card {
+    background: #14532d; /* Tailwind bg-green-900 */
+    color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 1rem;
+    margin-bottom: 12px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, color 0.2s;
+}
+.category-card.selected {
+    background: #fff;
+    color: #535353;
+    border: none;
+}
 /* Login form styles (used in login.tsx) */
 .login-container {
     max-width: 400px;
@@ -44,7 +61,12 @@ html, body {
     width: 240px;
     min-height: 100vh;
     gap: 16px;
-    padding: 16px 0 16px 16px;
+    padding: 16px 16px 16px 16px; /* Add right padding */
+/* Add padding for save button */
+.planning-card-top .button, .planning-card-top button {
+    padding: 8px 16px !important;
+    margin-bottom: 8px;
+}
     box-sizing: border-box;
     position: sticky;
     left: 0;
