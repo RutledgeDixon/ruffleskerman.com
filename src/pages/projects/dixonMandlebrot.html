@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden;
+        }
+        canvas { 
+            width: 100vw; 
+            height: 100vh; 
+            display: block;
+        }
+        #info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+    </style>
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Dixon Mandlebrot</title>
+    </head>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+
+    attribute  vec4 vPosition;
+
+
+    void main()
+    {
+        gl_Position = vPosition;
+    }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+
+    precision mediump float;
+
+    uniform float cx;
+    uniform float cy;
+
+    uniform float scale;
+    uniform float time;
+
+    uniform float maxIterations;
+    
+    uniform float height;
+    uniform float width;
+
+    void main()
+    {
+        const float PI = 3.14159;
+
+        float v;
+
+        float x = (gl_FragCoord.x - width/2.0) / (min(width, height)*scale) + cx;
+        float y = (gl_FragCoord.y - height/2.0) / (min(width, height)*scale) + cy;
+
+        float ax=0.0, ay=0.0;
+        float bx, by;
+
+        float twist = 0.05 * cos(time/10.0) * cos(3.44 * atan(y, x)) / scale;
+
+        // Use a constant max iterations but allow early break based on uniform
+        for ( int k = 0; k < 100000; k++ ) {
+            if (float(k) >= maxIterations) break;  // Dynamic control of iterations
+
+            // compute c = c^2 + p
+            bx  = ax*ax-ay*ay;
+            by = 2.0*ax*ay;
+            ax = bx+x + twist;
+            ay = by+y + twist;
+            v = ax*ax+ay*ay;
+
+            if ( v > 4.0 ) break;      /* assume not in set if mag > 2 */
+        }
+
+        // assign gray level to point based on its magnitude */
+
+        //if ( v > 1.0 ) v = 1.0;        /* clamp if > 1 */
+        v = min(v, 1.0);
+        gl_FragColor.r = max(0.0, v-0.7);
+        gl_FragColor.g = 0.3* sin( 15.0*PI*v) + 0.5; // + 1.0
+        //gl_FragColor.b = max(0.0, 0.7-v);
+        gl_FragColor.b = 0.3* cos( 19.0*PI*v) + 0.5; // + 1.0
+        gl_FragColor.a = 1.0;
+    }
+    </script>
+
+    <script type="text/javascript" src="/scripts/common/webgl-utils.js"></script>
+    <script type="text/javascript" src="/scripts/common/initShaders.js"></script>
+    <script type="text/javascript" src="/scripts/common/MV.js"></script>
+    <script type="text/javascript" src="/scripts/dixonMandlebrot.js"></script>
+
+    <body>
+        <canvas id="gl-canvas" width="1000" height="1000">
+            Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+        <canvas id="crosshair-canvas" width="1000" height="1000" style="position: absolute; left: 0; top: 0; z-index: 1; pointer-events: none;"></canvas>
+        <div id="info">
+            <div id="Scale">
+                Scale 0.01
+            </div>
+            <div id="Center">
+                Center (0.0, 0.0)
+            </div>
+            <div>
+                Scroll to zoom, drag to pan
+            </div>
+        </div>
+        
+    </body>
+</html>
