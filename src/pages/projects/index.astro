@@ -1,35 +1,21 @@
 ---
 //main imports
-import Layout from "@/layouts/mainLayout.astro";
+import Layout from "@/layouts/projectLayout.astro";
 import "@/styles/global.css";
 import defineConfig from "astro.config.mjs";
 // Component Imports
-import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/projectCard";
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
 ---
 
 <Layout title="RK Projects" description="Ruffles Kerman Projects">
 	<div class="container mx-auto px-4">
 		<div class="text-center py-20">
 			<h1 class="text-4xl md:text-6xl font-bold text-gray-400 mb-6">
-				My Projects
+				More Projects
 			</h1>
-			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-				Here is where I am putting some of my favorite projects
+			<p class="text-xl text-gray-400 mb-1 max-w-2xl mx-auto">
+				Here is where I am putting some of my favorite school projects
 			</p>
-			<div
-				class="flex flex-col sm:flex-row gap-4 justify-center items-center"
-			>
-				<!-- <a href={defineConfig.base + "listen"} class="inline-block">
-					<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
-				</a>
-				<a href={defineConfig.base + "broadcast"} class="inline-block">
-					<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
-				</a> -->
-			</div>
 		</div>
 
 		<!-- Feature cards -->
@@ -37,27 +23,9 @@ import ProjectCard from "@/components/projectCard";
 			<ProjectCard
 				title="Mandlebrot"
 				description="An implementation of the Mandlebrot set using WebGL, with a twist."
-				href={defineConfig.base + "dixonMandlebrot.html"}
+				href={defineConfig.base + "projects/dixonMandlebrot.html"}
 				buttonText="View"
 			/>
 		</div>
 	</div>
 </Layout>
-
-<!-- Original html without using the main layout -->
-<!-- <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>LeTour</title>
-	</head>
-
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button onClick={() => navigate('/listen')}>Go to Listen</Button>
-			<a href="/listen" class="p-4 underline">Go to Listen</a>
-		</div>
-	</body>
-</html> -->

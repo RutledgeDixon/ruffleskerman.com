@@ -3,15 +3,17 @@
 
 // TODO
 
-import Layout from "../layouts/mainLayout.astro";
+import Layout from "../layouts/projectLayout.astro";
 import Check from "@/components/wordle/check";
 import "../styles/wordle.css";
-import wordListRaw from '/materials/wordleList.txt?raw';
+import wordListRaw from "/materials/wordleList.txt?raw";
 
-const wordList = wordListRaw.trim().split('\n').map(word => word.trim().toUpperCase());
+const wordList = wordListRaw
+    .trim()
+    .split("\n")
+    .map((word) => word.trim().toUpperCase());
 
 //variables
-
 ---
 
 <Layout title="Wordle Bot" description="Helps solve Wordle">
