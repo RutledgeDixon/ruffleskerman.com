@@ -24,10 +24,10 @@ var scaleText;
 var centerText;
 //----------------------------------------------------------------------------
 
-onload = function init() {
+async function init() {
     canvas = document.getElementById( "gl-canvas" );
     resizeCanvas();
-    this.window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
     scaleText = document.getElementById("Scale");
     scaleText.innerHTML = "Scale " + scale;
     centerText = document.getElementById("Center");
@@ -51,8 +51,11 @@ onload = function init() {
 
     // Load shaders and use the resulting shader program
 
-    program = initShaders( gl, "vertex-shader", "fragment-shader" );
-    gl.useProgram( program );
+    // Load shaders
+    const vertexShaderSource = await fetch('/scripts/shaders/vertex.glsl').then(r => r.text());
+    const fragmentShaderSource = await fetch('/scripts/shaders/fragment.glsl').then(r => r.text());
+    program = initShaders(gl, vertexShaderSource, fragmentShaderSource);
+    gl.useProgram(program);
 
     // set up vertex arrays
     var buffer = gl.createBuffer();
@@ -114,6 +117,7 @@ onload = function init() {
     render();
 }
 
+window.onload = init;
 //----------------------------------------------------------------------------
 
 function resizeCanvas() {
