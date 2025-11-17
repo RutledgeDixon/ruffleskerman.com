@@ -1,22 +1,7 @@
 import "@/styles/planner.css";
 import { Button } from "@/components/ui/button";
 
-interface cardProps {
-    title: string;
-    description: string;
-    answer: string;
-    updateAnswer: (newAnswer: string) => void;
-    imageurl?: string;
-    url?: string;
-    updateUrl: (newUrl: string) => void;
-    checked: boolean;
-    toggleChecked: (checked: boolean) => void;
-    saved: boolean;
-    saveFunc: () => void;
-}
-
-export default function Card({title, description, answer, updateAnswer, imageurl, url, updateUrl, checked, toggleChecked, saved, saveFunc}: cardProps) {
-
+export default function Card({title, description, answer, updateAnswer, imageurl, url, updateUrl, checked, toggleChecked, saved, saveFunc}) {
     return (
         <div className="planning-card">
             <div className="planning-card-top">

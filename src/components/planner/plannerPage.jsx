@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import Login from  './login';
-import DisplayCategories from './displayCategories';
-import DisplayCards from './displayCards';
+import Login from  './login.jsx';
+import DisplayCategories from './displayCategories.jsx';
+import DisplayCards from './displayCards.jsx';
 import '@/styles/planner.css';
 
 export default function PlannerPage() {
-    const [userData, setUserData] = useState<any>(null);
+    const [userData, setUserData] = useState(null);
     const [userName, setUserName] = useState('');
-    const [cards, setCards] = useState<any>(null);
-    const [currentCategoryIndex, setCurrentCategoryIndex] = useState<number>(0);
-
-    const saveUserData = async (newUserData: any) => {
+    const [cards, setCards] = useState(null);
+    const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
+    const saveUserData = async (newUserData) => {
         try {
             const response = await fetch("/api/access-db", {
                 method: "POST",
@@ -31,32 +30,26 @@ export default function PlannerPage() {
             console.error("Error saving:", error);
         }
     };
-
-    const saveCards = async (newCards: any) => {
+    const saveCards = async (newCards) => {
         if (!userData || currentCategoryIndex === null) {
             console.error("No user data or category index to save cards to.");
             return;
         }
-        //update newUserData with new cards and then save in correct category
         const newUserData = { ...userData };
         newUserData.categories[currentCategoryIndex].cards = newCards;
-        setUserData(newUserData); // <-- update userData state immediately
+        setUserData(newUserData);
         await saveUserData(newUserData);
     };
-
-    const handleLogin = (data: any) => {
+    const handleLogin = (data) => {
         setUserData(data);
         setUserName(data.name);
     };
-
-    //useEffect to update cards when currentCategory changes
     useEffect(() => {
         if (userData && currentCategoryIndex !== null) {
             const category = userData.categories[currentCategoryIndex];
             setCards(category.cards);
         }
     }, [userData, currentCategoryIndex]);
-
     return (
         <div className="planner-page">
             <div className="planner-sidebar">
@@ -80,17 +73,10 @@ export default function PlannerPage() {
                     {!userData ? (
                         <Login setUserData={handleLogin}/>
                     ) : (
-                        //display the cards of the current category
                         <DisplayCards cards={cards} saveCards={saveCards} />
                     )}
                 </div>
             </div>
-            
-            {/* {!userData ? (
-                <Login setUserData={handleLogin}/>
-            ) : (
-                <DisplayCategories userData={userData} saveUserData={saveUserData} />
-            )} */}
         </div>
     );
 }

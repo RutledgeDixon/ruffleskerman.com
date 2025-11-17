@@ -1,18 +1,14 @@
 import "@/styles/planner.css";
 import { Button } from "@/components/ui/button";
-import type { UserData } from '@/lib/types';
-
 import { useState } from 'react';
 
-export default function Login({ setUserData }: { setUserData: (data: UserData) => void }) {
+export default function Login({ setUserData }) {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -23,12 +19,7 @@ export default function Login({ setUserData }: { setUserData: (data: UserData) =
             });
             const result = await response.json();
             if (result.success) {
-                console.log('Login successful, storing user data');
-                // localStorage.setItem('user', JSON.stringify(result.user));
-                // localStorage.setItem('userName', name);
                 setUserData(result.user);
-                console.log('Stored user data:', result.user);
-                // window.location.reload();
             } else {
                 setError(result.error || 'Login failed');
             }
@@ -36,7 +27,6 @@ export default function Login({ setUserData }: { setUserData: (data: UserData) =
             setError('An error occurred');
         }
     };
-
     return (
         <div className="login-container">
             <form onSubmit={handleSubmit}>

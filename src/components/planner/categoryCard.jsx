@@ -1,16 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-interface categoryCardProps {
-    title: string;
-    description: string;
-    progress: number; //1-100, only used for category card
-    showCards: boolean;
-    toggleShowCards: () => void;
-    selected: boolean;
-}
-
-export default function CategoryCard({title, description, progress, showCards, toggleShowCards, selected}: categoryCardProps) {
-
+export default function CategoryCard({title, description, progress, showCards, toggleShowCards, selected}) {
     return (
         <div
             className={`category-card${selected ? ' selected' : ''}`}
