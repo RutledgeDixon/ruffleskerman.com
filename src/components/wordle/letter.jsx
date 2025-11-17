@@ -1,4 +1,4 @@
-//letter.tsx
+//letter.jsx
 //pseudocode:
 /*
  - letter
@@ -9,7 +9,7 @@
     - 5 letters are used for word
 */
 
-export default function Letter({ letter, status, onClick }: { letter: string; status: 'correct' | 'present' | 'absent'; onClick: () => void; }) {
+export default function Letter({ letter, status, onClick }) {
     return (
         <div>
             <button 
