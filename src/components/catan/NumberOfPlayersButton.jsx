@@ -1,14 +1,11 @@
+// ...existing code...
 import React, { useState } from 'react';
 
-interface NumberOfPlayersButtonProps {
-  onChange: (count: number) => void;
-}
-
-const NumberOfPlayersButton = ({ onChange }: NumberOfPlayersButtonProps) => {
+const NumberOfPlayersButton = ({ onChange }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlayers, setSelectedPlayers] = useState(4);
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (e) => {
     setSelectedPlayers(parseInt(e.target.value));
   };
 
@@ -37,7 +34,6 @@ const NumberOfPlayersButton = ({ onChange }: NumberOfPlayersButtonProps) => {
       >
         number of players
       </button>
-
       {isModalOpen && (
         <div
           style={{
@@ -98,15 +94,12 @@ const NumberOfPlayersButton = ({ onChange }: NumberOfPlayersButtonProps) => {
                 cursor: 'pointer',
                 transition: '0.2s',
               }}
-              onMouseOver={(e) => (e.currentTarget.style.background = '#005a87')}
-              onMouseOut={(e) => (e.currentTarget.style.background = 'steelblue')}
             >
               Let's Play!
             </button>
           </div>
         </div>
       )}
-
     </>
   );
 };

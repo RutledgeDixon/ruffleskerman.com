@@ -1,32 +1,16 @@
-// TODO
 
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from "react";
 
-interface Resources {
-  brick: number;
-  lumber: number;
-  ore: number;
-  wheat: number;
-  wool: number;
-}
+const resourceNames = ['brick', 'lumber', 'ore', 'wheat', 'wool'];
+const diceNumbers = [2, 3, 4, 5, 6, 8, 9, 10, 11, 12];
+const buildingCosts = {
+  road: { brick: 1, lumber: 1, ore: 0, wheat: 0, wool: 0 },
+  settlement: { brick: 1, lumber: 1, ore: 0, wheat: 1, wool: 1 },
+  city: { brick: 0, lumber: 0, ore: 3, wheat: 2, wool: 0 },
+  devcard: { brick: 0, lumber: 0, ore: 1, wheat: 1, wool: 1 }
+};
 
-interface DiceConfig {
-  [key: number]: Resources;
-}
-
-interface CatanPlayerProps {
-  playerId: number;
-  playerName: string;
-  resources?: Resources;
-  diceConfig?: DiceConfig;
-  onResourceChange?: (playerId: number, resource: keyof Resources, change: number) => void;
-  onActionClick?: (playerId: number, action: string) => void;
-  onDiceConfigChange?: (playerId: number, diceNumber: number, resource: keyof Resources, value: number) => void;
-  onPlayerNameChange?: (playerId: number, newName: string) => void;
-}
-
-const CatanPlayer: React.FC<CatanPlayerProps> = ({
+const CatanPlayer = ({
   playerId,
   playerName,
   resources = { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 },
@@ -36,38 +20,26 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
   onDiceConfigChange,
   onPlayerNameChange
 }) => {
-  const resourceNames: (keyof Resources)[] = ['brick', 'lumber', 'ore', 'wheat', 'wool'];
-  const diceNumbers = [2, 3, 4, 5, 6, 8, 9, 10, 11, 12];
-  const [activeDiceNumber, setActiveDiceNumber] = useState<number>(2);
-  const [isEditingName, setIsEditingName] = useState<boolean>(false);
-  const [tempName, setTempName] = useState<string>(playerName);
-  const [showDetails, setShowDetails] = useState<boolean>(false);
-  const buildingCosts = {
-    road: { brick: 1, lumber: 1, ore: 0, wheat: 0, wool: 0 },
-    settlement: { brick: 1, lumber: 1, ore: 0, wheat: 1, wool: 1 },
-    city: { brick: 0, lumber: 0, ore: 3, wheat: 2, wool: 0 },
-    devcard: { brick: 0, lumber: 0, ore: 1, wheat: 1, wool: 1 }
-  };
+  const [activeDiceNumber, setActiveDiceNumber] = useState(2);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [tempName, setTempName] = useState(playerName);
+  const [showDetails, setShowDetails] = useState(false);
+  const [clickTimeouts, setClickTimeouts] = useState({});
 
-  // Add state for managing click timeouts per resource
-  const [clickTimeouts, setClickTimeouts] = useState<{ [key: string]: NodeJS.Timeout }>({});
-
-  const canAfford = (action: keyof typeof buildingCosts) => {
+  const canAfford = (action) => {
     const cost = buildingCosts[action];
     return Object.entries(cost).every(([resource, amount]) => 
-      resources[resource as keyof Resources] >= amount
+      resources[resource] >= amount
     );
   };
 
-  const handleResourceChange = (resource: keyof Resources, change: number) => {
-    onResourceChange?.(playerId, resource, change);
+  const handleResourceChange = (resource, change) => {
+    if (onResourceChange) onResourceChange(playerId, resource, change);
   };
 
-  // New handler for resource clicks (single for +1, double for -1)
-  const handleResourceClick = (resource: keyof Resources) => {
-    const key = resource as string;
+  const handleResourceClick = (resource) => {
+    const key = resource;
     if (clickTimeouts[key]) {
-      // Double-click detected: clear timeout and subtract
       clearTimeout(clickTimeouts[key]);
       setClickTimeouts((prev) => {
         const updated = { ...prev };
@@ -76,7 +48,6 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
       });
       handleResourceChange(resource, -1);
     } else {
-      // Single-click: set timeout for add
       const timeoutId = setTimeout(() => {
         handleResourceChange(resource, 1);
         setClickTimeouts((prev) => {
@@ -84,42 +55,40 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
           delete updated[key];
           return updated;
         });
-      }, 300); // 300ms delay to detect double-click
+      }, 300);
       setClickTimeouts((prev) => ({ ...prev, [key]: timeoutId }));
     }
   };
 
-  const handleConfigClick = (resource: keyof Resources) => {
-    const key = resource as string;
+  const handleConfigClick = (resource) => {
+    const key = resource;
     if (clickTimeouts[key]) {
-      // Double-click detected: clear timeout and subtract
       clearTimeout(clickTimeouts[key]);
       setClickTimeouts((prev) => {
         const updated = { ...prev };
         delete updated[key];
         return updated;
       });
-      handleDiceConfigChange(activeDiceNumber, resource, -1);
+      if (onDiceConfigChange) onDiceConfigChange(playerId, activeDiceNumber, resource, -1);
     } else {
-      // Single-click: set timeout for add
       const timeoutId = setTimeout(() => {
-        handleDiceConfigChange(activeDiceNumber, resource, 1);
+        if (onDiceConfigChange) onDiceConfigChange(playerId, activeDiceNumber, resource, 1);
         setClickTimeouts((prev) => {
           const updated = { ...prev };
           delete updated[key];
           return updated;
         });
-      }, 300); // 300ms delay to detect double-click
+      }, 300);
       setClickTimeouts((prev) => ({ ...prev, [key]: timeoutId }));
     }
   };
 
-  const handleActionClick = (action: string) => {
-    onActionClick?.(playerId, action);
+  const handleActionClick = (action) => {
+    if (onActionClick) onActionClick(playerId, action);
   };
 
-  const handleDiceConfigChange = (diceNumber: number, resource: keyof Resources, value: number) => {
-    onDiceConfigChange?.(playerId, diceNumber, resource, value);
+  const handleDiceConfigChange = (diceNumber, resource, value) => {
+    if (onDiceConfigChange) onDiceConfigChange(playerId, diceNumber, resource, value);
   };
 
   const handleNameEdit = () => {
@@ -129,7 +98,7 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
 
   const handleNameSave = () => {
     if (tempName.trim() && tempName !== playerName) {
-      onPlayerNameChange?.(playerId, tempName.trim());
+      if (onPlayerNameChange) onPlayerNameChange(playerId, tempName.trim());
     }
     setIsEditingName(false);
   };
@@ -139,7 +108,7 @@ const CatanPlayer: React.FC<CatanPlayerProps> = ({
     setIsEditingName(false);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleNameSave();
     } else if (e.key === 'Escape') {

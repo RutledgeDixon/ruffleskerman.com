@@ -1,28 +1,10 @@
-// filepath: src/components/catan/CatanGame.tsx
+
 import { useState } from 'react';
-import CatanPlayersContainer from './PlayersContainer';
-import NumberOfPlayersButton from './NumberOfPlayersButton';
+import CatanPlayersContainer from './PlayersContainer.jsx';
+import NumberOfPlayersButton from './NumberOfPlayersButton.jsx';
 import '@/styles/catan-players.css';
 
-// TODO
-// - refactor and simplify
-
-interface PlayerData {
-    id: number;
-    name: string;
-    resources: {
-        brick: number;
-        lumber: number;
-        ore: number;
-        wheat: number;
-        wool: number;
-    };
-    diceConfig: {
-        [key: number]: { brick: number; lumber: number; ore: number; wheat: number; wool: number; };
-    };
-}
-
-const setBlankPlayer = (i: number) => {
+const setBlankPlayer = (i) => {
     return {
         id: i + 1,
         name: `Player ${i + 1}`,
@@ -43,45 +25,34 @@ const setBlankPlayer = (i: number) => {
 }
 
 const CatanGame = () => {
-    //Initialize players
     const [numberOfPlayers, setNumberOfPlayers] = useState(4);
-    const [players, setPlayers] = useState<PlayerData[]>(() =>
+    const [players, setPlayers] = useState(() =>
         Array.from({ length: numberOfPlayers }, (_, i) => setBlankPlayer(i))
     );
 
-    //updates each player resource with the correct number, based on their dice config
-    //sets the players with the new updated data
-    const handleDiceRoll = (roll: number) => {
+    const handleDiceRoll = (roll) => {
         const updatedPlayers = players.map(player => {
             const newResources = { ...player.resources };
             const diceResources = player.diceConfig[roll];
-
             if (diceResources) {
                 for (const resource in diceResources) {
-                    const key = resource as keyof typeof newResources;
-                    newResources[key] += diceResources[key];
+                    newResources[resource] += diceResources[resource];
                 }
             }
-
             return { ...player, resources: newResources };
         });
-
         setPlayers(updatedPlayers);
     }
 
-    // Update players when numberOfPlayers changes
-    // Returns the new array of players
-    const handleNumberOfPlayersChange = (newCount: number) => {
+    const handleNumberOfPlayersChange = (newCount) => {
         setNumberOfPlayers(newCount);
         setPlayers((prevPlayers) => {
         const updated = [...prevPlayers];
         if (newCount > prevPlayers.length) {
-            // Add new players
             for (let i = prevPlayers.length; i < newCount; i++) {
                 updated.push(setBlankPlayer(i));
             }
         } else {
-            // Remove excess players
             updated.splice(newCount);
         }
         return updated;
@@ -94,9 +65,7 @@ const CatanGame = () => {
                 <h1>Catan Card Counter</h1>
                 <NumberOfPlayersButton onChange={handleNumberOfPlayersChange} />
             </div>
-        
             <div className="diceDiv">
-                {/* Render dice as buttons with click handlers */}
                 {[2, 3, 4, 5, 6, 8, 9, 10, 11, 12].map((num) => (
                 <button
                     key={num}
@@ -108,7 +77,6 @@ const CatanGame = () => {
                 </button>
                 ))}
             </div>
-        
             <div className="main-catan-center">
                 <CatanPlayersContainer
                   players={players}
@@ -118,20 +86,18 @@ const CatanGame = () => {
                     ));
                   }}
                   onActionClick={(playerId, action) => {
-                    // Handle building actions, e.g., deduct costs from resources
                     let cost = { brick: 0, lumber: 0, ore: 0, wheat: 0, wool: 0 };
                     if (action === 'road') cost = { brick: 1, lumber: 1, ore: 0, wheat: 0, wool: 0 };
                     else if (action === 'settlement') cost = { brick: 1, lumber: 1, ore: 0, wheat: 1, wool: 1 };
                     else if (action === 'city') cost = { brick: 0, lumber: 0, ore: 3, wheat: 2, wool: 0 };
                     else if (action === 'devcard') cost = { brick: 0, lumber: 0, ore: 1, wheat: 1, wool: 1 };
-                    //deduct the cost from the player with playerId
                     setPlayers((prev) => prev.map((p) =>
                         p.id === playerId ? {
                             ...p,
                             resources: {
                             ...p.resources,
                             ...Object.fromEntries(
-                                Object.entries(cost).map(([res, amt]) => [res, p.resources[res as keyof typeof p.resources] - amt])
+                                Object.entries(cost).map(([res, amt]) => [res, p.resources[res] - amt])
                             )
                             }
                         } : p
