@@ -62,7 +62,7 @@ export default function PlannerPage() {
             </div>
             <div className="planner-content">
                 <h1 className="text-4xl font-bold text-gray-400 my-8 text-center">
-                    {userName ? `${userName}'s Planner` : 'RK Planner'}
+                    {userName ? `${userName}'s Wedding Planner` : 'RK Wedding Planner'}
                 </h1>
                 {userData && userData.categories && userData.categories[currentCategoryIndex] && (
                     <h2 className="text-2xl font-semibold text-gray-400 mb-4 text-center">

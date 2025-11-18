@@ -4,11 +4,7 @@ import Layout from "../layouts/mainLayout.astro";
 import "../styles/global.css";
 import defineConfig from "astro.config.mjs";
 // Component Imports
-import { Button } from "@/components/ui/button";
 import ProjectCard from "@/components/projectCard";
-
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
 ---
 
 <Layout title="RK Home" description="Ruffles Kerman Home">
@@ -46,6 +42,12 @@ import ProjectCard from "@/components/projectCard";
 				description="I have a bot for that..."
 				href={defineConfig.base + "wordlebot"}
 				buttonText="Wordle Bot"
+			/>
+			<ProjectCard
+				title="Wedding Planner"
+				description="A website I made for my fiance and I to plan our wedding. Tied to a MySQL DB."
+				href={defineConfig.base + "planner"}
+				buttonText="Plan!"
 			/>
 			<!-- scammer project -->
 			<!-- <ProjectCard

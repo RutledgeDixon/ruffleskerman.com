@@ -1,13 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-interface ProjectCardProps {
-    title: string;
-    description: string;
-    href: string;
-    buttonText: string;
-}
-
-export default function ProjectCard({ title, description, href, buttonText }: ProjectCardProps) {
+export default function ProjectCard({ title, description, href, buttonText }) {
     return (
         <div className="bg-green-900 p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-3">{title}</h3>
@@ -17,9 +10,9 @@ export default function ProjectCard({ title, description, href, buttonText }: Pr
                     href={href}
                     className="inline-block"
                 >
-                    <Button variant="letu" className="px-8 py-3 text-lg"
-                        >{buttonText}</Button
-                    >
+                    <Button variant="letu" className="px-8 py-3 text-lg">
+                        {buttonText}
+                    </Button>
                 </a>
             </div>
         </div>
