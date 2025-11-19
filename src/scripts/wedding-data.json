@@ -1,0 +1,134 @@
+{
+    "categories": [
+        {
+            "name": "Main",
+            "cards": [
+                {
+                    "name": "Date",
+                    "question": "What day are we getting married?"
+                },
+                {
+                    "name": "Reception",
+                    "question": "Will we have a reception?"
+                },
+                {
+                    "name": "Color palette",
+                    "question": "What is our color palette?"
+                },
+                {
+                    "name": "Theme",
+                    "question": "What is our wedding theme?"
+                }
+            ]
+        },
+        {
+            "name": "Location",
+            "cards": [
+                {
+                    "name": "Venue",
+                    "question": "Where is our venue?"
+                },
+                {
+                    "name": "Ceremony Location",
+                    "question": "Where is the ceremony location?"
+                },
+                {
+                    "name": "Reception Location",
+                    "question": "Where is the reception location?"
+                },
+                {
+                    "name": "Minister",
+                    "question": "Who's getting us hitched?"
+                }
+            ]
+        },
+        {
+            "name": "Food",
+            "cards": [
+                {
+                    "name": "Cake",
+                    "question": "What cake will we have?"
+                },
+                {
+                    "name": "Drinks",
+                    "question": "What drinks will we have?"
+                },
+                {
+                    "name": "Snacks",
+                    "question": "What snacks will we have?"
+                },
+                {
+                    "name": "Reception drinks",
+                    "question": "What drinks will we have for the reception?"
+                },
+                {
+                    "name": "Reception snacks",
+                    "question": "What snacks will we have for the reception?"
+                },
+                {
+                    "name": "Catering",
+                    "question": "Are we using catering? If so, who?"
+                }
+            ]
+        },
+        {
+            "name": "Utilities",
+            "cards": [
+                {
+                    "name": "Decorations",
+                    "question": "Front piece, table deco, flowers, etc."
+                },
+                {
+                    "name": "Seating",
+                    "question": "Tables, chairs, other seating"
+                },
+                {
+                    "name": "Photographer",
+                    "question": "Who will be our photographer?"
+                },
+                {
+                    "name": "Music",
+                    "question": "Who's in control of the music? What music?"
+                }
+            ]
+        },
+        {
+            "name": "Guest Stuff",
+            "cards": [
+                {
+                    "name": "Max Number",
+                    "question": "What is our max number of guests?"
+                },
+                {
+                    "name": "Ideal list",
+                    "question": "Link to our ideal guest list"
+                },
+                {
+                    "name": "List",
+                    "question": "Link to the actual guest list"
+                }
+            ]
+        },
+        {
+            "name": "Clothes",
+            "cards": [
+                {
+                    "name": "Suit",
+                    "question": "Suit details for Rutledge"
+                },
+                {
+                    "name": "Dress",
+                    "question": "Dress details for Ruth (secret)"
+                },
+                {
+                    "name": "Groomsmen",
+                    "question": "Suit details for the guys"
+                },
+                {
+                    "name": "Bridesmaids",
+                    "question": "Dress details for the ladies"
+                }
+            ]
+        }
+    ]
+}

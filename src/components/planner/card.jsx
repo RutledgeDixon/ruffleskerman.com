@@ -16,6 +16,8 @@ export default function Card({title, description, answer, updateAnswer, imageurl
                 onChange={(e) => updateAnswer(e.target.value)}
                 placeholder="Type your answer..."
                 className="w-full p-1 mb-2 border rounded"
+                //max characters is 255
+                maxLength={255}
             />
             {imageurl && imageurl !== "" && <img src={imageurl} alt={title} />}
             <div className="planning-card-top">
