@@ -7,8 +7,7 @@ import path from 'path';
 // import jsonData from './wedding-data.json' assert { type: 'json' };
 //get json data from wedding-data.json
 
-function createAccountSQL(name, pass) {
-    const hashedPassword = bcrypt.hashSync(pass, 10);
+function createAccountSQL(name, hashedPassword) {
     let sql = `USE wedding_planner_db;\n\n`;
     sql += `INSERT INTO user (name, hashed_password) VALUES ('${name}', '${hashedPassword}');\n\n`;
     return sql;
