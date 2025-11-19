@@ -10,7 +10,7 @@ export default function Card({title, description, answer, updateAnswer, imageurl
                     <h3 className="text-xl font-semibold mb-3">{title}</h3>
                     <p className="text-gray-400 mb-2">{description}</p>
                 </div>
-                {!saved && !checked && <Button type="button" variant="letu" className="px-4 py-2 text-sm self-start" onClick={(e) => { e.preventDefault(); saveFunc(); }}>Save</Button>}
+                {!saved && <Button type="button" variant="letu" className="px-4 py-2 text-sm self-start" onClick={(e) => { e.preventDefault(); saveFunc(); }}>Save</Button>}
             </div>
             <textarea
                 value={answer}
