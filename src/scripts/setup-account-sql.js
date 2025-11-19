@@ -55,7 +55,7 @@ async function main() {
         process.exit(1);
     }
     //create sql file and add sql for name and password
-    const hashedPassword = bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     let sql = createAccountSQL(name, hashedPassword);
 
     //add default sql for categories and cards

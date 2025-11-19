@@ -1,6 +1,6 @@
 USE wedding_planner_db;
 
-INSERT INTO user (name, hashed_password) VALUES ('test', '$2b$10$HAVYB3uKhTaPA7F1zTc90OYamP2yRMFBb2r4k8A4oNzg5gI2ICSVO');
+INSERT INTO user (name, hashed_password) VALUES ('test', '$2b$10$bGYzpIkEf5JPUGtu.TrBv.kgO1B6R9DfEgxVkIpKDN4s107Pmi.Kq');
 
 INSERT INTO category (title, description, progress, user_id) VALUES ('Main', '', 0, (SELECT id FROM user WHERE name='test'));
 INSERT INTO card (title, description, answer, imageurl, url, checked, category_id) VALUES ('Date', 'What day are we getting married?', '', '', '', false, (SELECT id FROM category WHERE title='Main' AND user_id=(SELECT id FROM user WHERE name='test')));
