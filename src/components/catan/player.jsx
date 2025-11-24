@@ -134,12 +134,18 @@ const CatanPlayer = ({
               </div>
             ) : (
               <>
-                <h3>{playerName}</h3>
                 <button className='change-player-name-btn' onClick={handleNameEdit}>
                     ✏
                 </button>
+                <h3>{playerName}</h3>
               </>
             )}
+            <button 
+              className="resource-btn"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              {showDetails ? 'Hide Details ▲' : 'Show Details ▼'}
+            </button>
         </div>
 
         {/* Resources Display */}
@@ -184,12 +190,7 @@ const CatanPlayer = ({
           ))}
         </div>
 
-        <button 
-          className="resource-btn"
-          onClick={() => setShowDetails(!showDetails)}
-        >
-          {showDetails ? 'Hide Details ▲' : 'Show Details ▼'}
-        </button>
+        
 
         {showDetails && (
           <>
