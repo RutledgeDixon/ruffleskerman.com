@@ -399,6 +399,128 @@ body {
   border-color: #315a7a;
 }
 
+/* Floating dice button (mobile-first) */
+.floating-dice-container {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Floating players button (left side) */
+.floating-players-container {
+    position: fixed;
+    left: 18px;
+    bottom: 18px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.floating-players-btn {
+    width: 62px;
+    height: 62px;
+    border-radius: 999px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #315a7a, #1f3f4f);
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.floating-players-btn:active { transform: scale(0.97); }
+
+/* align modal from NumberOfPlayersButton when used inside this container */
+/* Keep overlay full-screen; adjust where the inner dialog sits when opened from the floating button */
+
+.floating-players-container .number-of-players-modal .number-of-players-dialog {
+    position: absolute;
+    left: 18px;
+    bottom: 92px;
+    top: auto;
+    transform: none;
+    margin: 0;
+    min-width: 260px; /* slightly smaller on left anchored view */
+}
+
+@media (max-width: 420px) {
+    .floating-players-container .number-of-players-modal .number-of-players-dialog {
+        left: 12px;
+        bottom: 80px;
+        min-width: 220px;
+    }
+}
+
+.floating-dice-btn {
+    width: 62px;
+    height: 62px;
+    border-radius: 999px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #315a7a, #1f3f4f);
+    color: white;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.floating-dice-btn:active { transform: scale(0.97); }
+
+.floating-dice-btn.open { transform: scale(1.04); box-shadow: 0 10px 28px rgba(0,0,0,0.35); }
+
+.floating-dice-popup {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    gap: 8px;
+    background: rgba(255,255,255,0.98);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+    transform-origin: bottom right;
+}
+
+.floating-dice-option {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #e6e6e6;
+    background: #f6f6f6;
+    color: #222;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.08s ease, background 0.08s ease;
+}
+
+.floating-dice-option:active { transform: scale(0.96); background: #e0e0e0; }
+
+/* Small screens: ensure popup stays readable */
+@media (max-width: 640px) {
+    .floating-dice-popup { grid-template-columns: repeat(5, auto); gap: 6px; padding: 6px; }
+    .floating-dice-btn { width: 56px; height: 56px; font-size: 1.2rem; }
+}
+
+/* Larger screens: slightly offset position */
+@media (min-width: 1024px) {
+    .floating-dice-container { right: 34px; bottom: 34px; }
+}
+
 .player-select-dropdown:focus {
   outline: none;
   border-color: #315a7a;
@@ -422,6 +544,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 5px;
 }
 
 h1 {
@@ -430,37 +553,7 @@ h1 {
 }
 
 /* Dice Styles */
-.diceDiv {
-    padding-bottom: 50px;
-    margin-bottom: 100px;
-}
-
-.dice {
-    background: white;
-    color: #464648; /* Keep for consistency, but buttons may override; test and adjust */
-    float: left;
-    width: 9%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    margin-right: 1.1%;
-    border-radius: 20px;
-    text-align: center;
-    font-family: "Exo 2", sans-serif;
-    font-size: 3rem;
-    font-weight: 800;
-    transition: 0.2s;
-    border: none; /* Add for button styling */
-    cursor: pointer; /* Add for interactivity */
-}
-
-#dice12 {
-    margin-right: 0%;
-}
-
-.dice:hover {
-    color: steelblue;
-    box-shadow: 0px 0px 10px 1px steelblue;
-}
+/* removed top-of-page dice bar in favor of floating button (mobile-first) */
 
 .main-catan-center {
     display: flex;
@@ -486,9 +579,7 @@ h1 {
     .dice-inputs {
         grid-template-columns: repeat(4, 1fr);
     }
-    .dice {
-        font-size: 2rem;
-    }
+    /* top-page dice bar removed (floating button used) */
     h1 {
         font-size: 2.5rem;
     }
@@ -557,24 +648,12 @@ h1 {
         padding: 10px;
     }
 
-    .dice {
-        font-size: 1.5rem;
-        width: 18%;
-        margin-bottom: 10px;
-    }
-
-    .diceDiv {
-        padding-bottom: 50px;
-    }
 
     h1 {
         font-size: 2rem;
     }
 
-    #numButton {
-        font-size: 0.4em;
-        padding: 5px;
-    }
+    /* removed top-bar dice styles (not used) */
 }
 
 @media (max-width: 480px) {

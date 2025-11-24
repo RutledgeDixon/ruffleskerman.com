@@ -1,9 +1,16 @@
 // ...existing code...
 import React, { useState } from 'react';
 
-const NumberOfPlayersButton = ({ onChange }) => {
+const NumberOfPlayersButton = ({ onChange, floating = false, count }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPlayers, setSelectedPlayers] = useState(4);
+  const [selectedPlayers, setSelectedPlayers] = useState(count ?? 4);
+
+  // keep internal selectedPlayers in sync if parent provides a controlled count
+  React.useEffect(() => {
+    if (typeof count === 'number' && count !== selectedPlayers) {
+      setSelectedPlayers(count);
+    }
+  }, [count]);
 
   const handleSelectChange = (e) => {
     setSelectedPlayers(parseInt(e.target.value));
@@ -17,25 +24,35 @@ const NumberOfPlayersButton = ({ onChange }) => {
 
   return (
     <>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        style={{
-          background: '#464647',
-          color: 'white',
-          border: '2px solid steelblue',
-          borderRadius: '15px',
-          padding: '10px',
-          fontSize: '0.8rem',
-          cursor: 'pointer',
-          transition: '0.2s',
-        }}
-        onMouseOver={(e) => (e.currentTarget.style.background = 'steelblue')}
-        onMouseOut={(e) => (e.currentTarget.style.background = '#464647')}
-      >
-        number of players
-      </button>
+      {floating ? (
+        <button
+          className="floating-players-btn"
+          onClick={() => setIsModalOpen(true)}
+          aria-label="Number of players"
+        >
+          {'ꆜ'}
+        </button>
+      ) : (
+        <button
+          onClick={() => setIsModalOpen(true)}
+          style={{
+            background: '#464647',
+            color: 'white',
+            border: '2px solid steelblue',
+            borderRadius: '15px',
+            padding: '10px',
+            fontSize: '0.8rem',
+            cursor: 'pointer',
+            transition: '0.2s',
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.background = 'steelblue')}
+          onMouseOut={(e) => (e.currentTarget.style.background = '#464647')}
+        >
+          number of players
+        </button>
+      )}
       {isModalOpen && (
-        <div
+        <div className="number-of-players-modal"
           style={{
             position: 'fixed',
             top: 0,
@@ -50,8 +67,8 @@ const NumberOfPlayersButton = ({ onChange }) => {
           }}
           onClick={() => setIsModalOpen(false)}
         >
-          <div
-            style={{
+            <div className="number-of-players-dialog"
+              style={{
               background: '#464647',
               color: 'white',
               padding: '20px',

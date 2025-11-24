@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import CatanPlayersContainer from './PlayersContainer.jsx';
 import NumberOfPlayersButton from './NumberOfPlayersButton.jsx';
+import DiceRollButton from './DiceRollButton.jsx';
 import '@/styles/catan-players.css';
 
 const setBlankPlayer = (i) => {
@@ -62,21 +63,18 @@ const CatanGame = () => {
     return (
         <div>
             <div className="header">
-                <h1>Catan Card Counter</h1>
-                <NumberOfPlayersButton onChange={handleNumberOfPlayersChange} />
+                {/* <h1>Catan Card Counter</h1> */}
+                {/* <NumberOfPlayersButton onChange={handleNumberOfPlayersChange} count={numberOfPlayers} /> */}
             </div>
-            <div className="diceDiv">
-                {[2, 3, 4, 5, 6, 8, 9, 10, 11, 12].map((num) => (
-                <button
-                    key={num}
-                    className="dice"
-                    id={`dice${num}`}
-                    onClick={() => handleDiceRoll(num)}
-                >
-                    {num}
-                </button>
-                ))}
+
+            {/* Roll Die button (right) */}
+            <DiceRollButton onRoll={handleDiceRoll} />
+
+            {/* floating players button (left) for mobile */}
+            <div className="floating-players-container">
+                    <NumberOfPlayersButton floating onChange={handleNumberOfPlayersChange} count={numberOfPlayers} />
             </div>
+
             <div className="main-catan-center">
                 <CatanPlayersContainer
                   players={players}
