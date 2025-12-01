@@ -1,4 +1,3 @@
-
 attribute vec3 a_Position;
 attribute vec4 a_Color;
 attribute vec3 a_Normal;
