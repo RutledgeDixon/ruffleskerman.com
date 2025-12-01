@@ -58,13 +58,13 @@ function changeSpeed(value) {
     }
 }
 
-function main() {
+async function main() {
     //load the canvas and context
     var canvas = document.getElementById("webgl");
     var header = document.getElementById("header");
 
     gl = getWebGLContext(canvas);
-    if (!gl) { alert("WebGL isn't available"); }
+    if (!gl) { alert("WebGL isn't available"); return; }
 
     //  Configure WebGL
     resizeCanvasToDisplaySize(canvas);
@@ -83,8 +83,10 @@ function main() {
     // Enable depth testing
     gl.enable(gl.DEPTH_TEST);
 
-    //  Load shaders and initialize attribute buffers
-    program = initShaders(gl, "vertex-shader", "fragment-shader");
+    // Load shaders from external files (like mandlebrot.js)
+    const vertexShaderSource = await fetch('/scripts/shaders/sorting-vertex.glsl').then(r => r.text());
+    const fragmentShaderSource = await fetch('/scripts/shaders/sorting-fragment.glsl').then(r => r.text());
+    program = initShaders(gl, vertexShaderSource, fragmentShaderSource);
     if (!program) { return; }
     gl.useProgram(program);
     gl.program = program;
@@ -113,6 +115,7 @@ function main() {
     //start the render loop
     runProgram();
 }
+// No longer needed: createProgramFromSources. Now using initShaders with source strings like mandlebrot.js
 
 //does the next swap in the current algorithm
 async function doOneSwap() {

@@ -1,0 +1,80 @@
+---
+// Astro component for Sorting Visualization
+---
+
+<!doctype html>
+<html>
+    <head id="header">
+        <meta charset="utf-8" />
+        <title>Algorithm Visualisation</title>
+        <link rel="stylesheet" href="/styles/sorting.css" />
+    </head>
+    <body onload="main()">
+        <script type="text/javascript" src="/scripts/common/webgl-utils.js"
+        ></script>
+        <script type="text/javascript" src="/scripts/common/webgl-debug.js"
+        ></script>
+        <script type="text/javascript" src="/scripts/common/cuon-utils-letu.js"
+        ></script>
+        <script type="text/javascript" src="/scripts/common/cuon-matrix.js"
+        ></script>
+        <script type="text/javascript" src="/scripts/common/initShaders.js"
+        ></script>
+        <script type="text/javascript" src="/scripts/common/MV.js"></script>
+        <script type="text/javascript" src="/scripts/sorting.js"></script>
+        <script type="text/javascript" src="/scripts/sortingAlgorithms.js"
+        ></script>
+
+        <!-- Shaders are now loaded from external files in JS: /scripts/shaders/sorting-vertex.glsl and /scripts/shaders/sorting-fragment.glsl -->
+
+        <div id="main-container">
+            <div id="options">
+                <label id="select-label" for="algorithm-select"
+                    >Select Sorting Algorithm</label
+                >
+                <select
+                    id="algorithm-select"
+                    onchange="changeAlgorithm(this.value)"
+                >
+                    <option value="bubble">Bubble Sort</option>
+                    <option value="selection">Selection Sort</option>
+                    <option value="insertion">Insertion Sort</option>
+                    <option value="merge">Merge Sort</option>
+                    <option value="quick">Quick Sort</option>
+                    <option value="heap">Heap Sort</option>
+                    <option value="shell">Shell Sort</option>
+                    <option value="bogo">Bogo Sort</option>
+                </select>
+                <label id="speed-label" for="speed-select">Select Speed</label>
+                <select id="speed-select" onchange="changeSpeed(this.value)">
+                    <option value="slow">Slow</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="fast">Fast</option>
+                </select>
+                <label id="count-label" for="count-select">Count</label>
+                <input
+                    type="number"
+                    id="count-select"
+                    value="10"
+                    min="2"
+                    max="50"
+                    onchange="if(this.value < 2) this.value = 2; if(this.value > 50) this.value = 50; changeCount(this.value)"
+                />
+            </div>
+            <div id="canvas-container">
+                <canvas id="webgl" width="1024" height="1024">
+                    Oops ... your browser doesn't support the HTML5 canvas
+                    element
+                </canvas>
+                <div id="bottom-controls">
+                    <button id="start-button" onclick="toggleSorting()"
+                        >Start</button
+                    >
+                    <button id="randomize-button" onclick="randomizeArray()"
+                        >Randomize</button
+                    >
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
