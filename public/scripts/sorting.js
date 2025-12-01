@@ -83,13 +83,13 @@ async function main() {
     // Enable depth testing
     gl.enable(gl.DEPTH_TEST);
 
-    // Load shaders from external files (like mandlebrot.js)
+    // Load shaders
     const vertexShaderSource = await fetch('/scripts/shaders/sorting-vertex.glsl').then(r => r.text());
     const fragmentShaderSource = await fetch('/scripts/shaders/sorting-fragment.glsl').then(r => r.text());
     program = initShaders(gl, vertexShaderSource, fragmentShaderSource);
-    if (!program) { return; }
     gl.useProgram(program);
-    gl.program = program;
+
+    //gl.program = program;
     vPosition = gl.getAttribLocation(program, "a_Position");
     gl.enableVertexAttribArray(vPosition);
     vColor = gl.getAttribLocation(program, "a_Color");
@@ -115,7 +115,6 @@ async function main() {
     //start the render loop
     runProgram();
 }
-// No longer needed: createProgramFromSources. Now using initShaders with source strings like mandlebrot.js
 
 //does the next swap in the current algorithm
 async function doOneSwap() {
