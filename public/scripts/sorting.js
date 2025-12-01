@@ -110,6 +110,51 @@ async function main() {
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
 
+    //event listener for keybinds for each command
+    // NOTE: defaults for arrow keys and spacebar (moving between buttons, pressing buttons)
+    //       have been prevented due to conflicts with the intended behavior
+    window.addEventListener("keydown", function(event) {
+        // If user is typing in an input/textarea or editable element, don't capture
+        const target = event.target;
+        const tag = target && target.tagName ? target.tagName.toUpperCase() : '';
+        const isTyping = tag === 'INPUT' || tag === 'TEXTAREA' || target.isContentEditable;
+        if (isTyping) return; // leave default behavior alone when editing
+
+        switch(event.key) {
+            case ' ':
+            case 'Spacebar': // legacy
+            case 'Space': // standard
+                // stop the default which would activate any focused button
+                event.preventDefault(); // <--- key change
+                toggleSorting();
+                break;
+            case "r": //r to randomize array
+                randomizeArray();
+                break;
+            case "ArrowRight": //right arrow to do one swap
+                // prevent default so focus doesn't shift between buttons
+                event.preventDefault();
+                if (!isSorting) {
+                    doOneSwap();
+                }
+                break;
+            case "ArrowLeft": //left arrow to reset array
+                event.preventDefault();
+                //this is where we would go back one step
+                break;
+            case "f": //change speed to fast
+                changeSpeed('fast');
+                break;
+            case "s": //change speed to slow
+                changeSpeed('slow');
+                break;
+            case "m": //change speed to medium
+                changeSpeed('medium');
+                break;
+        }
+    });
+
+
     //initialize positioining variables
     changeCount(count);
     //start the render loop
