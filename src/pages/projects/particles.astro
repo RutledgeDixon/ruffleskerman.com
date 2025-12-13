@@ -69,7 +69,7 @@ import "@/styles/generic.css";
 
     #options label,
     #options select {
-        color: #fff;
+        color: #444;
     }
 
     /* small-screen adjustments */
@@ -85,7 +85,22 @@ import "@/styles/generic.css";
 
 <div id="main-container">
     <div id="options">
-        
+        <select
+            id="movement-select"
+            onchange="updateMovementType(this.value)"
+        >
+            <option value="boid">Boid</option>
+            <option value="shape">Shape</option>
+            <option value="water">Water-ish</option>
+        </select>
+        <select
+            id="shape-select"
+            onchange="updateShape(this.value)"
+        >
+            <option value="circle">Circle</option>
+            <option value="square">Square</option>
+            <option value="heart">Heart</option>
+        </select>
     </div>
     <div id="canvas-container">
         <canvas id="webgl" width="1024" height="1024">

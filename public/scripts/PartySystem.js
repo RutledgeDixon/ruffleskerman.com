@@ -1,6 +1,6 @@
 console.log("PartySystem.js loading...");
 
-function PartySystem(canvasElement, numParticles, sizeInPixels) {
+function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovementType) {
     this.w = canvasElement.width;
     this.h = canvasElement.height;
     gl.disable(gl.DEPTH_TEST);
@@ -8,7 +8,7 @@ function PartySystem(canvasElement, numParticles, sizeInPixels) {
     //initialize particle variables
     this.spawnSide = "top";
     this.size = sizeInPixels || 5;
-    this.color = [0.14, 0.62, 1, 0.6];
+    this.color = [0.34, 0.82, 1, 0.5];
     this.ttl = 500;
 
     //initialize particles array
@@ -23,7 +23,27 @@ function PartySystem(canvasElement, numParticles, sizeInPixels) {
         });
     }
 
-    //initialize movement variables
+    // default movement vairables
+    this.gravity = [0.0, 0.0];
+    this.wind = [0.0, 0.0];
+    this.turningFactor = 0.4;       // default is 0.4
+    this.visualRange = 40;          // default is 40
+    this.protectedRange = 8;        // default is 8
+    this.centeringFactor = 0.0005;  // default is 0.0005
+    this.avoidFactor = 0.05;        // default is 0.05
+    this.matchingFactor = 0.05;     // default is 0.05
+    this.maxSpeed = 6;              // default is 6
+    this.margin = 80;               // default is 80
+    this.mouseAttractionFactor = 0.0005; // Strength of mouse attraction
+    this.shapeAttractionFactor = 0;
+    this.damping = 1.0;
+}
+
+PartySystem.prototype.doOneStep = function(shape, particleMovementType) {
+    //testing
+    console.log("Doing one particle step");
+
+    //initialize movement variables based on particleMovementType
     if (particleMovementType === "water") { //for water, decrease avoidFactor to make calmer
         this.gravity = [0.0, 0.2];
         this.wind = [0.0, 0.0];
@@ -49,10 +69,10 @@ function PartySystem(canvasElement, numParticles, sizeInPixels) {
         this.matchingFactor = 0.05;     // default is 0.05
         this.maxSpeed = 1.5;              // default is 6
         this.margin = 80;               // default is 80
-        this.mouseAttractionFactor = 0; // Strength of mouse attraction
+        this.mouseAttractionFactor = 0.005; // Strength of mouse attraction
         this.shapeAttractionFactor = 1;
         this.damping = 0.5;
-    }else { // boid
+    } else {    //default is boid
         this.gravity = [0.0, 0.0];
         this.wind = [0.0, 0.0];
         this.turningFactor = 0.4;       // default is 0.4
@@ -67,30 +87,25 @@ function PartySystem(canvasElement, numParticles, sizeInPixels) {
         this.shapeAttractionFactor = 0;
         this.damping = 1.0;
     }
-
-}
-
-PartySystem.prototype.doOneStep = function() {
-    //testing
-    console.log("Doing one particle step");
-
     //draw
     var positions = [];
     var colors = [];
     //var normals = [];
     for (var i = 0; i < this.particles.length; i++) {
         var p = this.particles[i];
-        p.ttl--;
-        if (p.ttl <= 0) {
-            //'remove' and 'replace' by randomizing particle attributes
-            this.particles[i] = {
-                x: Math.random() * this.w, 
-                y: Math.random() * this.h, 
-                velx: 0, 
-                vely: 0, 
-                ttl: Math.random() * this.ttl + 200
-            };
-            p = this.particles[i];
+        if (particleMovementType === "shape" || particleMovementType === "water") {
+            p.ttl--;
+            if (p.ttl <= 0) {
+                //'remove' and 'replace' by randomizing particle attributes
+                this.particles[i] = {
+                    x: Math.random() * this.w, 
+                    y: Math.random() * this.h, 
+                    velx: 0, 
+                    vely: 0, 
+                    ttl: Math.random() * this.ttl + 200
+                };
+                p = this.particles[i];
+            }
         }
         // Normalize pixel coordinates to [-1, 1] range for WebGL
         var normX = (p.x / gl.canvas.width) * 2.0 - 1.0;
@@ -118,7 +133,7 @@ PartySystem.prototype.doOneStep = function() {
     gl.drawArrays(gl.POINTS, 0, positions.length / 2);
 
     //re-calculate positions
-    this.updatePositions_boid();
+    this.updatePositions_boid(shape);
 }
 
 PartySystem.prototype.updatePositions_basic = function() {
@@ -131,7 +146,7 @@ PartySystem.prototype.updatePositions_basic = function() {
     }
 }
 
-PartySystem.prototype.updatePositions_boid = function() {
+PartySystem.prototype.updatePositions_boid = function(shape) {
     for (var i = 0; i < this.particles.length; i++) {
         var p = this.particles[i];
         var close_dx = 0;

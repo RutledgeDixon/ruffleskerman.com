@@ -16,20 +16,28 @@ var pointSizeLoc;
 var ambientColor = [0.2, 0.2, 0.2];
 
 var shape = {
-    name: null,
-    equation: null,
+    name: "circle",
+    scale: 150,
     center: {
         x: 0.0,
         y: 0.0
-    },
-    // Gradient (used for direction toward curve) - with larger delta for better accuracy
-    gradient: function(x, y) {
-        var h = 1.0; // Larger delta for better gradient estimation
-        var dfdx = (shape.equation(x + h, y) - shape.equation(x - h, y)) / (2 * h);
-        var dfdy = (shape.equation(x, y + h) - shape.equation(x, y - h)) / (2 * h);
-        return { x: dfdx, y: dfdy };
     }
 };
+shape.equation = function(x, y) { //equation for circle
+        // Translate to center and scale
+        var px = (x - shape.center.x) / shape.scale;
+        var py = -(y - shape.center.y) / shape.scale;
+        // Distance from center minus 1 (so equation = 0 at circle edge)
+        return Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2)) - 1;
+};
+// Gradient (used for direction toward curve) - with larger delta for better accuracy
+shape.gradient = function(x, y) {
+    var h = 1.0; // Larger delta for better gradient estimation
+    var dfdx = (shape.equation(x + h, y) - shape.equation(x - h, y)) / (2 * h);
+    var dfdy = (shape.equation(x, y + h) - shape.equation(x, y - h)) / (2 * h);
+    return { x: dfdx, y: dfdy };
+}
+
 var p;
 var mouse = { x: 0, y: 0 };
 var mouseDown = false;
@@ -53,7 +61,11 @@ var up = vec3(0.0, 1.0, 0.0);
 async function main() {
     //load the canvas and context
     var canvas = document.getElementById("webgl");
-    var header = document.getElementById("header");
+    
+    var movementSelect = document.getElementById("movement-select");
+    var shapeSelect = document.getElementById("shape-select");
+    movementSelect.value = particleMovementType;
+    shapeSelect.value = shape.name;
 
     gl = getWebGLContext(canvas);
     if (!gl) { alert("WebGL isn't available"); return; }
@@ -63,6 +75,8 @@ async function main() {
     gl.viewport(0, 0, canvas.width, canvas.height);
     // keep aspect ratio in sync with canvas display size
     aspect = (canvas.clientWidth / canvas.clientHeight) || 1.0;
+    //update shape center to be center of canvas
+    shape.center = {x: canvas.width / 2, y: canvas.height / 2};
 
     // update on window resize
     window.addEventListener('resize', function() {
@@ -132,8 +146,8 @@ async function main() {
     });
 
     //run the program
-    updateShape("heart");
-    p = new PartySystem(canvas, 1000, 8, particleMovementType, shape);
+    updateShape("circle");
+    p = new PartySystem(canvas, 1000, 8, particleMovementType);
     render();
 
 }
@@ -149,7 +163,7 @@ function render() {
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
 
     //draw
-    p.doOneStep();
+    p.doOneStep(shape, particleMovementType);
 
     //re-render
     requestAnimationFrame(render);
@@ -175,12 +189,13 @@ function updateShape(newShape) {
             // Translate to center and scale
             var px = (x - shape.center.x) / shape.scale;
             var py = -(y - shape.center.y) / shape.scale;
-            return Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
+            // Distance from center minus 1 (so equation = 0 at circle edge)
+            return Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2)) - 1;
         }
     } else if (shape.name === "heart") {
         // Heart curve: (x^2 + y^2 - 1)^3 - x^2*y^3 = 0
         // Scale factor to fit on canvas
-        shape.scale = 80;
+        shape.scale = 120;
         shape.equation = function(x, y) {
             // Translate to center and scale
             var px = (x - shape.center.x) / shape.scale;
@@ -192,6 +207,11 @@ function updateShape(newShape) {
     //testing
     console.log("Shape: " + shape.name);
     //we will do more shapes later
+}
+
+function updateMovementType(newType) {
+    particleMovementType = newType;
+    //p = new PartySystem(canvas, 1000, 5, particleMovementType);
 }
 
 // Make the canvas match its displayed size (handles responsive CSS + device pixel ratio)
