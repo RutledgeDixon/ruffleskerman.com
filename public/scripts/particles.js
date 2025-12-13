@@ -19,6 +19,7 @@ var shape;
 var p;
 var mouse = { x: 0, y: 0 };
 var mouseDown = false;
+var particleMovementType = "boid";
 
 //camera stuff
 // camera frustum (updated to cover the scene distances)
@@ -59,6 +60,10 @@ async function main() {
 
     // Enable depth testing
     gl.enable(gl.DEPTH_TEST);
+
+    // Enable blending for transparency
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     // Load shaders
     const vertexShaderSource = await fetch('/scripts/shaders/particles-vertex.glsl').then(r => r.text());
@@ -114,7 +119,7 @@ async function main() {
 
     //run the program
     shape = "square";
-    p = new PartySystem(canvas, 1000, 4);
+    p = new PartySystem(canvas, 1000, 8);
     render();
 
 }
@@ -165,21 +170,31 @@ function PartySystem(canvasElement, numParticles, sizeInPixels) {
     this.color = [0.14, 0.62, 1, 0.6];
 
     //initialize movement variables
-    this.gravity = [0.0, 0.05];
-    this.wind = [0.0, 0.0];
-    this.attraction = [0.0, 0.0];
-
-    //initialize boid variables
-    this.turningFactor = 0.4;
-    this.visualRange = 40;         // Increased from 40 - particles can see further
-    this.protectedRange = 8;       // Increased from 8 - larger separation zone
-    this.centeringFactor = 0.0005;
-    this.avoidFactor = 0.05;        // Increased from 0.05
-    this.matchingFactor = 0.05;
-    this.maxSpeed = 6;
-    this.minSpeed = 3;
-    this.margin = 80;
-    this.mouseAttractionFactor = 0.0005; // Strength of mouse attraction
+    if (particleMovementType === "water") { //for water, decrease avoidFactor to make calmer
+        this.gravity = [0.0, 0.2];
+        this.wind = [0.0, 0.0];
+        this.turningFactor = 3;
+        this.visualRange = 40;
+        this.protectedRange = 8;
+        this.centeringFactor = 0.000;
+        this.avoidFactor = 0.01;
+        this.matchingFactor = 0.05;
+        this.maxSpeed = 8;
+        this.margin = 10;
+        this.mouseAttractionFactor = 0.0005;
+    } else { // boid
+        this.gravity = [0.0, 0.0];
+        this.wind = [0.0, 0.0];
+        this.turningFactor = 0.4;       // default is 0.4
+        this.visualRange = 40;          // default is 40
+        this.protectedRange = 8;        // default is 8
+        this.centeringFactor = 0.0005;  // default is 0.0005
+        this.avoidFactor = 0.05;        // default is 0.05
+        this.matchingFactor = 0.05;     // default is 0.05
+        this.maxSpeed = 6;              // default is 6
+        this.margin = 80;               // default is 80
+        this.mouseAttractionFactor = 0.0005; // Strength of mouse attraction
+    }
 
 }
 
@@ -225,8 +240,8 @@ PartySystem.prototype.doOneStep = function() {
 PartySystem.prototype.updatePositions_basic = function() {
     for (var i = 0; i < this.particles.length; i++) {
         var particle = this.particles[i];
-        particle.x += particle.velx + this.wind[0] + this.attraction[0];
-        particle.y += particle.vely + this.wind[1] + this.attraction[1];
+        particle.x += particle.velx + this.wind[0];
+        particle.y += particle.vely + this.wind[1];
         particle.velx += this.gravity[0];
         particle.vely += this.gravity[1];
     }
@@ -276,6 +291,10 @@ PartySystem.prototype.updatePositions_boid = function() {
             p.velx += (mouse.x - p.x) * this.mouseAttractionFactor;
             p.vely += (mouse.y - p.y) * this.mouseAttractionFactor;
         }
+
+        //add gravity
+        p.velx += this.gravity[0];
+        p.vely += this.gravity[1];
 
         // Apply boundary turning (push particles away from edges)
         // Make the force stronger the closer to the edge
