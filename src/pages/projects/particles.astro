@@ -1,0 +1,123 @@
+---
+// Astro component for Particle Visualization
+import Attribution from "@/components/attribution";
+import "@/styles/generic.css";
+---
+
+<style>
+    /* global reset to avoid accidental scrollbars */
+    :global(*),
+    :global(*::before),
+    :global(*::after) {
+        box-sizing: border-box;
+    }
+    :global(html),
+    :global(body) {
+        height: 100%;
+        margin: 0;
+    }
+    .main-container,
+    #main-container {
+        position: relative; /* contain absolute overlays */
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* keep canvas contained */
+        background: #222; /* fallback background while canvas loads */
+    }
+
+    #canvas-container {
+        position: absolute;
+        inset: 0; /* top:0; left:0; right:0; bottom:0 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* make the canvas fit inside container while leaving a little margin */
+    #canvas-container canvas {
+        display: block;
+        width: calc(100% - 24px);
+        height: calc(100% - 24px);
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    /* top-right options overlay */
+    #options {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 10px 12px;
+        border-radius: 6px;
+        backdrop-filter: blur(4px);
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-family:
+            system-ui,
+            -apple-system,
+            "Segoe UI",
+            Roboto,
+            "Helvetica Neue",
+            Arial;
+    }
+
+    #options label,
+    #options select {
+        color: #fff;
+    }
+
+    /* small-screen adjustments */
+    @media (max-width: 600px) {
+        #options {
+            right: 10px;
+            top: 10px;
+            padding: 8px;
+            gap: 6px;
+        }
+    }
+</style>
+
+<div id="main-container">
+    <div id="options">
+        
+    </div>
+    <div id="canvas-container">
+        <canvas id="webgl" width="1024" height="1024">
+            Oops ... your browser doesn't support the HTML5 canvas
+            element
+        </canvas>
+    </div>
+</div>
+<Attribution
+    description="This project explores particle systems using WebGL."
+    href="/projects/particles"
+    creditText="Created by Rutledge Dixon for fun"
+/>
+
+<script type="text/javascript" src="/scripts/common/webgl-utils.js"></script>
+<script type="text/javascript" src="/scripts/common/webgl-debug.js"></script>
+<script type="text/javascript" src="/scripts/common/cuon-utils-letu.js"></script>
+<script type="text/javascript" src="/scripts/common/cuon-matrix.js"></script>
+<script type="text/javascript" src="/scripts/common/initShadersWithObjects.js"></script>
+<script type="text/javascript" src="/scripts/common/MV.js"></script>
+<script type="text/javascript" src="/scripts/particles.js"></script>
+
+<script>
+    console.log("Inline script executed");
+    // Wait a moment for all scripts to load, then call main
+    window.addEventListener('load', function() {
+        console.log("Page load event fired");
+        if (typeof main === 'function') {
+            console.log("Calling main()");
+            main();
+        } else {
+            console.error("main function not found");
+        }
+    });
+</script>
