@@ -8,7 +8,7 @@ function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovement
     //initialize particle variables
     this.spawnSide = "top";
     this.size = sizeInPixels || 5;
-    this.color = [0.34, 0.82, 1, 0.5];
+    this.color = [0.34, 0.82, 0.7, 0.6];
     this.ttl = 500;
 
     //initialize particles array
@@ -39,9 +39,8 @@ function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovement
     this.damping = 1.0;
 }
 
-PartySystem.prototype.doOneStep = function(shape, particleMovementType) {
-    //testing
-    //console.log("Doing one particle step");
+PartySystem.prototype.doOneStep = function(shape, particleMovementType, color) {
+    this.color = color;
 
     //initialize movement variables based on particleMovementType
     if (particleMovementType === "water") { //for water, decrease avoidFactor to make calmer

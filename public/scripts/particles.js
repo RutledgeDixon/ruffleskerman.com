@@ -18,6 +18,7 @@ var ambientColor = [0.2, 0.2, 0.2];
 var shape = {
     name: "circle",
     scale: 150,
+    color: [0.84, 1, 0.93, 0.8],
     center: {
         x: 0.0,
         y: 0.0
@@ -86,7 +87,7 @@ async function main() {
         gl.viewport(0, 0, canvas.width, canvas.height);
         aspect = (canvas.clientWidth / canvas.clientHeight) || 1.0;
     });
-    gl.clearColor(0.3, 0.3, 0.3, 1.0);
+    gl.clearColor(0.1, 0.1, 0.1, 1.0);
 
     // Enable depth testing
     gl.enable(gl.DEPTH_TEST);
@@ -169,7 +170,7 @@ especially me.I love you more than anything tootsie <3`
 
     //run the program
     updateShape("circle");
-    p = new PartySystem(canvas, 1000, 8, particleMovementType);
+    p = new PartySystem(canvas, 1000, 10, particleMovementType);
     render();
 
 }
@@ -185,7 +186,7 @@ function render() {
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
 
     //draw
-    p.doOneStep(shape, particleMovementType);
+    p.doOneStep(shape, particleMovementType, shape.color);
 
     //re-render
     requestAnimationFrame(render);
@@ -202,6 +203,7 @@ function updateShape(newShape) {
     };
     
     if (shape.name === "square") {
+        shape.color = [1, 1, 1, 0.4];
         shape.scale = 180;
         shape.equation = function(x, y) {
             // Translate to center and scale
@@ -210,6 +212,7 @@ function updateShape(newShape) {
             return Math.max(Math.abs(px), Math.abs(py)) - 1;
         };
     } else if (shape.name === "circle") {
+        shape.color = [0.84, 1, 0.93, 0.7];
         shape.scale = 150; // Initial radius - can be changed dynamically
         shape.equation = function(x, y) {
             // Translate to center and scale
@@ -219,6 +222,7 @@ function updateShape(newShape) {
             return Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2)) - 1;
         }
     } else if (shape.name === "heart") {
+        shape.color = [1.0, 0.78, 0.92, 0.65];
         // Heart curve: (x^2 + y^2 - 1)^3 - x^2*y^3 = 0
         // Scale factor to fit on canvas
         shape.scale = 120;
@@ -230,6 +234,7 @@ function updateShape(newShape) {
             return Math.pow(px * px + py * py - 1, 3) - px * px * py * py * py;
         };
     } else if (shape.name === "squircle") {
+        shape.color = [0.6, 1, 1, 0.5];
         shape.scale = 180;
         shape.equation = function(x, y) {
             // Translate to center and scale
