@@ -41,7 +41,7 @@ function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovement
 
 PartySystem.prototype.doOneStep = function(shape, particleMovementType) {
     //testing
-    console.log("Doing one particle step");
+    //console.log("Doing one particle step");
 
     //initialize movement variables based on particleMovementType
     if (particleMovementType === "water") { //for water, decrease avoidFactor to make calmer

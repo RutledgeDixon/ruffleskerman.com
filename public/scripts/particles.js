@@ -41,7 +41,9 @@ shape.gradient = function(x, y) {
 var p;
 var mouse = { x: 0, y: 0 };
 var mouseDown = false;
-var particleMovementType = "shape";
+var particleMovementType = "boid"; // default movement type
+
+var typeMemory = "";
 
 //camera stuff
 // camera frustum (updated to cover the scene distances)
@@ -143,6 +145,26 @@ async function main() {
     });
     canvas.addEventListener('mouseleave', function() {
         mouseDown = false;
+    });
+    window.addEventListener('keydown', function(event) {
+        // Store the key in typeMemory
+        typeMemory += event.key;
+        // If the user types "ruru", add a special typewriter card
+        if (typeMemory.endsWith("ruru")) {
+            updateShape("heart");
+            updateMovementType("shape");
+            if (window.addTypewriterCard) {
+                window.addTypewriterCard("Eph 2:10", 
+                    `For we are His workmanship, created in Christ Jesus for good works, 
+which God prepared beforehand that we should walk in them.`
+                );
+                window.addTypewriterCard("To the Love of my Life",
+                    `Ruthie, I love you SO MUCH!!! You are my sunflower, my world, my love,
+and soon my wife. July 14!!! You are God's Masterpiece, and the biggest blessing to everyone around you,
+especially me.I love you more than anything tootsie <3`
+                );
+            }
+        }
     });
 
     //run the program

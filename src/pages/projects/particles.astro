@@ -1,6 +1,7 @@
 ---
 // Astro component for Particle Visualization
 import Attribution from "@/components/attribution";
+import ParticlesPageWithCards from "@/components/ParticlesPageWithCards";
 import "@/styles/generic.css";
 ---
 
@@ -72,6 +73,42 @@ import "@/styles/generic.css";
         color: #444;
     }
 
+    /* Typewriter cards container - bottom left fixed */
+    :global(.typewriter-cards-container) {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 9999;
+        max-width: 350px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        pointer-events: auto;
+    }
+
+    :global(.typewriter-card) {
+        background: rgba(20, 100, 50, 0.95);
+        padding: 16px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        color: #e0e0e0;
+    }
+
+    :global(.typewriter-card h3) {
+        margin: 0 0 8px 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    :global(.typewriter-card p) {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.4;
+        color: #d0d0d0;
+    }
+
     /* small-screen adjustments */
     @media (max-width: 600px) {
         #options {
@@ -80,7 +117,14 @@ import "@/styles/generic.css";
             padding: 8px;
             gap: 6px;
         }
+
+        .typewriter-cards-container {
+            bottom: 10px;
+            left: 10px;
+            max-width: 300px;
+        }
     }
+</style>
 </style>
 
 <div id="main-container">
@@ -99,7 +143,6 @@ import "@/styles/generic.css";
         >
             <option value="circle">Circle</option>
             <option value="square">Square</option>
-            <option value="heart">Heart</option>
         </select>
     </div>
     <div id="canvas-container">
@@ -109,6 +152,7 @@ import "@/styles/generic.css";
         </canvas>
     </div>
 </div>
+<ParticlesPageWithCards client:load />
 <Attribution
     description="This project explores particle systems using Boid's Algorithm in WebGL."
     href="/projects/particles"
