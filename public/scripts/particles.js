@@ -202,8 +202,12 @@ function updateShape(newShape) {
     };
     
     if (shape.name === "square") {
+        shape.scale = 180;
         shape.equation = function(x, y) {
-            return 5; //idk what to do here yet
+            // Translate to center and scale
+            var px = (x - shape.center.x) / shape.scale;
+            var py = -(y - shape.center.y) / shape.scale;
+            return Math.max(Math.abs(px), Math.abs(py)) - 1;
         };
     } else if (shape.name === "circle") {
         shape.scale = 150; // Initial radius - can be changed dynamically
@@ -225,6 +229,14 @@ function updateShape(newShape) {
             // Heart curve equation
             return Math.pow(px * px + py * py - 1, 3) - px * px * py * py * py;
         };
+    } else if (shape.name === "squircle") {
+        shape.scale = 180;
+        shape.equation = function(x, y) {
+            // Translate to center and scale
+            var px = (x - shape.center.x) / shape.scale;
+            var py = -(y - shape.center.y) / shape.scale;
+            return Math.pow(Math.abs(px), 3) + Math.pow(Math.abs(py), 3) - 1;
+        }
     }
     //testing
     console.log("Shape: " + shape.name);
