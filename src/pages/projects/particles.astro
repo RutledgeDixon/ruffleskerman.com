@@ -145,6 +145,15 @@ import "@/styles/generic.css";
             <option value="square">Square</option>
             <option value="squircle">Squircle</option>
         </select>
+        <label id="count-label" for="count-select">Size</label>
+        <input
+            type="number"
+            id="count-select"
+            value="10"
+            min="2"
+            max="100"
+            onchange="if(this.value < 2) this.value = 2; if(this.value > 100) this.value = 100; updatePixelSize(this.value)"
+        />
     </div>
     <div id="canvas-container">
         <canvas id="webgl" width="1024" height="1024">

@@ -1,13 +1,13 @@
 console.log("PartySystem.js loading...");
 
-function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovementType) {
+function PartySystem(canvasElement, numParticles) {
     this.w = canvasElement.width;
     this.h = canvasElement.height;
     gl.disable(gl.DEPTH_TEST);
     
     //initialize particle variables
     this.spawnSide = "top";
-    this.size = sizeInPixels || 5;
+    this.size = 10;
     this.color = [0.34, 0.82, 0.7, 0.6];
     this.ttl = 500;
 
@@ -19,7 +19,9 @@ function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovement
             y: Math.random() * this.h, 
             velx: 0, 
             vely: 0, 
-            ttl: Math.random() * this.ttl + 200
+            ttl: Math.random() * this.ttl + 200,
+            size: this.varyNum(this.size, this.size * 0.3),
+            color: this.varyList(this.color, 0.2)
         });
     }
 
@@ -39,8 +41,7 @@ function PartySystem(canvasElement, numParticles, sizeInPixels, particleMovement
     this.damping = 1.0;
 }
 
-PartySystem.prototype.doOneStep = function(shape, particleMovementType, color) {
-    this.color = color;
+PartySystem.prototype.doOneStep = function(shape, particleMovementType) {
 
     //initialize movement variables based on particleMovementType
     if (particleMovementType === "water") { //for water, decrease avoidFactor to make calmer
@@ -90,6 +91,7 @@ PartySystem.prototype.doOneStep = function(shape, particleMovementType, color) {
     var positions = [];
     var colors = [];
     //var normals = [];
+    var sizes = [];
     for (var i = 0; i < this.particles.length; i++) {
         var p = this.particles[i];
         if (particleMovementType === "shape" || particleMovementType === "water") {
@@ -101,7 +103,9 @@ PartySystem.prototype.doOneStep = function(shape, particleMovementType, color) {
                     y: Math.random() * this.h, 
                     velx: 0, 
                     vely: 0, 
-                    ttl: Math.random() * this.ttl + 200
+                    ttl: Math.random() * this.ttl + 200,
+                    size: this.particles[i].size,
+                    color: this.particles[i].color
                 };
                 p = this.particles[i];
             }
@@ -112,8 +116,9 @@ PartySystem.prototype.doOneStep = function(shape, particleMovementType, color) {
         // Flip Y axis (WebGL has origin at bottom-left, canvas has origin at top-left)
         normY = -normY;
         positions.push(normX, normY);
-        colors.push(...this.color);
+        colors.push(...p.color);// the triple dots preserve the list of lists format
         //normals.push(0.0, 0.0, 1.0); // Default normal pointing forward
+        sizes.push(p.size);
     }
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -128,7 +133,10 @@ PartySystem.prototype.doOneStep = function(shape, particleMovementType, color) {
     // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.DYNAMIC_DRAW);
     // gl.vertexAttribPointer(vNormal, 3, gl.FLOAT, false, 0, 0);
 
-    gl.uniform1f(pointSizeLoc, this.size);
+    gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(sizes), gl.DYNAMIC_DRAW);
+    gl.vertexAttribPointer(vSize, 1, gl.FLOAT, false, 0, 0);
+    
     gl.drawArrays(gl.POINTS, 0, positions.length / 2);
 
     //re-calculate positions
@@ -234,11 +242,48 @@ PartySystem.prototype.updatePositions_boid = function(shape) {
     }
 }
 
+/**
+ * Updates all particles' colors based on the current color
+ */
+PartySystem.prototype.updateParticleColors = function(color) {
+    for (var i = 0; i < this.particles.length; i++) {
+        this.particles[i].color = this.varyList(color, 0.2);
+    }
+}
+
+PartySystem.prototype.setSize = function(newSize) {
+    this.size = newSize;
+    for (var i = 0; i < this.particles.length; i++) {
+        this.particles[i].size = this.varyNum(newSize, newSize * 0.3);
+    }
+}
+
 PartySystem.prototype.setGravity = function(newGravity) {
     this.gravity = newGravity;
 }
 PartySystem.prototype.setWind = function(newWind) {
     this.wind = newWind;
+}
+
+
+/**
+ * Varies a number by a random amount within a specified delta range.
+ * @param {number} num - The base number to vary
+ * @param {number} delta - The maximum variation amount (±delta)
+ * @returns {number} The varied number
+ */
+PartySystem.prototype.varyNum = function(num, delta) {
+    return num + (Math.random() * 2 - 1) * delta;
+}
+
+/**
+ * Varies each number in a list by a random amount within a specified delta range.
+ * @param {number[]} list - The array of numbers to vary
+ * @param {number} delta - The maximum variation amount (±delta) for each element
+ * @returns {number[]} A new array with each element varied
+ */
+PartySystem.prototype.varyList = function(list, delta) {
+    return list.map((val) => this.varyNum(val, delta));
 }
 
 console.log("PartySystem.js loaded successfully");

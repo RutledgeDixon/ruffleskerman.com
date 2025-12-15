@@ -7,11 +7,12 @@ var program;
 var vPosition;
 var vColor;
 var vNormal;
+var vSize;
 var vertexBuffer;
 var indexBuffer; 
 var colorBuffer;
 var normalBuffer;
-var pointSizeLoc;
+var sizeBuffer;
 
 var ambientColor = [0.2, 0.2, 0.2];
 
@@ -103,19 +104,21 @@ async function main() {
     program = initShaders(gl, vertexShaderSource, fragmentShaderSource);
     gl.useProgram(program);
 
-    //gl.program = program;
     vPosition = gl.getAttribLocation(program, "a_Position");
     gl.enableVertexAttribArray(vPosition);
     vColor = gl.getAttribLocation(program, "a_Color");
     gl.enableVertexAttribArray(vColor);
     // vNormal = gl.getAttribLocation(program, "a_Normal");
     // gl.enableVertexAttribArray(vNormal);
+    vSize = gl.getAttribLocation(program, "a_Size");
+    gl.enableVertexAttribArray(vSize);
 
     //set up buffers
     vertexBuffer = gl.createBuffer();
     indexBuffer = gl.createBuffer(); 
     colorBuffer = gl.createBuffer();   
     //normalBuffer = gl.createBuffer();
+    sizeBuffer = gl.createBuffer();
 
     //define ambient light color (fragment shader expects this uniform)
     var aLoc = gl.getUniformLocation(program, "u_Ambient_color");
@@ -124,9 +127,6 @@ async function main() {
     //get transformation matrix location
     modelViewMatrixLoc = gl.getUniformLocation( program, "modelViewMatrix" );
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
-
-    //get point size location
-    pointSizeLoc = gl.getUniformLocation(program, "u_PointSize");
 
     //holding down the mouse attracts the points
     canvas.addEventListener('mousedown', function(event) {
@@ -170,7 +170,7 @@ especially me.I love you more than anything tootsie <3`
 
     //run the program
     updateShape("circle");
-    p = new PartySystem(canvas, 1000, 10, particleMovementType);
+    p = new PartySystem(canvas, 1000);
     render();
 
 }
@@ -186,7 +186,7 @@ function render() {
     gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
 
     //draw
-    p.doOneStep(shape, particleMovementType, shape.color);
+    p.doOneStep(shape, particleMovementType);
 
     //re-render
     requestAnimationFrame(render);
@@ -246,6 +246,20 @@ function updateShape(newShape) {
     //testing
     console.log("Shape: " + shape.name);
     //we will do more shapes later
+
+    // Update particle colors when shape changes
+    if (p && p.updateParticleColors) {
+        p.updateParticleColors(shape.color);
+    }
+}
+
+function updatePixelSize(newSize) {
+    var sizeInt = parseInt(newSize);
+    if (isNaN(sizeInt) || sizeInt < 2 || sizeInt > 100) {
+        console.warn("Invalid size input:", newSize);
+        return;
+    }
+    p.setSize(sizeInt);
 }
 
 function updateMovementType(newType) {
