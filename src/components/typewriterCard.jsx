@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function typewriterCard({ title, text, start = true }) {
+export default function typewriterCard({ id, title, text, start = true, onRemove }) {
     const [dTitle, setDTitle] = useState("");
     const [titleFinished, setTitleFinished] = useState(false);
     const [dText, setDText] = useState("");
@@ -30,7 +30,15 @@ export default function typewriterCard({ title, text, start = true }) {
     }, [dText, text, titleFinished]);
 
     return (
-        <div className="typewriter-card">
+        <div className="typewriter-card" aria-live="polite">
+            <button
+                type="button"
+                className="close-btn"
+                aria-label="Close"
+                onClick={() => onRemove && onRemove(id)}
+            >
+                ×
+            </button>
             <h3>{dTitle}</h3>
             <p>{dText}</p>
         </div>

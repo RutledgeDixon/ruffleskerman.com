@@ -162,7 +162,7 @@ which God prepared beforehand that we should walk in them.`
                 window.addTypewriterCard("To the Love of my Life",
                     `Ruthie, I love you SO MUCH!!! You are my sunflower, my world, my love,
 and soon my wife. July 14!!! You are God's Masterpiece, and the biggest blessing to everyone around you,
-especially me.I love you more than anything tootsie <3`
+especially me. I love you more than anything tootsie <3`
                 );
             }
         }
