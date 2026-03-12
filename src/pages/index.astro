@@ -7,91 +7,256 @@ import defineConfig from "astro.config.mjs";
 import ProjectCard from "@/components/projectCard";
 ---
 
-<Layout title="RK Home" description="Ruffles Kerman Home">
-	<div class="container mx-auto px-4">
-		<div class="text-center py-20">
-			<h1 class="text-4xl md:text-6xl font-bold text-gray-400 mb-6">
-				Welcome to ruffleskerman.com
-			</h1>
-			<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-				This is a new site, I'm working on it! Check out some of my
-				projects.
-			</p>
-			<div
-				class="flex flex-col sm:flex-row gap-4 justify-center items-center"
-			>
-				<!-- <a href={defineConfig.base + "listen"} class="inline-block">
-					<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
-				</a>
-				<a href={defineConfig.base + "broadcast"} class="inline-block">
-					<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
-				</a> -->
-			</div>
-		</div>
+<!-- style for particles background -->
+<style>
+	/* global reset to avoid accidental scrollbars */
+	:global(*),
+	:global(*::before),
+	:global(*::after) {
+		box-sizing: border-box;
+	}
+	:global(html),
+	:global(body) {
+		height: 100%;
+		margin: 0;
+	}
+	:global(main) {
+		padding-top: 0 !important;
+	}
+	.canvas-container {
+		position: relative;
+		width: 100%;
+		min-height: 100vh;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background: #222;
+	}
 
-		<!-- Feature cards -->
-		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
-			<ProjectCard
-				title="🎲 Catan Counter"
-				description="Keep track of others' cards to boost your strategy."
-				href={defineConfig.base + "catancounter"}
-				buttonText="Catan Counter"
-			/>
-			<ProjectCard
-				title="🌐 Need help with Wordle?"
-				description="I have a bot for that..."
-				href={defineConfig.base + "wordlebot"}
-				buttonText="Wordle Bot"
-			/>
-			<ProjectCard
-				title="College Projects"
-				description="A few of my favorite projects from school."
-				href={defineConfig.base + "projects"}
-				buttonText="View"
-			/>
-			<ProjectCard
-				title="Wedding Planner"
-				description="A website I made for my fiance and I to plan our wedding. Tied to a MySQL DB."
-				href={defineConfig.base + "planner"}
-				buttonText="Plan!"
-			/>
-			<!-- scammer project -->
-			<!-- <ProjectCard
+	#webgl {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		z-index: 0;
+	}
+
+	.page-content {
+		position: relative;
+		z-index: 1;
+		padding-inline: 1rem;
+	}
+
+	/* top-right options overlay */
+	#options {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		z-index: 50;
+		background: rgba(0, 0, 0, 0.5);
+		color: white;
+		padding: 10px 12px;
+		border-radius: 6px;
+		backdrop-filter: blur(4px);
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		font-family:
+			system-ui,
+			-apple-system,
+			"Segoe UI",
+			Roboto,
+			"Helvetica Neue",
+			Arial;
+	}
+
+	#options label,
+	#options select {
+		color: #444;
+	}
+
+	/* Typewriter cards container - bottom left fixed */
+	:global(.typewriter-cards-container) {
+		position: fixed;
+		bottom: 20px;
+		left: 20px;
+		z-index: 9999;
+		max-width: 350px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		pointer-events: auto;
+	}
+
+	:global(.typewriter-card) {
+		position: relative;
+		background: rgba(20, 100, 50, 0.95);
+		padding: 16px 20px;
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+		font-family:
+			system-ui,
+			-apple-system,
+			"Segoe UI",
+			Roboto,
+			"Helvetica Neue",
+			Arial;
+		color: #e0e0e0;
+	}
+
+	/* close button in top-right of each card */
+	:global(.typewriter-card .close-btn) {
+		position: absolute;
+		right: 8px;
+		top: 8px;
+		border: none;
+		background: transparent;
+		color: rgba(255, 255, 255, 0.85);
+		font-size: 18px;
+		line-height: 1;
+		cursor: pointer;
+		padding: 4px 6px;
+		border-radius: 4px;
+	}
+
+	:global(.typewriter-card .close-btn:hover) {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	:global(.typewriter-card .close-btn:focus) {
+		outline: 2px solid rgba(255, 255, 255, 0.18);
+		outline-offset: 2px;
+	}
+
+	:global(.typewriter-card h3) {
+		margin: 0 0 8px 0;
+		font-size: 18px;
+		font-weight: 600;
+		color: #ffffff;
+	}
+
+	:global(.typewriter-card p) {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.4;
+		color: #d0d0d0;
+	}
+
+	/* small-screen adjustments */
+	@media (max-width: 600px) {
+		#options {
+			right: 10px;
+			top: 10px;
+			padding: 8px;
+			gap: 6px;
+		}
+
+		.typewriter-cards-container {
+			bottom: 10px;
+			left: 10px;
+			max-width: 300px;
+		}
+	}
+</style>
+
+<Layout title="RK Home" description="Ruffles Kerman Home">
+	<div class="canvas-container">
+		<canvas id="webgl" width="1024" height="1024">
+			Oops ... your browser doesn't support the HTML5 canvas element
+		</canvas>
+		<div class="page-content">
+			<div class="text-center py-20">
+				<h1 class="text-4xl md:text-6xl font-bold text-gray-400 mb-6">
+					Welcome to ruffleskerman.com
+				</h1>
+				<p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+					Check out some of my projects.
+				</p>
+				<div
+					class="flex flex-col sm:flex-row gap-4 justify-center items-center"
+				>
+					<!-- <a href={defineConfig.base + "listen"} class="inline-block">
+						<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
+					</a>
+					<a href={defineConfig.base + "broadcast"} class="inline-block">
+						<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
+					</a> -->
+				</div>
+			</div>
+
+			<!-- Feature cards -->
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 py-16">
+				<ProjectCard
+					title="🎲 Catan Counter"
+					description="Keep track of others' cards to boost your strategy."
+					href={defineConfig.base + "catancounter"}
+					buttonText="Catan Counter"
+				/>
+				<ProjectCard
+					title="🌐 Need help with Wordle?"
+					description="I have a bot for that..."
+					href={defineConfig.base + "wordlebot"}
+					buttonText="Wordle Bot"
+				/>
+				<ProjectCard
+					title="College Projects"
+					description="A few of my favorite projects from school."
+					href={defineConfig.base + "projects"}
+					buttonText="View"
+				/>
+				<ProjectCard
+					title="Wedding Planner"
+					description="A website I made for my fiance and I to plan our wedding. Tied to a MySQL DB."
+					href={defineConfig.base + "planner"}
+					buttonText="Plan!"
+				/>
+				<!-- scammer project -->
+				<!-- <ProjectCard
 				title="Catch the Scammers"
 				description="If you get scammed, send them to this site to 'transfer the funds'. Most probably won't fall for it but it's worth a shot."
 				href={defineConfig.base + "create-account-p4A7EA1"}
 				buttonText="Go"
 			/> -->
-			<ProjectCard
-				title="🛠️ LeTour"
-				description="Listen page - Software Engineering 2 final project... In progress! Meant for mobile."
-				href={"https://letourv2-gwdxdcb6hngsebb2.northcentralus-01.azurewebsites.net/listen"}
-				buttonText="Listen"
-			/>
-			<ProjectCard
-				title="🛠️ LeTour"
-				description="Broadcast page - Software Engineering 2 final project... In progress! Meant for mobile."
-				href={"https://letourv2-gwdxdcb6hngsebb2.northcentralus-01.azurewebsites.net/broadcast"}
-				buttonText="Broadcast"
-			/>
+				<ProjectCard
+					title="🛠️ LeTour"
+					description="Listen page - Software Engineering 2 final project... In progress! Meant for mobile."
+					href={"https://letourv2-gwdxdcb6hngsebb2.northcentralus-01.azurewebsites.net/listen"}
+					buttonText="Listen"
+				/>
+				<ProjectCard
+					title="🛠️ LeTour"
+					description="Broadcast page - Software Engineering 2 final project... In progress! Meant for mobile."
+					href={"https://letourv2-gwdxdcb6hngsebb2.northcentralus-01.azurewebsites.net/broadcast"}
+					buttonText="Broadcast"
+				/>
+			</div>
 		</div>
 	</div>
 </Layout>
 
-<!-- Original html without using the main layout -->
-<!-- <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>LeTour</title>
-	</head>
+<script type="text/javascript" src="/scripts/common/webgl-utils.js"></script>
+<script type="text/javascript" src="/scripts/common/webgl-debug.js"></script>
+<script type="text/javascript" src="/scripts/common/cuon-utils-letu.js"
+></script>
+<script type="text/javascript" src="/scripts/common/cuon-matrix.js"></script>
+<script type="text/javascript" src="/scripts/common/initShadersWithObjects.js"
+></script>
+<script type="text/javascript" src="/scripts/common/MV.js"></script>
 
-	<body>
-		<div class="grid place-items-center h-screen content-center">
-			<Button onClick={() => navigate('/listen')}>Go to Listen</Button>
-			<a href="/listen" class="p-4 underline">Go to Listen</a>
-		</div>
-	</body>
-</html> -->
+<script type="text/javascript" src="/scripts/PartySystem.js"></script>
+<script type="text/javascript" src="/scripts/particles.js"></script>
+
+<script>
+	console.log("Inline script executed");
+	// Wait a moment for all scripts to load, then call main
+	window.addEventListener("load", function () {
+		console.log("Page load event fired");
+		if (typeof main === "function") {
+			console.log("Calling main()");
+			main();
+		} else {
+			console.error("main function not found");
+		}
+	});
+</script>

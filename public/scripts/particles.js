@@ -68,13 +68,14 @@ async function main() {
     
     var movementSelect = document.getElementById("movement-select");
     var shapeSelect = document.getElementById("shape-select");
-    movementSelect.value = particleMovementType;
-    shapeSelect.value = shape.name;
+    if (movementSelect) movementSelect.value = particleMovementType;
+    if (shapeSelect) shapeSelect.value = shape.name;
 
     gl = getWebGLContext(canvas);
     if (!gl) { alert("WebGL isn't available"); return; }
 
     //  Configure WebGL
+    //resize canvas only if it isn't 403 (so that if we want to set it specifically we can)
     resizeCanvasToDisplaySize(canvas);
     gl.viewport(0, 0, canvas.width, canvas.height);
     // keep aspect ratio in sync with canvas display size
