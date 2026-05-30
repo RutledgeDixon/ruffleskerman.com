@@ -1,0 +1,32 @@
+USE movie_poll_db;
+
+DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS movie;
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    hashed_password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE movie (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    progress INT NOT NULL DEFAULT 0,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE question (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    answer VARCHAR(255),
+    imageurl VARCHAR(255),
+    url VARCHAR(255),
+    checked BOOL NOT NULL DEFAULT FALSE,
+    movie_id INT NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movie(id) ON DELETE CASCADE
+);
