@@ -38,12 +38,18 @@ async function handleSave(name, userData) {
             const movieId = movieResult.insertId;
 
             for (const question of movie.questions || []) {
+                const parsedAnswer = Number(question.answer);
+                const answerValue =
+                    question.answer === '' || question.answer == null || Number.isNaN(parsedAnswer)
+                        ? null
+                        : Math.max(0, Math.min(10, Math.round(parsedAnswer)));
+
                 await connection.execute(
                     'INSERT INTO question (title, description, answer, imageurl, url, checked, movie_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
                     [
                         question.title,
                         question.description,
-                        question.answer || '',
+                        answerValue,
                         question.imageurl || '',
                         question.url || '',
                         !!question.checked,

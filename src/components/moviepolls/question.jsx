@@ -12,13 +12,15 @@ export default function Card({title, description, answer, updateAnswer, imageurl
                 </div>
                 {!saved && <Button type="button" variant="letu" className="px-4 py-2 text-sm self-start" onClick={(e) => { e.preventDefault(); saveFunc(); }}>Save</Button>}
             </div>
-            <textarea
+            <input
+                type="number"
+                min="0"
+                max="10"
+                step="1"
                 value={answer}
                 onChange={(e) => updateAnswer(e.target.value)}
-                placeholder="Type your answer..."
-                className="w-full p-1 mb-2 border rounded"
-                //max characters is 255
-                maxLength={255}
+                placeholder="0-10"
+                className="w-full p-2 mb-2 border rounded"
                 disabled={checked}
             />
             {imageurl && imageurl !== "" && <img src={imageurl} alt={title} />}

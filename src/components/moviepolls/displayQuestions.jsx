@@ -12,13 +12,13 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
     const [savedCard, setSavedCard] = useState(questions.map(() => true));
     const [urls, setUrls] = useState(questions.map((question) => question.url));
     const [cardChecked, setCardChecked] = useState(questions.map((question) => question.checked));
-    const [answers, setAnswers] = useState(questions.map((question) => question.answer));
+    const [answers, setAnswers] = useState(questions.map((question) => question.answer ?? ""));
 
     useEffect(() => {
         setSavedCard(questions.map(() => true));
         setUrls(questions.map((question) => question.url));
         setCardChecked(questions.map((question) => question.checked));
-        setAnswers(questions.map((question) => question.answer));
+        setAnswers(questions.map((question) => question.answer ?? ""));
     }, [questions]);
 
     const updateUrl = (cardIndex, newUrl) => {
@@ -44,8 +44,26 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
     }
 
     const updateAnswer = (cardIndex, newAnswer) => {
+        if (newAnswer === "") {
+            const newAnswers = [...answers];
+            newAnswers[cardIndex] = "";
+            setAnswers(newAnswers);
+            setSavedCard(prevSaved => {
+                const newSaved = [...prevSaved];
+                newSaved[cardIndex] = false;
+                return newSaved;
+            });
+            return;
+        }
+
+        const parsed = Number(newAnswer);
+        if (Number.isNaN(parsed)) {
+            return;
+        }
+
+        const boundedValue = Math.max(0, Math.min(10, Math.round(parsed)));
         const newAnswers = [...answers];
-        newAnswers[cardIndex] = newAnswer;
+        newAnswers[cardIndex] = boundedValue;
         setAnswers(newAnswers);
         setSavedCard(prevSaved => {
             const newSaved = [...prevSaved];
