@@ -1,5 +1,16 @@
 USE movie_poll_db;
 
+-- Wipe existing poll data so re-running this script starts clean.
+-- Delete child tables first to satisfy foreign key constraints.
+DELETE FROM question;
+DELETE FROM movie;
+DELETE FROM user;
+
+-- Reset auto-increment counters.
+ALTER TABLE question AUTO_INCREMENT = 1;
+ALTER TABLE movie AUTO_INCREMENT = 1;
+ALTER TABLE user AUTO_INCREMENT = 1;
+
 -- Seed users for movie poll login.
 -- Password for every user is: 31415
 -- Bcrypt hash generated from project environment.
@@ -49,16 +60,14 @@ CROSS JOIN (
     UNION ALL SELECT 'Oliver'
 ) m;
 
--- TODO: When you provide the final question list, insert the same set of
--- numeric rank questions (0-10) for each movie row.
--- Example pattern for one question applied to every movie:
--- INSERT INTO question (title, description, answer, imageurl, url, checked, movie_id)
--- SELECT
---   'Question title',
---   'Rank from 0 to 10',
---   NULL,
---   '',
---   '',
---   FALSE,
---   id
--- FROM movie;
+-- Test question: every user gets this question for every movie.
+INSERT INTO question (title, description, answer, imageurl, url, checked, movie_id)
+SELECT
+    'overall rating for each movie',
+    'Rate this movie from 0 to 10',
+    NULL,
+    '',
+    '',
+    FALSE,
+    id
+FROM movie;

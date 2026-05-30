@@ -6,7 +6,7 @@ const dbConfig = {
     port: parseInt(process.env.DB_PORT || '3306'),
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME || 'movie_poll_db',
+    database: 'movie_poll_db',
 };
 
 async function loginUser(name, password) {
@@ -17,7 +17,7 @@ async function loginUser(name, password) {
             host: process.env.DB_HOST ? 'set' : 'missing',
             port: process.env.DB_PORT || '3306',
             user: process.env.DB_USER ? 'set' : 'missing',
-            database: (process.env.DB_NAME || 'movie_poll_db') ? 'set' : 'missing',
+            database: 'set',
         });
         
         connection = await mysql.createConnection(dbConfig);
