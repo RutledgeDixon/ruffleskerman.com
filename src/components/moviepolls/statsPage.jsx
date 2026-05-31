@@ -124,6 +124,10 @@ export default function MoviePollsPage() {
                         ? 'RK Movie Stats'
                         : `${data.movies[currentMovieIndex].title}'s Movie Stats`}
                 </h1>
+                {home ? null : (
+                    <h2 className="text-2xl font-semibold text-gray-400 mb-4 text-center">
+                        Overall rating: {movieRating(data.movies[currentMovieIndex]) !== -1 ? movieRating(data.movies[currentMovieIndex]) : "No ratings yet"}
+                    </h2>)}
                 <div className="planner-cards movie-stats-cards">
                     {/* display average of each question for the selected movie */}
                     {home ? (
