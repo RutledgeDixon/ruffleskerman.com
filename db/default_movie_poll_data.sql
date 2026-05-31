@@ -1,15 +1,13 @@
 USE movie_poll_db;
 
 -- Wipe existing poll data so re-running this script starts clean.
--- Delete child tables first to satisfy foreign key constraints.
-DELETE FROM question;
-DELETE FROM movie;
-DELETE FROM user;
-
--- Reset auto-increment counters.
-ALTER TABLE question AUTO_INCREMENT = 1;
-ALTER TABLE movie AUTO_INCREMENT = 1;
-ALTER TABLE user AUTO_INCREMENT = 1;
+-- Use TRUNCATE for fast resets. Foreign key checks are temporarily disabled
+-- so parent/child tables can be truncated in one pass.
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE question;
+TRUNCATE TABLE movie;
+TRUNCATE TABLE user;
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- Seed users for movie poll login.
 -- Password for every user is: 31415
@@ -25,7 +23,8 @@ VALUES
     ('Victory', '$2b$10$ml6mblfLMsfdjwBeeC5gWuKLIWZqNZh1JkFC4ty3vemOldyNpx00W'),
     ('Garrison', '$2b$10$ml6mblfLMsfdjwBeeC5gWuKLIWZqNZh1JkFC4ty3vemOldyNpx00W'),
     ('Haven', '$2b$10$ml6mblfLMsfdjwBeeC5gWuKLIWZqNZh1JkFC4ty3vemOldyNpx00W'),
-    ('Archer', '$2b$10$ml6mblfLMsfdjwBeeC5gWuKLIWZqNZh1JkFC4ty3vemOldyNpx00W')
+    ('Archer', '$2b$10$ml6mblfLMsfdjwBeeC5gWuKLIWZqNZh1JkFC4ty3vemOldyNpx00W'),
+    ('Ruth', '$2b$10$ml6mblfLMsfdjwBeeC5gWuKLIWZqNZh1JkFC4ty3vemOldyNpx00W')
 ON DUPLICATE KEY UPDATE hashed_password = VALUES(hashed_password);
 
 -- Movie and question seed data can be added after users are in place.
@@ -61,13 +60,11 @@ CROSS JOIN (
 ) m;
 
 -- Test question: every user gets this question for every movie.
-INSERT INTO question (title, description, answer, imageurl, url, checked, movie_id)
+INSERT INTO question (title, description, answer, checked, movie_id)
 SELECT
     'overall rating for each movie',
     'Rate this movie from 0 to 10',
     NULL,
-    '',
-    '',
     FALSE,
     id
 FROM movie;

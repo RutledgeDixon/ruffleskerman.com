@@ -10,27 +10,14 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
     }
 
     const [savedCard, setSavedCard] = useState(questions.map(() => true));
-    const [urls, setUrls] = useState(questions.map((question) => question.url));
     const [cardChecked, setCardChecked] = useState(questions.map((question) => question.checked));
     const [answers, setAnswers] = useState(questions.map((question) => question.answer ?? ""));
 
     useEffect(() => {
         setSavedCard(questions.map(() => true));
-        setUrls(questions.map((question) => question.url));
         setCardChecked(questions.map((question) => question.checked));
         setAnswers(questions.map((question) => question.answer ?? ""));
     }, [questions]);
-
-    const updateUrl = (cardIndex, newUrl) => {
-        const newUrls = [...urls];
-        newUrls[cardIndex] = newUrl;
-        setUrls(newUrls);
-        setSavedCard(prevSaved => {
-            const newSaved = [...prevSaved];
-            newSaved[cardIndex] = false;
-            return newSaved;
-        });
-    }
 
     const toggleCardChecked = (cardIndex) => {
         const newCardChecked = [...cardChecked];
@@ -78,7 +65,6 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
                 ? {
                     ...question,
                     answer: answers[idx],
-                    url: urls[idx],
                     checked: cardChecked[idx]
                 }
                 : question
@@ -104,8 +90,6 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
                     updateAnswer={(newAnswer) => updateAnswer(cardIndex, newAnswer)}
                     saveFunc={() => saveCard(cardIndex)}
                     saved={savedCard[cardIndex]}
-                    imageurl={question.imageurl}
-                    url={urls[cardIndex]}
                     checked={cardChecked[cardIndex]}
                 />
             ))}

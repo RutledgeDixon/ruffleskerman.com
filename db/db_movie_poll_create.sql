@@ -24,8 +24,6 @@ CREATE TABLE question (
     title VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
     answer TINYINT UNSIGNED,
-    imageurl VARCHAR(255),
-    url VARCHAR(255),
     checked BOOL NOT NULL DEFAULT FALSE,
     movie_id INT NOT NULL,
     CHECK (answer IS NULL OR answer BETWEEN 0 AND 10),
