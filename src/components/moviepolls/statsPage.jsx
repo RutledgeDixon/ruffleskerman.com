@@ -5,6 +5,19 @@ import DisplayQuestions from './displayQuestions.jsx';
 import '@/styles/planner.css';
 
 export default function MoviePollsPage() {
+        const parseRating = (value) => {
+            if (value === "" || value == null || typeof value === 'boolean') {
+                return null;
+            }
+
+            const numericValue = Number(value);
+            if (!Number.isFinite(numericValue) || numericValue < 0 || numericValue > 10) {
+                return null;
+            }
+
+            return numericValue;
+        };
+
     const [questions, setQuestions] = useState(null);
     const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
     const [data, setData] = useState(null);
@@ -74,8 +87,12 @@ export default function MoviePollsPage() {
     //takes a specific question and returns the average of its answers
     //if an answer is null, it is not counted in the average
     const averageQuestionAnswers = (question) => {
-        const answers = question.answers.map(answer => answer.answer).filter(answer => answer !== null);
+        const answers = (question.answers || [])
+            .map((entry) => parseRating(entry.answer))
+            .filter((value) => value !== null);
+
         if (answers.length === 0) return -1;
+
         const average = answers.reduce((sum, answer) => sum + answer, 0) / answers.length;
         return Math.round(average);
     }
@@ -91,6 +108,12 @@ export default function MoviePollsPage() {
         title: movie.title,
         rating: movieRating(movie) === -1 ? null : movieRating(movie)
     })) : [];
+
+    const ratedMovies = movieRatingList.filter((movie) => typeof movie.rating === 'number');
+    const overallAverageRating =
+        ratedMovies.length > 0
+            ? (ratedMovies.reduce((sum, movie) => sum + movie.rating, 0) / ratedMovies.length).toFixed(2)
+            : "No movies yet";
 
     const handleSelectMovie = (movieIndex) => {
         setCurrentMovieIndex(movieIndex);
@@ -133,7 +156,7 @@ export default function MoviePollsPage() {
                     {home ? (
                         <div className="planning-card movie-stat-card">
                             <h2 className="text-2xl font-bold mb-2">Overall Movie Stats</h2>
-                            <p className="mb-2">Average Rating: {movieRatingList.length > 0 ? (movieRatingList.filter((movie) => movie.rating !== null).reduce((sum, movie) => sum + movie.rating, 0) / movieRatingList.filter((movie) => movie.rating !== null).length || 0).toFixed(2) : "No movies yet"}</p>
+                            <p className="mb-2">Average Rating: {overallAverageRating}</p>
                         </div> 
 
                         ) 

@@ -101,7 +101,8 @@ async function handleSave(name, userData) {
             const movieId = movieResult.insertId;
 
             for (const question of movie.questions || []) {
-                const parsedAnswer = Number(question.answer);
+                const parsedAnswer =
+                    typeof question.answer === 'boolean' ? Number.NaN : Number(question.answer);
                 const answerValue =
                     question.answer === '' || question.answer == null || Number.isNaN(parsedAnswer)
                         ? null
