@@ -46,7 +46,7 @@ async function loginUser(name, password) {
                 description: card.description,
                 answer: card.answer,
                 imageurl: card.imageurl,
-                checked: card.checked,
+                checked: card.answer !== null,
                 url: card.url,
             }));
             movies.push({

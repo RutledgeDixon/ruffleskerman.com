@@ -1,6 +1,6 @@
 import CategoryCard from "./movieCard.jsx";
 
-export default function DisplayMovies({ userData, setShownMovie, currentMovieIndex }) {
+export default function DisplayMovies({ userData, setShownMovie, currentMovieIndex, home = false }) {
     if (!userData || !userData.movies) {
         return <div>No movie data available.</div>;
     }
@@ -26,7 +26,7 @@ export default function DisplayMovies({ userData, setShownMovie, currentMovieInd
                     description={movie.description}
                     progress={progress(movie)}
                     showCards={movie.showCards || false}
-                    selected={currentMovieIndex === movieIndex}
+                    selected={!home && currentMovieIndex === movieIndex}
                     toggleShowCards={() => toggleShowMovie(movieIndex)}
                 />
             ))}

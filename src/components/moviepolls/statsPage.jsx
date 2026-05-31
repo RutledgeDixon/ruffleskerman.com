@@ -105,13 +105,17 @@ export default function MoviePollsPage() {
     return (
         <div className="planner-page">
             <div className="planner-sidebar">
-                <button className="save-button mb-4 w-full" onClick={showOverallStats}>
+                <button
+                    className={`overall-stats-button ${home ? 'active' : ''}`}
+                    onClick={showOverallStats}
+                >
                     Overall Stats
                 </button>
                 <DisplayMovies
                     userData={data}
                     setShownMovie={handleSelectMovie}
                     currentMovieIndex={currentMovieIndex}
+                    home={home}
                 />
             </div>
             <div className="planner-content">
@@ -120,19 +124,19 @@ export default function MoviePollsPage() {
                         ? 'RK Movie Stats'
                         : `${data.movies[currentMovieIndex].title}'s Movie Stats`}
                 </h1>
-                <div className="planner-cards">
+                <div className="planner-cards movie-stats-cards">
                     {/* display average of each question for the selected movie */}
                     {home ? (
-                        <div className="planning-card">
+                        <div className="planning-card movie-stat-card">
                             <h2 className="text-2xl font-bold mb-2">Overall Movie Stats</h2>
                             <p className="mb-2">Average Rating: {movieRatingList.length > 0 ? (movieRatingList.filter((movie) => movie.rating !== null).reduce((sum, movie) => sum + movie.rating, 0) / movieRatingList.filter((movie) => movie.rating !== null).length || 0).toFixed(2) : "No movies yet"}</p>
                         </div> 
 
                         ) 
                         : data && data.movies?.[currentMovieIndex]?.questions?.map((question, index) => (
-                        <div key={index} className="planning-card">
+                        <div key={index} className="planning-card movie-stat-card">
                             <h2 className="text-2xl font-bold mb-2">{question.title}</h2>
-                            <p className="mb-2">{question.description}</p>
+                            <p className="mb-2">Total answers: {question.answers.filter(answer => answer.answer !== null).length}</p>
                             <p className="text-lg font-semibold">Average Rating: {averageQuestionAnswers(question) !== -1 ? averageQuestionAnswers(question) : "No answers yet"}</p>
                         </div>
                     ))}

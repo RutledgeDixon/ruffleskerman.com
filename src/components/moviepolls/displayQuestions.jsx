@@ -10,25 +10,12 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
     }
 
     const [savedCard, setSavedCard] = useState(questions.map(() => true));
-    const [cardChecked, setCardChecked] = useState(questions.map((question) => question.checked));
     const [answers, setAnswers] = useState(questions.map((question) => question.answer ?? ""));
 
     useEffect(() => {
         setSavedCard(questions.map(() => true));
-        setCardChecked(questions.map((question) => question.checked));
         setAnswers(questions.map((question) => question.answer ?? ""));
     }, [questions]);
-
-    const toggleCardChecked = (cardIndex) => {
-        const newCardChecked = [...cardChecked];
-        newCardChecked[cardIndex] = !cardChecked[cardIndex];
-        setCardChecked(newCardChecked);
-        setSavedCard(prevSaved => {
-            const newSaved = [...prevSaved];
-            newSaved[cardIndex] = false;
-            return newSaved;
-        });
-    }
 
     const updateAnswer = (cardIndex, newAnswer) => {
         if (newAnswer === "") {
@@ -60,12 +47,17 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
     }
 
     const saveCard = async (cardIndex) => {
+        const hasNumericAnswer =
+            answers[cardIndex] !== "" &&
+            answers[cardIndex] != null &&
+            !Number.isNaN(Number(answers[cardIndex]));
+
         const newQuestions = questions.map((question, idx) =>
             idx === cardIndex
                 ? {
                     ...question,
                     answer: answers[idx],
-                    checked: cardChecked[idx]
+                    checked: hasNumericAnswer
                 }
                 : question
         );
@@ -85,11 +77,9 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
                     title={question.title}
                     description={question.description}
                     answer={answers[cardIndex]}
-                    toggleChecked={() => toggleCardChecked(cardIndex)}
                     updateAnswer={(newAnswer) => updateAnswer(cardIndex, newAnswer)}
                     saveFunc={() => saveCard(cardIndex)}
                     saved={savedCard[cardIndex]}
-                    checked={cardChecked[cardIndex]}
                 />
             ))}
         </div>
