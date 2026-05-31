@@ -85,7 +85,6 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
                     title={question.title}
                     description={question.description}
                     answer={answers[cardIndex]}
-                    updateUrl={(newUrl) => updateUrl(cardIndex, newUrl)}
                     toggleChecked={() => toggleCardChecked(cardIndex)}
                     updateAnswer={(newAnswer) => updateAnswer(cardIndex, newAnswer)}
                     saveFunc={() => saveCard(cardIndex)}

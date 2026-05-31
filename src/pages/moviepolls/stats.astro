@@ -1,13 +1,16 @@
 ---
 
 import Layout from "@/layouts/plannerLayout.astro";
+import StatsPage from "@/components/moviepolls/statsPage";
 
 
-
-
+const navItems = [
+    { label: "Login", href: "/moviepolls" },
+    { label: "Home", href: "/" }
+];
 //variables
 ---
 
-<Layout title="Movie Poll Stats" description="Stats for Dixon Movie Polls">
-    
+<Layout title="Movie Poll Stats" description="Stats for Dixon Movie Polls" navigationItems={navItems}>
+    <StatsPage client:load />
 </Layout>

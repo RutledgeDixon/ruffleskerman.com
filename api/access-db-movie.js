@@ -8,6 +8,69 @@ const dbConfig = {
     database: 'movie_poll_db',
 };
 
+function mapRowsToStatsData(rows) {
+    const moviesByTitle = new Map();
+
+    for (const row of rows) {
+        let movie = moviesByTitle.get(row.movie_title);
+        if (!movie) {
+            movie = {
+                title: row.movie_title,
+                description: row.movie_description,
+                questions: [],
+            };
+            moviesByTitle.set(row.movie_title, movie);
+        }
+
+        let question = movie.questions.find(
+            (q) => q.title === row.question_title && q.description === row.question_description
+        );
+
+        if (!question) {
+            question = {
+                title: row.question_title,
+                description: row.question_description,
+                answers: [],
+            };
+            movie.questions.push(question);
+        }
+
+        question.answers.push({
+            user: row.user_name,
+            answer: row.answer,
+        });
+    }
+
+    return { movies: Array.from(moviesByTitle.values()) };
+}
+
+async function handleRead() {
+    const connection = await mysql.createConnection(dbConfig);
+
+    try {
+        const [rows] = await connection.execute(
+            `SELECT
+                m.title AS movie_title,
+                m.description AS movie_description,
+                q.title AS question_title,
+                q.description AS question_description,
+                u.name AS user_name,
+                q.answer AS answer
+            FROM movie m
+            JOIN question q ON q.movie_id = m.id
+            JOIN user u ON u.id = m.user_id
+            ORDER BY m.title, q.title, u.name`
+        );
+
+        return {
+            success: true,
+            data: mapRowsToStatsData(rows),
+        };
+    } finally {
+        await connection.end();
+    }
+}
+
 async function handleSave(name, userData) {
     if (!name || !userData) {
         throw new Error('Missing name or userData');
@@ -82,15 +145,18 @@ export default async function handler(req, res) {
 
         const { action, name, userData } = body || {};
 
-        if (action !== 'save') {
+        let result;
+        if (action === 'save') {
+            if (!name || !userData) {
+                return res.status(400).json({ error: 'Name and userData are required for save' });
+            }
+            result = await handleSave(name, userData);
+        } else if (action === 'read') {
+            result = await handleRead();
+        } else {
             return res.status(400).json({ error: 'Invalid action' });
         }
 
-        if (!name || !userData) {
-            return res.status(400).json({ error: 'Name and userData are required' });
-        }
-
-        const result = await handleSave(name, userData);
         return res.status(200).json(result);
     } catch (error) {
         console.error('Movie access-db error:', error);

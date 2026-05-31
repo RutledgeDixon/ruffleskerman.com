@@ -59,11 +59,46 @@ CROSS JOIN (
     UNION ALL SELECT 'Oliver'
 ) m;
 
--- Test question: every user gets this question for every movie.
 INSERT INTO question (title, description, answer, checked, movie_id)
 SELECT
-    'overall rating for each movie',
-    'Rate this movie from 0 to 10',
+    'How well-written was the plot?',
+    'Rate this from 1 to 10',
+    NULL,
+    FALSE,
+    id
+FROM movie;
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    'How skillful was the characterization?',
+    'Rate this from 1 to 10',
+    NULL,
+    FALSE,
+    id
+FROM movie;
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    'What was the quality of the music (vocal)?',
+    'Rate this from 1 to 10',
+    NULL,
+    FALSE,
+    id
+FROM movie;
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    'What was the quality of the music (instrumental)?',
+    'Rate this from 1 to 10',
+    NULL,
+    FALSE,
+    id
+FROM movie;
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    'How well did the music integrate with the movie?',
+    'Rate this from 1 to 10',
     NULL,
     FALSE,
     id
