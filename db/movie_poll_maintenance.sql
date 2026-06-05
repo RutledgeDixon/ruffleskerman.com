@@ -142,7 +142,63 @@ WHERE u.name = @target_user_name
 
 
 -- ==========================================
--- 7) Quick verification
+-- 7) Add all questions to a movie by title (every user)
+-- ==========================================
+-- Copies all questions from template movie title to target movie title,
+-- inserting only missing question titles.
+SET @template_movie_title = 'High school musical';
+SET @target_movie_title = 'New Movie Title';
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    q.title,
+    q.description,
+    NULL,
+    FALSE,
+    target_movie.id
+FROM movie target_movie
+JOIN user u ON u.id = target_movie.user_id
+JOIN movie template_movie
+    ON template_movie.user_id = u.id
+   AND template_movie.title = @template_movie_title
+JOIN question q ON q.movie_id = template_movie.id
+LEFT JOIN question existing
+    ON existing.movie_id = target_movie.id
+   AND existing.title = q.title
+WHERE target_movie.title = @target_movie_title
+  AND existing.id IS NULL;
+
+
+-- ==========================================
+-- 8) Add all questions to a movie by title (one user)
+-- ==========================================
+SET @target_user_name = 'Allison';
+SET @template_movie_title = 'High school musical';
+SET @target_movie_title = 'New Movie Title';
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    q.title,
+    q.description,
+    NULL,
+    FALSE,
+    target_movie.id
+FROM movie target_movie
+JOIN user u ON u.id = target_movie.user_id
+JOIN movie template_movie
+    ON template_movie.user_id = u.id
+   AND template_movie.title = @template_movie_title
+JOIN question q ON q.movie_id = template_movie.id
+LEFT JOIN question existing
+    ON existing.movie_id = target_movie.id
+   AND existing.title = q.title
+WHERE u.name = @target_user_name
+  AND target_movie.title = @target_movie_title
+  AND existing.id IS NULL;
+
+
+-- ==========================================
+-- 9) Quick verification
 -- ==========================================
 -- List movie counts per user
 SELECT u.name, COUNT(*) AS movie_count

@@ -29,10 +29,35 @@ export default function MoviePollsPage() {
     }, []);
 
     useEffect(() => {
-        if (data && currentMovieIndex !== null) {
-            const movie = data.movies[currentMovieIndex];
-            setQuestions(movie.questions);
+        const refreshIfVisible = () => {
+            if (document.visibilityState === 'visible') {
+                pullData();
+            }
+        };
+
+        window.addEventListener('focus', refreshIfVisible);
+        document.addEventListener('visibilitychange', refreshIfVisible);
+
+        return () => {
+            window.removeEventListener('focus', refreshIfVisible);
+            document.removeEventListener('visibilitychange', refreshIfVisible);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!data || !Array.isArray(data.movies) || data.movies.length === 0) {
+            setQuestions(null);
+            return;
         }
+
+        const boundedIndex = Math.min(currentMovieIndex, data.movies.length - 1);
+        if (boundedIndex !== currentMovieIndex) {
+            setCurrentMovieIndex(boundedIndex);
+            return;
+        }
+
+        const movie = data.movies[boundedIndex];
+        setQuestions(movie.questions || []);
     }, [data, currentMovieIndex]);
 
     //data is in format

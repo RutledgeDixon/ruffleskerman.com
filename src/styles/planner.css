@@ -41,8 +41,8 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    height: 100vh;
-    min-height: 100vh;
+    height: calc(100vh - 4rem);
+    min-height: calc(100vh - 4rem);
     width: 100vw;
     overflow: hidden;
     box-sizing: border-box;
@@ -64,12 +64,7 @@ html, body {
     height: 100%;
     min-height: 0;
     gap: 16px;
-    padding: 16px 16px 16px 16px; /* Add right padding */
-/* Add padding for save button */
-.planning-card-top .button, .planning-card-top button {
-    padding: 8px 16px !important;
-    margin-bottom: 8px;
-}
+    padding: 16px;
     box-sizing: border-box;
     position: sticky;
     left: 0;
@@ -81,6 +76,13 @@ html, body {
     color: #000000;
     margin: 0 !important;
 }
+
+.planning-card-top .button,
+.planning-card-top button {
+    padding: 8px 16px !important;
+    margin-bottom: 8px;
+}
+
 /* Main planner content area */
 .planner-content {
     flex: 1;

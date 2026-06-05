@@ -22,6 +22,11 @@ function mapRowsToStatsData(rows) {
             moviesByTitle.set(row.movie_title, movie);
         }
 
+        // Movies with no questions still appear via LEFT JOINs.
+        if (row.question_title == null) {
+            continue;
+        }
+
         let question = movie.questions.find(
             (q) => q.title === row.question_title && q.description === row.question_description
         );
@@ -57,8 +62,8 @@ async function handleRead() {
                 u.name AS user_name,
                 q.answer AS answer
             FROM movie m
-            JOIN question q ON q.movie_id = m.id
             JOIN user u ON u.id = m.user_id
+            LEFT JOIN question q ON q.movie_id = m.id
             ORDER BY m.title, q.title, u.name`
         );
 
