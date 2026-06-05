@@ -41,8 +41,10 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    height: 100vh;
     min-height: 100vh;
     width: 100vw;
+    overflow: hidden;
     box-sizing: border-box;
     margin: 0 !important;
     padding: 0 !important;
@@ -59,7 +61,8 @@ html, body {
     display: flex;
     flex-direction: column;
     width: 240px;
-    min-height: 100vh;
+    height: 100%;
+    min-height: 0;
     gap: 16px;
     padding: 16px 16px 16px 16px; /* Add right padding */
 /* Add padding for save button */
@@ -71,6 +74,8 @@ html, body {
     position: sticky;
     left: 0;
     top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
     background: #535353;
     z-index: 10;
     color: #000000;
@@ -81,6 +86,7 @@ html, body {
     flex: 1;
     padding: 24px;
     min-width: 0;
+    overflow: hidden;
     box-sizing: border-box;
     margin: 0 !important;
 }

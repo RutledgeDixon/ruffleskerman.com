@@ -94,14 +94,14 @@ export default function MoviePollsPage() {
         if (answers.length === 0) return -1;
 
         const average = answers.reduce((sum, answer) => sum + answer, 0) / answers.length;
-        return Math.round(average);
+        return parseFloat(average.toFixed(2));
     }
     //takes a movie and averages its questions, and then averages those averages for an overall movie rating
     const movieRating = (movie) => {
         const questionAverages = movie.questions.map(question => averageQuestionAnswers(question)).filter(avg => avg !== -1);
         if (questionAverages.length === 0) return -1;
         const movieAverage = questionAverages.reduce((sum, avg) => sum + avg, 0) / questionAverages.length;
-        return Math.round(movieAverage);
+        return parseFloat(movieAverage.toFixed(2));
     }
 
     const movieRatingList = data ? data.movies.map(movie => ({
@@ -112,7 +112,7 @@ export default function MoviePollsPage() {
     const ratedMovies = movieRatingList.filter((movie) => typeof movie.rating === 'number');
     const overallAverageRating =
         ratedMovies.length > 0
-            ? (ratedMovies.reduce((sum, movie) => sum + movie.rating, 0) / ratedMovies.length).toFixed(2)
+            ? parseFloat((ratedMovies.reduce((sum, movie) => sum + movie.rating, 0) / ratedMovies.length).toFixed(2))
             : "No movies yet";
 
     const handleSelectMovie = (movieIndex) => {
