@@ -100,7 +100,6 @@ const CatanGame = () => {
                             }
                         } : p
                     ));
-                    console.log(`Player ${playerId} built a ${action}`);
                   }}
                   onDiceConfigChange={(playerId, diceNumber, resource, value) => {
                     setPlayers((prev) => prev.map((p) =>

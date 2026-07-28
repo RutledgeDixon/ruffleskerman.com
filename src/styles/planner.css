@@ -1,6 +1,6 @@
 /* Sidebar category card styles */
 .category-card {
-    background: #14532d; /* Tailwind bg-green-900 */
+    background: var(--color-green-900);
     color: #fff;
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -11,19 +11,19 @@
     transition: background 0.2s, color 0.2s;
 }
 .category-card.selected {
-    background: #14532d;
+    background: var(--color-green-900);
     color: #fff;
     border: 3px solid #fff;
 }
 /* Login form styles (used in login.tsx) */
 .login-container {
     max-width: 400px;
-    background-color: #14532d; /* green-900 */
+    background-color: var(--color-green-900);
     margin: 0 auto;
     padding: 2rem;
     border: 1px solid #e5e7eb; /* gray-300 */
     border-radius: 0.5rem; /* rounded */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-md);
 }
 
 .login-container form {
@@ -106,10 +106,10 @@ html, body {
 
 /* bg-green-900 p-6 rounded-lg shadow-md */
 .planning-card {
-    background-color: #14532d; /* green-900 */
+    background-color: var(--color-green-900);
     padding: 1.5rem; /* p-6 */
     border-radius: 0.5rem; /* rounded-lg */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-md */
+    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
 }

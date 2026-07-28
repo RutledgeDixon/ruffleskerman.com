@@ -19,9 +19,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-        .resource-count {
-        font-size: 3.5rem;
-    }
     margin-bottom: 20px;
     width: 100%;
     clear: both;
@@ -135,10 +132,8 @@ body {
 }
 
 .resource-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: inline-block;
+    position: relative;
     flex: 1 1 auto;
     min-width: 0px;
     aspect-ratio: 7 / 10;
@@ -147,7 +142,13 @@ body {
     border-radius: 5px;
     cursor: pointer; /* Added for interactivity */
     transition: background-color 0.2s; /* Optional: subtle hover effect */
-    position: relative;
+}
+
+.resource-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(0.7);
 }
 
 .resource-item::before {
@@ -188,8 +189,13 @@ body {
   font-weight: bold;
   color: white;
   user-select: none;
-  position: relative;
+  position: absolute;
   z-index: 1;
+  bottom: 5px;
+  right: 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 2px 4px;
+  border-radius: 3px;
 }
 
 /* Removed .resource-controls and .resource-btn styles (keep .resource-btn if used elsewhere, e.g., show details) */
@@ -329,6 +335,11 @@ body {
   text-align: center;
   font-size: 1rem;
   background: white;
+  background-size: 60px auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  user-select: none;
+  filter: brightness(0.8);
   transition: transform 0.1s ease;
 }
 
@@ -346,6 +357,10 @@ body {
 .dice-inputs .resource-btn {
   min-width: 40px;
   padding: 8px 12px;
+}
+
+.dice-input-value {
+  color: white;
 }
 
 /* Add labels above each input for better UX */
@@ -431,7 +446,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #315a7a, #1f3f4f);
+    background: var(--gradient-steel-vertical);
     color: white;
     font-size: 1.5rem;
     box-shadow: 0 8px 24px rgba(0,0,0,0.25);
@@ -470,7 +485,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #315a7a, #1f3f4f);
+    background: var(--gradient-steel-vertical);
     color: white;
     font-size: 1.4rem;
     box-shadow: 0 8px 24px rgba(0,0,0,0.25);
@@ -537,6 +552,67 @@ body {
 .single-player-container .player {
   max-width: 600px;
   width: 100%;
+}
+
+/* Number of Players trigger button (non-floating) */
+.number-of-players-trigger-btn {
+    background: #464647;
+    color: white;
+    border: 2px solid steelblue;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.number-of-players-trigger-btn:hover {
+    background: steelblue;
+}
+
+/* Number of Players modal */
+.number-of-players-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.number-of-players-dialog {
+    background: #464647;
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    min-width: 300px;
+}
+
+.number-of-players-select {
+    background: #464648;
+    color: white;
+    border: 2px solid steelblue;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.number-of-players-confirm-btn {
+    background: steelblue;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 /* Header Styles */

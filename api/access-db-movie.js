@@ -1,12 +1,4 @@
-import mysql from 'mysql2/promise';
-
-const dbConfig = {
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT || '3306'),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: 'movie_poll_db',
-};
+import { getConnection } from '../lib/db.js';
 
 function mapRowsToStatsData(rows) {
     const moviesByTitle = new Map();
@@ -50,7 +42,7 @@ function mapRowsToStatsData(rows) {
 }
 
 async function handleRead() {
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = await getConnection('movie_poll_db');
 
     try {
         const [rows] = await connection.execute(
@@ -81,7 +73,7 @@ async function handleSave(name, userData) {
         throw new Error('Missing name or userData');
     }
 
-    const connection = await mysql.createConnection(dbConfig);
+    const connection = await getConnection('movie_poll_db');
 
     try {
         await connection.beginTransaction();

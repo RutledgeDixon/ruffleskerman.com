@@ -25,7 +25,6 @@ export default function MoviePollsPage() {
 
     useEffect(() => {
         pullData();
-        console.log("Data after pull: ", data);
     }, []);
 
     useEffect(() => {
@@ -99,7 +98,6 @@ export default function MoviePollsPage() {
             });
             const result = await response.json();
             if (response.ok) {
-                console.log("Data pull successful");
                 setData(result.data);
             } else {
                 console.error("Data pull failed: ", result.error);

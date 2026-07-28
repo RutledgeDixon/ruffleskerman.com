@@ -43,7 +43,10 @@ WHERE u.name = @target_user_name
 -- ==========================================
 -- 3) Add a new movie for every user
 --    (safe against duplicates)
+--    Automatically clones the standard question set from the
+--    template movie so the new movie is never left without questions.
 -- ==========================================
+SET @template_movie_title = 'High school musical';
 SET @new_movie_title = 'New Movie Title';
 SET @new_movie_description = 'Family movie poll';
 
@@ -61,12 +64,34 @@ WHERE NOT EXISTS (
       AND m.title = @new_movie_title
 );
 
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    q.title,
+    q.description,
+    NULL,
+    FALSE,
+    nm.id
+FROM movie nm
+JOIN user u ON u.id = nm.user_id
+JOIN movie tm
+    ON tm.user_id = u.id
+   AND tm.title = @template_movie_title
+JOIN question q ON q.movie_id = tm.id
+LEFT JOIN question existing
+    ON existing.movie_id = nm.id
+   AND existing.title = q.title
+WHERE nm.title = @new_movie_title
+  AND existing.id IS NULL;
+
 
 -- ==========================================
 -- 4) Add a new movie for one user
 --    (safe against duplicates)
+--    Automatically clones the standard question set from the
+--    template movie so the new movie is never left without questions.
 -- ==========================================
 SET @target_user_name = 'Allison';
+SET @template_movie_title = 'High school musical';
 SET @new_movie_title = 'New Movie Title';
 SET @new_movie_description = 'Family movie poll';
 
@@ -84,6 +109,26 @@ WHERE u.name = @target_user_name
       WHERE m.user_id = u.id
         AND m.title = @new_movie_title
   );
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    q.title,
+    q.description,
+    NULL,
+    FALSE,
+    nm.id
+FROM movie nm
+JOIN user u ON u.id = nm.user_id
+JOIN movie tm
+    ON tm.user_id = u.id
+   AND tm.title = @template_movie_title
+JOIN question q ON q.movie_id = tm.id
+LEFT JOIN question existing
+    ON existing.movie_id = nm.id
+   AND existing.title = q.title
+WHERE u.name = @target_user_name
+  AND nm.title = @new_movie_title
+  AND existing.id IS NULL;
 
 
 -- ==========================================
@@ -198,7 +243,43 @@ WHERE u.name = @target_user_name
 
 
 -- ==========================================
--- 9) Quick verification
+-- 9) Backfill questions for ANY existing movie missing them
+--     Run this any time you suspect a movie was added without its
+--     questions (e.g. it was inserted directly, or section 3/4 was
+--     run before this fix existed). Safe to re-run; only touches
+--     movies that currently have zero questions.
+-- ==========================================
+SET @template_movie_title = 'High school musical';
+
+-- Preview which movies are currently missing all questions.
+SELECT u.name AS user_name, nm.title AS movie_missing_questions
+FROM movie nm
+JOIN user u ON u.id = nm.user_id
+WHERE NOT EXISTS (
+    SELECT 1 FROM question existing WHERE existing.movie_id = nm.id
+);
+
+INSERT INTO question (title, description, answer, checked, movie_id)
+SELECT
+    q.title,
+    q.description,
+    NULL,
+    FALSE,
+    nm.id
+FROM movie nm
+JOIN user u ON u.id = nm.user_id
+JOIN movie tm
+    ON tm.user_id = u.id
+   AND tm.title = @template_movie_title
+JOIN question q ON q.movie_id = tm.id
+WHERE nm.id != tm.id
+  AND NOT EXISTS (
+      SELECT 1 FROM question existing WHERE existing.movie_id = nm.id
+  );
+
+
+-- ==========================================
+-- 10) Quick verification
 -- ==========================================
 -- List movie counts per user
 SELECT u.name, COUNT(*) AS movie_count

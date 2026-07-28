@@ -156,34 +156,12 @@ const CatanPlayer = ({
               className="resource-item"
               onClick={() => handleResourceClick(resource)}
               onDoubleClick={() => {}} // Placeholder; logic handled in onClick
-              style={{
-                position: 'relative',
-                display: 'inline-block'
-              }}
             >
               <img
                 src={`/images/${resource}.png`}
                 alt={resource}
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                  filter: 'brightness(0.7)'
-                }}
               />
-              <div 
-                className="resource-count"
-                style={{
-                  position: 'absolute',
-                  bottom: '5px',
-                  right: '5px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                  padding: '2px 4px',
-                  borderRadius: '3px',
-                  fontSize: '2rem',
-                  fontWeight: 'bold'
-                }}
-              >
+              <div className="resource-count">
                 {resources[resource]}
               </div>
             </div>
@@ -251,14 +229,9 @@ const CatanPlayer = ({
                         onDoubleClick={() => {}} // Placeholder; logic handled in onClick
                         style={{
                           backgroundImage: `url(/images/${resource}.png)`,
-                          backgroundSize: '60px auto',
-                          backgroundPosition: 'center',
-                          backgroundRepeat: 'no-repeat',
-                          userSelect: 'none',
-                          filter: 'brightness(0.8)'
                         }}
                         >
-                        <span style={{ color: 'white' }}>
+                        <span className="dice-input-value">
                           {diceConfig[activeDiceNumber]?.[resource] ?? 0}
                         </span>
                         </div>

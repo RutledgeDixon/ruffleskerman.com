@@ -22,9 +22,7 @@ export default function MoviePollsPage() {
                 }),
             });
             const result = await response.json();
-            if (response.ok) {
-                console.log("Save successful:", result.message);
-            } else {
+            if (!response.ok) {
                 console.error("Save failed:", result.error);
             }
         } catch (error) {
