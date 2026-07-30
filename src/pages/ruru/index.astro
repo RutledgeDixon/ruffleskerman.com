@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/mainLayout.astro";
+import RuruPage from "@/components/ruru/RuruPage";
+
+const navItems = [
+    { label: "Home", href: "/" },
+    { label: "RuRuComms", href: "/ruru" },
+];
+---
+
+<Layout title="RuRu" description="RuRu Comms" navigationItems={navItems}>
+    <RuruPage client:load />
+</Layout>

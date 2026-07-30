@@ -37,6 +37,7 @@ export default tseslint.config(
         CustomEvent: 'readonly',
         navigator: 'readonly',
         FormData: 'readonly',
+        WebSocket: 'readonly',
       },
     },
     settings: {
