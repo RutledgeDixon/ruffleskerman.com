@@ -11,13 +11,17 @@ import "@/styles/ruru.css";
 const CLIENT_ID_STORAGE_KEY = "ruru-client-id";
 const WS_PATH = import.meta.env.PUBLIC_RURU_WS_PATH || "/ruru/";
 const WS_HOST = import.meta.env.PUBLIC_RURU_WS_HOST;
+const WS_PORT = import.meta.env.PUBLIC_RURU_WS_PORT || "50513";
 
 function buildWebSocketUrl() {
 	if (!WS_HOST) {
 		return null;
 	}
 	const protocol = typeof window !== "undefined" && window.location.protocol === "http:" ? "ws" : "wss";
-	return `${protocol}://${WS_HOST}${WS_PATH}`;
+	// Allow WS_HOST to already include its own port (e.g. "example.com:1234");
+	// otherwise fall back to the configured/default RuRuServer WS port.
+	const hostWithPort = WS_HOST.includes(":") ? WS_HOST : `${WS_HOST}:${WS_PORT}`;
+	return `${protocol}://${hostWithPort}${WS_PATH}`;
 }
 
 export default function RuruPage() {
@@ -205,10 +209,18 @@ export default function RuruPage() {
 			</div>
 
 			<div className="ruru-toolbar">
-				<Button variant={view === "chat" ? "default" : "outline"} onClick={() => setView("chat")}>
+				<Button
+					variant={view === "chat" ? "default" : "outline"}
+					className={view === "chat" ? "" : "text-foreground"}
+					onClick={() => setView("chat")}
+				>
 					Messages
 				</Button>
-				<Button variant={view === "wheel" ? "default" : "outline"} onClick={() => setView("wheel")}>
+				<Button
+					variant={view === "wheel" ? "default" : "outline"}
+					className={view === "wheel" ? "" : "text-foreground"}
+					onClick={() => setView("wheel")}
+				>
 					Feeling wheel
 				</Button>
 				<Button onClick={() => openCompose("")}>New message</Button>

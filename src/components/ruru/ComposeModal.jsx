@@ -56,10 +56,10 @@ export default function ComposeModal({ initialText = "", onSend, onCancel, onTur
 						rows={4}
 					/>
 					<div className="ruru-modal-presets">
-						<Button type="button" variant="outline" onClick={() => submit("BxF00")}>
+						<Button type="button" variant="outline" className="text-foreground" onClick={() => submit("BxF00")}>
 							Miss you
 						</Button>
-						<Button type="button" variant="outline" onClick={() => submit("BxF01")}>
+						<Button type="button" variant="outline" className="text-foreground" onClick={() => submit("BxF01")}>
 							Love you
 						</Button>
 					</div>
