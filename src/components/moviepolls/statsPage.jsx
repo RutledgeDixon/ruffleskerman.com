@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
-import Login from  './login.jsx';
 import DisplayMovies from './displayMovies.jsx';
-import DisplayQuestions from './displayQuestions.jsx';
 import '@/styles/planner.css';
 
 export default function MoviePollsPage() {
@@ -18,7 +16,6 @@ export default function MoviePollsPage() {
             return numericValue;
         };
 
-    const [questions, setQuestions] = useState(null);
     const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
     const [data, setData] = useState(null);
     const [home, setHome] = useState(true); //if true, shows overall stats, not specific movie stats
@@ -43,20 +40,16 @@ export default function MoviePollsPage() {
         };
     }, []);
 
+    // Clamp the selected movie index whenever the movie list shrinks (e.g. after a refetch).
     useEffect(() => {
         if (!data || !Array.isArray(data.movies) || data.movies.length === 0) {
-            setQuestions(null);
             return;
         }
 
         const boundedIndex = Math.min(currentMovieIndex, data.movies.length - 1);
         if (boundedIndex !== currentMovieIndex) {
             setCurrentMovieIndex(boundedIndex);
-            return;
         }
-
-        const movie = data.movies[boundedIndex];
-        setQuestions(movie.questions || []);
     }, [data, currentMovieIndex]);
 
     //data is in format

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function typewriterCard({ id, title, text, start = true, onRemove }) {
+export default function TypewriterCard({ id, title, text, start = true, onRemove }) {
     const [dTitle, setDTitle] = useState("");
     const [titleFinished, setTitleFinished] = useState(false);
     const [dText, setDText] = useState("");

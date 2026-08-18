@@ -1,4 +1,4 @@
-/* Sidebar category card styles */
+/* Page-only styles for planner.astro and moviepolls pages. Shared tokens live in global.css. */
 .category-card {
     background: var(--color-green-900);
     color: #fff;

@@ -1,3 +1,4 @@
+/* Page-only styles for ruru/index.astro. Shared tokens live in global.css. */
 .ruru-page {
 	max-width: 900px;
 	margin: 0 auto;

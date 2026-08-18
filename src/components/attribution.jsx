@@ -1,4 +1,4 @@
-export default function Attribution({ description, href, creditText }) {
+export default function Attribution({ description, creditText }) {
     // Component at the bottom of the page giving credit, maybe links, etc.
     return (
         <div className="attribution-container">

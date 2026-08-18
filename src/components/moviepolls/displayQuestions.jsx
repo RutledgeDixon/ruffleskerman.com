@@ -1,36 +1,39 @@
 import { useState, useEffect } from "react";
 import Card from "./question.jsx";
 
+const sanitizeAnswerForInput = (value) => {
+    if (value === "" || value == null || typeof value === 'boolean') {
+        return "";
+    }
+
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue) || numericValue < 0 || numericValue > 10) {
+        return "";
+    }
+
+    return Math.round(numericValue);
+};
+
 export default function DisplayQuestions({ questions, saveQuestions }) {
+    // Hooks must run on every render, so seed them from a safe fallback
+    // instead of early-returning before they're called (Rules of Hooks).
+    const safeQuestions = questions ?? [];
+    const [savedCard, setSavedCard] = useState(safeQuestions.map(() => true));
+    const [answers, setAnswers] = useState(
+        safeQuestions.map((question) => sanitizeAnswerForInput(question.answer))
+    );
+
+    useEffect(() => {
+        setSavedCard(safeQuestions.map(() => true));
+        setAnswers(safeQuestions.map((question) => sanitizeAnswerForInput(question.answer)));
+    }, [questions]);
+
     if (!questions) {
         return <div>Pick a movie to view the poll.</div>;
     }
     if (questions.length === 0) {
         return <div>No poll questions for this movie.</div>;
     }
-
-    const sanitizeAnswerForInput = (value) => {
-        if (value === "" || value == null || typeof value === 'boolean') {
-            return "";
-        }
-
-        const numericValue = Number(value);
-        if (!Number.isFinite(numericValue) || numericValue < 0 || numericValue > 10) {
-            return "";
-        }
-
-        return Math.round(numericValue);
-    };
-
-    const [savedCard, setSavedCard] = useState(questions.map(() => true));
-    const [answers, setAnswers] = useState(
-        questions.map((question) => sanitizeAnswerForInput(question.answer))
-    );
-
-    useEffect(() => {
-        setSavedCard(questions.map(() => true));
-        setAnswers(questions.map((question) => sanitizeAnswerForInput(question.answer)));
-    }, [questions]);
 
     const updateAnswer = (cardIndex, newAnswer) => {
         if (newAnswer === "") {

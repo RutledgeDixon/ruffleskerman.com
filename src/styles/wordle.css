@@ -1,3 +1,4 @@
+/* Page-only styles for wordlebot.astro. Shared tokens live in global.css. */
 /* Center the entire page content */
 body {
     margin: 0;

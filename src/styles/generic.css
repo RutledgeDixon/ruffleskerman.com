@@ -1,4 +1,7 @@
-/* Global Styles */
+/* Site-wide rules shared by every page: base reset, the attribution footer,
+   and the nav bar. Page-specific rules belong in that page's own CSS file
+   instead. Colors/shadows/gradients used in more than one file belong in
+   global.css as a --token, not hardcoded here. */
 * {
   box-sizing: border-box;
 }
@@ -200,12 +203,14 @@ html, body {
   background-color: #f9fafb;
 }
 
-.navigation-mobile-menu {
+/* Wrapper around the hamburger button — hidden on desktop, where the
+   full menu is shown inline instead (see .navigation-desktop-menu). */
+.navigation-mobile-toggle {
   display: block;
 }
 
 @media (min-width: 768px) {
-  .navigation-mobile-menu {
+  .navigation-mobile-toggle {
     display: none;
   }
 }
@@ -216,8 +221,16 @@ html, body {
   padding-bottom: 1rem;
 }
 
-.navigation-mobile-menu-list.navigation-mobile-menu {
+/* Open state, toggled by navigation.astro's script. Only takes effect
+   below the desktop breakpoint, matching .navigation-mobile-toggle above. */
+.navigation-mobile-menu-list.navigation-mobile-menu-open {
   display: block;
+}
+
+@media (min-width: 768px) {
+  .navigation-mobile-menu-list.navigation-mobile-menu-open {
+    display: none;
+  }
 }
 
 .navigation-mobile-menu-list > * + * {

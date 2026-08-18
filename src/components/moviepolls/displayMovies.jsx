@@ -1,4 +1,4 @@
-import CategoryCard from "./movieCard.jsx";
+import ProgressCard from "@/components/progressCard.jsx";
 
 export default function DisplayMovies({ userData, setShownMovie, currentMovieIndex, home = false }) {
     if (!userData || !userData.movies) {
@@ -20,12 +20,10 @@ export default function DisplayMovies({ userData, setShownMovie, currentMovieInd
     return (
         <div className="categories-container">
             {movies.map((movie, movieIndex) => (
-                <CategoryCard
+                <ProgressCard
                     key={movieIndex}
                     title={movie.title}
-                    description={movie.description}
                     progress={progress(movie)}
-                    showCards={movie.showCards || false}
                     selected={!home && currentMovieIndex === movieIndex}
                     toggleShowCards={() => toggleShowMovie(movieIndex)}
                 />

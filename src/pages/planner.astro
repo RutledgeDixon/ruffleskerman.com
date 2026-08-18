@@ -1,13 +1,9 @@
 ---
-import Layout from "../layouts/plannerLayout.astro";
-import "../styles/planner.css";
+import Layout from "@/layouts/Layout.astro";
+import "@/styles/planner.css";
 import PlannerPage from "@/components/planner/plannerPage";
-import type { UserData } from "@/lib/types";
-
-//call API to fetch user data
-let user: UserData | undefined;
 ---
 
-<Layout title="RK Wedding Planner" description="Helpful organization for planning a wedding.">
+<Layout title="RK Wedding Planner" description="Helpful organization for planning a wedding." padTop={false}>
     <PlannerPage client:load />
 </Layout>

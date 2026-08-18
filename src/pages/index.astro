@@ -1,8 +1,7 @@
 ---
 //main imports
-import Layout from "../layouts/mainLayout.astro";
-import "../styles/global.css";
-import defineConfig from "astro.config.mjs";
+import Layout from "@/layouts/Layout.astro";
+import "@/styles/global.css";
 // Component Imports
 import ProjectCard from "@/components/projectCard";
 ---
@@ -19,9 +18,6 @@ import ProjectCard from "@/components/projectCard";
 	:global(body) {
 		height: 100%;
 		margin: 0;
-	}
-	:global(main) {
-		padding-top: 0 !important;
 	}
 	.canvas-container {
 		position: relative;
@@ -160,7 +156,7 @@ import ProjectCard from "@/components/projectCard";
 	}
 </style>
 
-<Layout title="RK Home" description="Ruffles Kerman Home">
+<Layout title="RK Home" description="Ruffles Kerman Home" padTop={false}>
 	<div class="canvas-container">
 		<canvas id="webgl" width="1024" height="1024">
 			Oops ... your browser doesn't support the HTML5 canvas element
@@ -176,10 +172,10 @@ import ProjectCard from "@/components/projectCard";
 				<div
 					class="flex flex-col sm:flex-row gap-4 justify-center items-center"
 				>
-					<!-- <a href={defineConfig.base + "listen"} class="inline-block">
+					<!-- <a href="/listen" class="inline-block">
 						<Button variant="letu" className="px-8 py-3 text-lg">Start Listening</Button>
 					</a>
-					<a href={defineConfig.base + "broadcast"} class="inline-block">
+					<a href="/broadcast" class="inline-block">
 						<Button variant="letu" className="px-8 py-3 text-lg">Start Broadcasting</Button>
 					</a> -->
 				</div>
@@ -192,31 +188,31 @@ import ProjectCard from "@/components/projectCard";
 				<ProjectCard
 					title="🎲 Catan Counter"
 					description="Keep track of others' cards to boost your strategy."
-					href={defineConfig.base + "catancounter"}
+					href="/catancounter"
 					buttonText="Visit"
 				/>
 				<ProjectCard
 					title="🌐 Wordle Bot"
 					description="Assists with daily wordle"
-					href={defineConfig.base + "wordlebot"}
+					href="/wordlebot"
 					buttonText="Visit"
 				/>
 				<ProjectCard
 					title="📽️ Family Movie Polling"
 					description="The Dixon way to rate movies!"
-					href={defineConfig.base + "moviepolls"}
+					href="/moviepolls"
 					buttonText="Login"
 				/>
 				<ProjectCard
 					title="College Projects"
 					description="A few of my favorite projects from school."
-					href={defineConfig.base + "projects"}
+					href="/projects"
 					buttonText="View"
 				/>
 				<ProjectCard
 					title="Wedding Planner"
 					description="A website I made for my fiance and I to plan our wedding. Tied to a MySQL DB."
-					href={defineConfig.base + "planner"}
+					href="/planner"
 					buttonText="Plan!"
 				/>
 				
@@ -224,7 +220,7 @@ import ProjectCard from "@/components/projectCard";
 				<!-- <ProjectCard
 					title="Catch the Scammers"
 					description="If you get scammed, send them to this site to 'transfer the funds'. Most probably won't fall for it but it's worth a shot."
-					href={defineConfig.base + "create-account-p4A7EA1"}
+					href="/create-account-p4A7EA1"
 					buttonText="Go"
 				/> -->
 			</div>

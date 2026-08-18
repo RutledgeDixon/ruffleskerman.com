@@ -1,191 +1,56 @@
-# Navigation Component Documentation
+# Adding a page
 
-## Overview
-The Navigation component is a customizable top navigation bar for your Astro site. It includes responsive design with mobile menu support and can be easily customized per page.
+Every page uses one shared shell: [`src/layouts/Layout.astro`](src/layouts/Layout.astro). It renders `<html>/<head>/<body>`, pulls in the global styles, and shows the nav bar.
 
-## Basic Usage
-
-### Default Navigation
-The navigation component is automatically included in the `mainLayout.astro` and will show default navigation items:
-
-```astro
-<Layout title="Page Title" description="Page description">
-  <!-- Your content -->
-</Layout>
-```
-
-### Custom Navigation Items
-You can customize navigation items by passing a `navigationItems` prop:
+## Minimal page
 
 ```astro
 ---
-// Define custom navigation items
-const customNavItems = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
-  { label: "GitHub", href: "https://github.com/username", external: true }
-];
+import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout title="Page Title" navigationItems={customNavItems}>
-  <!-- Your content -->
+<Layout title="Page Title" description="Shown in the meta description">
+  <!-- your content -->
 </Layout>
 ```
 
-### Disable Navigation
-To hide the navigation on specific pages:
+`wordlebot.astro` is a good copy-paste starting point for a simple page.
+
+## Layout props
+
+| Prop | Default | Use it when |
+|---|---|---|
+| `title` | — (required) | Always — sets the `<title>` tag |
+| `description` | none | You want a meta description |
+| `navigationItems` | site-wide nav (Home/About/RuRuComms/Github/LinkedIn) | The page needs a different nav, e.g. `moviepolls/stats.astro` |
+| `showNavigation` | `true` | The page has no nav at all, e.g. `create-account-p4A7EA1.astro` |
+| `padTop` | `true` | `false` for full-bleed pages that manage their own top spacing, e.g. `index.astro`, `planner.astro` |
+
+## Custom nav example
 
 ```astro
-<Layout title="Page Title" showNavigation={false}>
-  <!-- Your content without navigation -->
-</Layout>
-```
-
-## Navigation Item Properties
-
-Each navigation item is an object with the following properties:
-
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `label` | string | Yes | The text to display in the navigation |
-| `href` | string | Yes | The URL or path to navigate to |
-| `external` | boolean | No | Set to `true` for external links (opens in new tab) |
-| `variant` | string | No | Button style variant (for future use) |
-
-## Navigation Component Properties
-
-The Navigation component accepts these props:
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `items` | NavigationItem[] | Required | Array of navigation items |
-| `logo` | string | undefined | URL to logo image |
-| `logoText` | string | "RK" | Text to display as logo |
-| `logoHref` | string | "/" | Link for the logo |
-| `className` | string | "" | Additional CSS classes |
-| `sticky` | boolean | true | Whether navigation sticks to top when scrolling |
-
-## Examples
-
-### Basic Navigation with Logo
-```astro
----
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products" },
-  { label: "Contact", href: "/contact" }
+  { label: "Stats", href: "/moviepolls/stats" },
 ];
 ---
-
-<Layout 
-  title="My Site" 
-  navigationItems={navItems}
->
-  <div>Your page content</div>
-</Layout>
+<Layout title="..." navigationItems={navItems}>
 ```
 
-### Navigation with External Links
-```astro
----
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Blog", href: "/blog" },
-  { label: "GitHub", href: "https://github.com/yourusername", external: true },
-  { label: "LinkedIn", href: "https://linkedin.com/in/yourprofile", external: true }
-];
----
+Each nav item: `{ label, href, external? }`. Internal links are root-relative (`/about`); set `external: true` for off-site links (opens in a new tab).
 
-<Layout title="Developer Portfolio" navigationItems={navItems}>
-  <!-- Your content -->
-</Layout>
-```
+## Pages without the shared shell
 
-### Page-Specific Navigation
-Different pages can have different navigation items:
+`catancounter.astro`, `projects/mandlebrot.astro`, `projects/particles.astro`, and `projects/sorting.astro` render raw `<html>` themselves instead of using `Layout.astro` — they're full-screen canvas/WebGL demos with no nav and page-specific `<head>` needs (inline `<style>`, `<script>` tags for the WebGL pipeline). Follow one of those as a template if you're adding another canvas-style project page.
 
-```astro
-// pages/admin.astro
----
-const adminNavItems = [
-  { label: "Dashboard", href: "/admin" },
-  { label: "Users", href: "/admin/users" },
-  { label: "Settings", href: "/admin/settings" },
-  { label: "Back to Site", href: "/" }
-];
----
+## Imports
 
-<Layout title="Admin Panel" navigationItems={adminNavItems}>
-  <!-- Admin content -->
-</Layout>
-```
+Use the `@/` alias (maps to `src/`) for everything — `@/layouts/Layout.astro`, `@/styles/...`, `@/components/...`. Don't use relative (`../`) imports in pages; it's easy to get wrong when copy-pasting a page into a different folder depth.
 
-## Styling and Customization
+# Updating global styling
 
-### Custom CSS Classes
-You can add custom styling by passing a `className` prop to the Layout:
+- **Design tokens** (colors, shadows, gradients) live in [`src/styles/global.css`](src/styles/global.css) as CSS custom properties under `:root`. Change a value there and it updates everywhere that references `var(--the-token)`.
+- **Site-wide rules** (box-sizing reset, the nav bar, the attribution footer) live in [`src/styles/generic.css`](src/styles/generic.css).
+- **Page-specific rules** live in their own file (`planner.css`, `wordle.css`, `catan-players.css`, etc.) and are imported only by the page(s) that need them.
 
-```astro
-<Layout 
-  title="Custom Styled Page" 
-  navigationItems={navItems}
-  className="bg-blue-600 text-white"
->
-  <!-- Your content -->
-</Layout>
-```
-
-### Logo Customization
-```astro
-<Layout 
-  title="My Site"
-  logoText="My Brand"
-  logoHref="/home"
-  navigationItems={navItems}
->
-  <!-- Your content -->
-</Layout>
-```
-
-### With Logo Image
-```astro
-<Layout 
-  title="My Site"
-  logo="/images/logo.png"
-  logoText="My Brand"
-  navigationItems={navItems}
->
-  <!-- Your content -->
-</Layout>
-```
-
-## Mobile Responsiveness
-
-The navigation automatically:
-- Collapses to a hamburger menu on mobile devices
-- Shows/hides menu items when the hamburger is clicked
-- Closes the menu when clicking outside
-- Maintains accessibility with proper ARIA attributes
-
-## Layout Properties Reference
-
-The `mainLayout.astro` accepts these properties:
-
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `title` | string | Required | Page title for `<title>` tag |
-| `description` | string | undefined | Meta description |
-| `showNavigation` | boolean | true | Whether to show navigation |
-| `navigationItems` | NavigationItem[] | Default items | Custom navigation items |
-
-## Default Navigation Items
-
-If no custom navigation items are provided, these defaults are used:
-- Home (/)
-- Listen (/listen)
-- Broadcast (/broadcast)
-- LinkedIn (external link)
-
-You can modify these defaults in `src/layouts/mainLayout.astro`.
+When a page's styles use a raw color/shadow value that already has a token in `global.css`, reference the token instead of hardcoding the value again — that's what keeps a single edit from requiring a find-and-replace across files.

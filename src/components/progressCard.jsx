@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-
-export default function CategoryCard({title, description, progress, showCards, toggleShowCards, selected}) {
+// Shared by the planner's category list and the movie polls' movie list —
+// both just show a title and a progress bar.
+export default function ProgressCard({ title, progress, selected, toggleShowCards }) {
     return (
         <div
             className={`category-card${selected ? ' selected' : ''}`}

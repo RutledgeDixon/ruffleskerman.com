@@ -68,7 +68,7 @@ const base = import.meta.env.BASE_URL || "/";
       </div>
 
       <!-- Mobile menu button -->
-      <div class="navigation-mobile-menu">
+      <div class="navigation-mobile-toggle">
         <button
           type="button"
           class="navigation-mobile-menu-button"
@@ -146,7 +146,7 @@ const base = import.meta.env.BASE_URL || "/";
       mobileMenuButton.getAttribute("aria-expanded") === "true";
 
     mobileMenuButton.setAttribute("aria-expanded", (!isExpanded).toString());
-    mobileMenu?.classList.toggle("navigation-mobile-menu");
+    mobileMenu?.classList.toggle("navigation-mobile-menu-open");
 
     menuIcon?.classList.toggle("hidden");
     closeIcon?.classList.toggle("hidden");
@@ -156,7 +156,7 @@ const base = import.meta.env.BASE_URL || "/";
   document.addEventListener("click", (event) => {
     const target = event.target as Element;
     if (!mobileMenuButton?.contains(target) && !mobileMenu?.contains(target)) {
-      mobileMenu?.classList.remove("navigation-mobile-menu");
+      mobileMenu?.classList.remove("navigation-mobile-menu-open");
       mobileMenuButton?.setAttribute("aria-expanded", "false");
       menuIcon?.classList.remove("hidden");
       closeIcon?.classList.add("hidden");

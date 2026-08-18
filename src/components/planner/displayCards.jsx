@@ -2,22 +2,27 @@ import { useState, useEffect } from "react";
 import Card from "./card.jsx";
 
 export default function DisplayCards({cards, saveCards}) {
+    // Hooks must run on every render, so seed them from a safe fallback
+    // instead of early-returning before they're called (Rules of Hooks).
+    const safeCards = cards ?? [];
+    const [savedCard, setSavedCard] = useState(safeCards.map(() => true));
+    const [urls, setUrls] = useState(safeCards.map((card) => card.url));
+    const [cardChecked, setCardChecked] = useState(safeCards.map((card) => card.checked));
+    const [answers, setAnswers] = useState(safeCards.map((card) => card.answer));
+    useEffect(() => {
+        setSavedCard(safeCards.map(() => true));
+        setUrls(safeCards.map((card) => card.url));
+        setCardChecked(safeCards.map((card) => card.checked));
+        setAnswers(safeCards.map((card) => card.answer));
+    }, [cards]);
+
     if (!cards) {
         return <div>Pick a category to view!</div>;
     }
     if (cards.length === 0) {
         return <div>No cards in this category.</div>;
     }
-    const [savedCard, setSavedCard] = useState(cards.map((card) => true));
-    const [urls, setUrls] = useState(cards.map((card) => card.url));
-    const [cardChecked, setCardChecked] = useState(cards.map((card) => card.checked));
-    const [answers, setAnswers] = useState(cards.map((card) => card.answer));
-    useEffect(() => {
-        setSavedCard(cards.map((card) => true));
-        setUrls(cards.map((card) => card.url));
-        setCardChecked(cards.map((card) => card.checked));
-        setAnswers(cards.map((card) => card.answer));
-    }, [cards]);
+
     const updateUrl = (cardIndex, newUrl) => {
         const newUrls = [...urls];
         newUrls[cardIndex] = newUrl;

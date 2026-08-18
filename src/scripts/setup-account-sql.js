@@ -3,7 +3,6 @@
 
 import bcrypt from 'bcrypt';
 import fs from 'fs';
-import path from 'path';
 // import jsonData from './wedding-data.json' assert { type: 'json' };
 //get json data from wedding-data.json
 

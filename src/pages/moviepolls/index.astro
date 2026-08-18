@@ -1,10 +1,7 @@
 ---
-import Layout from "@/layouts/plannerLayout.astro";
+import Layout from "@/layouts/Layout.astro";
 import "@/styles/planner.css";
 import MoviePollsPage from "@/components/moviepolls/moviepollsPage";
-
-//call API to fetch user data
-// let user: UserData | undefined;
 
 const navItems = [
     { label: "Home", href: "/" },
@@ -12,6 +9,6 @@ const navItems = [
 ]
 ---
 
-<Layout title="RK Movie Polls" description="Family Movie Polls" navigationItems={navItems}>
+<Layout title="RK Movie Polls" description="Family Movie Polls" navigationItems={navItems} padTop={false}>
     <MoviePollsPage client:load />
 </Layout>

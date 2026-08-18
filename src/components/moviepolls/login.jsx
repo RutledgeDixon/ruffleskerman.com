@@ -23,7 +23,7 @@ export default function Login({ setUserData }) {
             } else {
                 setError(result.error || 'Login failed');
             }
-        } catch (error) {
+        } catch {
             setError('An error occurred');
         }
     };

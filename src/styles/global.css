@@ -86,12 +86,12 @@
   --sidebar-border: oklch(0.92 0.004 286.32);
   --sidebar-ring: oklch(0.705 0.015 286.067);
 
-  /* Shared design tokens — dedupe values repeated across the hand-written
-     CSS files (planner.css, contact.css, catan-players.css, generic.css). */
+  /* Shared design tokens used by the hand-written CSS files (planner.css,
+     contact.css, catan-players.css, generic.css, ruru.css). Add a token
+     here — not a new hardcoded value in a page CSS file — when a color or
+     shadow needs to be reused; every var(--token) reference below updates
+     when you change the value here. */
   --color-green-900: #14532d; /* matches Tailwind's bg-green-900 */
-  --gradient-blue-primary: linear-gradient(135deg, #3b82f6, #1e40af);
-  --gradient-blue-primary-hover: linear-gradient(135deg, #2563eb, #1d4ed8);
-  --gradient-steel-vertical: linear-gradient(180deg, #315a7a, #1f3f4f);
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);

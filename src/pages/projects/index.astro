@@ -1,8 +1,7 @@
 ---
 //main imports
-import Layout from "@/layouts/projectLayout.astro";
+import Layout from "@/layouts/Layout.astro";
 import "@/styles/global.css";
-import defineConfig from "astro.config.mjs";
 // Component Imports
 import ProjectCard from "@/components/projectCard";
 ---
@@ -23,19 +22,19 @@ import ProjectCard from "@/components/projectCard";
 			<ProjectCard
 				title="Mandlebrot"
 				description="An implementation of the Mandlebrot set using WebGL, with a twist."
-				href={defineConfig.base + "projects/mandlebrot"}
+				href="/projects/mandlebrot"
 				buttonText="View"
 			/>
 			<ProjectCard
 				title="Sorting Algorithm Visualiser"
 				description="This project visualises how different sorting algorithms sort a list"
-				href={defineConfig.base + "projects/sorting"}
+				href="/projects/sorting"
 				buttonText="View"
 			/>
 			<ProjectCard
 				title="Particles"
 				description="An exploration of particle systems using Boid's Algorithm in WebGL."
-				href={defineConfig.base + "projects/particles"}
+				href="/projects/particles"
 				buttonText="View"
 			/>
 			<ProjectCard

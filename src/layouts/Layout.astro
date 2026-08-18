@@ -1,0 +1,53 @@
+---
+// Shared page shell: <html>/<head>/<body>, global styles, and nav.
+//
+// Default page:
+//   import Layout from "@/layouts/Layout.astro";
+//   <Layout title="Page Title" description="...">...</Layout>
+//
+// Page with its own nav (e.g. a login-gated app) or without a nav at all:
+//   <Layout title="..." navigationItems={customItems} />
+//   <Layout title="..." showNavigation={false} />
+//
+// Full-bleed pages (canvases, etc.) that manage their own top spacing:
+//   <Layout title="..." padTop={false} />
+import "../styles/global.css";
+import "../styles/generic.css";
+import Navigation from "@/components/navigation.astro";
+
+// Site-wide default nav — override per page with the navigationItems prop.
+const SITE_NAV = [
+	{ label: "Home", href: "/" },
+	{ label: "About", href: "/about" },
+	{ label: "RuRuComms", href: "/ruru" },
+	{ label: "Github", href: "https://github.com/rutledgedixon", external: true },
+	{ label: "LinkedIn", href: "https://linkedin.com/in/rutledgedixon", external: true },
+];
+
+const {
+	title,
+	description,
+	showNavigation = true,
+	navigationItems = SITE_NAV,
+	padTop = true,
+} = Astro.props;
+const base = import.meta.env.BASE_URL || "/";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+		{description && <meta name="description" content={description} />}
+		<title>{title}</title>
+	</head>
+	<body class="bg-blue-950 min-h-screen">
+		{showNavigation && <Navigation items={navigationItems} />}
+		<div class="text-white">
+			<main class={showNavigation && padTop ? "pt-16" : ""}>
+				<slot />
+			</main>
+		</div>
+	</body>
+</html>
