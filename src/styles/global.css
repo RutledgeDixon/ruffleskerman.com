@@ -95,6 +95,22 @@
   --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Site chrome tokens — the dark/glass look shared by the nav, footer,
+     and cards on the main site pages (home, about, projects). Kept
+     separate from the shadcn tokens above so the planner/wordle/catan/
+     moviepolls/ruru pages, which reference those tokens directly, are
+     unaffected by this palette. */
+  --site-bg-1: #0b1120;
+  --site-bg-2: #131c31;
+  --site-text: #f1f5f9;
+  --site-muted: rgba(226, 232, 240, 0.68);
+  --site-surface: rgba(255, 255, 255, 0.045);
+  --site-surface-hover: rgba(255, 255, 255, 0.075);
+  --site-border: rgba(255, 255, 255, 0.1);
+  --site-border-strong: rgba(255, 255, 255, 0.18);
+  --site-accent: #818cf8;
+  --site-accent-strong: #6366f1;
 }
 
 .dark {
