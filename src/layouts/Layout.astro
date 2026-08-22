@@ -41,7 +41,7 @@ const base = import.meta.env.BASE_URL || "/";
 		{description && <meta name="description" content={description} />}
 		<title>{title}</title>
 	</head>
-	<body class="bg-blue-950 min-h-screen">
+	<body class="site-body min-h-screen">
 		{showNavigation && <Navigation items={navigationItems} />}
 		<div class="text-white">
 			<main class={showNavigation && padTop ? "pt-16" : ""}>
