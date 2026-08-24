@@ -44,6 +44,22 @@ import ProjectCard from "@/components/projectCard";
 		padding-inline: 1rem;
 	}
 
+	.hero-title {
+		margin: 0 0 1.5rem;
+		font-family:
+			system-ui,
+			-apple-system,
+			"Segoe UI",
+			Roboto,
+			"Helvetica Neue",
+			Arial;
+		font-size: clamp(2.5rem, 6vw, 4rem);
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		color: #ffffff;
+		text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+	}
+
 	/* top-right options overlay */
 	#options {
 		position: absolute;
@@ -164,6 +180,7 @@ import ProjectCard from "@/components/projectCard";
 		<div class="page-content">
 			<div class="text-center py-24">
 				<!-- Hero content intentionally empty for now, reserved for whatever goes here next. -->
+				<h1 class="hero-title">Fly Navy</h1>
 				<div
 					class="flex flex-col sm:flex-row gap-4 justify-center items-center"
 				>
