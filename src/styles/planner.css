@@ -156,14 +156,15 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* Single consolidated save button for the moviepolls question cards. Sticks
-   to the bottom of the scrollable planner-content pane (to the right of
-   planner-sidebar) rather than a fixed pixel offset, so it doesn't need to
-   know the sidebar's width. Only rendered while there's an unsaved edit. */
+/* Single consolidated save button for the moviepolls question cards.
+   Anchored to the bottom of the viewport (not just the scroll position),
+   offset past planner-sidebar's 240px width plus planner-content's own
+   24px padding so it lines up with the left edge of the cards. Only
+   rendered while there's an unsaved edit. */
 .movie-save-button {
-    position: sticky;
-    left: 0;
-    bottom: 16px;
+    position: fixed;
+    left: calc(240px + 24px);
+    bottom: 24px;
     z-index: 20;
     box-shadow: var(--shadow-lg);
 }
