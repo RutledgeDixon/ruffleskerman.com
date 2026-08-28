@@ -108,13 +108,11 @@ async function handleSave(name, userData) {
                 const checkedValue = answerValue !== null;
 
                 await connection.execute(
-                    'INSERT INTO question (title, description, answer, imageurl, url, checked, movie_id) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    'INSERT INTO question (title, description, answer, checked, movie_id) VALUES (?, ?, ?, ?, ?)',
                     [
                         question.title,
                         question.description,
                         answerValue,
-                        question.imageurl || '',
-                        question.url || '',
                         checkedValue,
                         movieId,
                     ]
