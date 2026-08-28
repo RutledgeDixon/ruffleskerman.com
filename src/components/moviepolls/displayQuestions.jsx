@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "./question.jsx";
+import { Button } from "@/components/ui/button";
 
 const sanitizeAnswerForInput = (value) => {
     if (value === "" || value == null || typeof value === 'boolean') {
@@ -14,18 +15,16 @@ const sanitizeAnswerForInput = (value) => {
     return Math.round(numericValue);
 };
 
-export default function DisplayQuestions({ questions, saveQuestions }) {
+export default function DisplayQuestions({ questions, saveQuestions, isSaving }) {
     // Hooks must run on every render, so seed them from a safe fallback
     // instead of early-returning before they're called (Rules of Hooks).
     const safeQuestions = questions ?? [];
-    const [savedCard, setSavedCard] = useState(safeQuestions.map(() => true));
-    const [answers, setAnswers] = useState(
-        safeQuestions.map((question) => sanitizeAnswerForInput(question.answer))
-    );
+    const [answers, setAnswers] = useState(safeQuestions.map((question) => sanitizeAnswerForInput(question.answer)));
+    const [isDirty, setIsDirty] = useState(false);
 
     useEffect(() => {
-        setSavedCard(safeQuestions.map(() => true));
         setAnswers(safeQuestions.map((question) => sanitizeAnswerForInput(question.answer)));
+        setIsDirty(false);
     }, [questions]);
 
     if (!questions) {
@@ -40,11 +39,7 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
             const newAnswers = [...answers];
             newAnswers[cardIndex] = "";
             setAnswers(newAnswers);
-            setSavedCard(prevSaved => {
-                const newSaved = [...prevSaved];
-                newSaved[cardIndex] = false;
-                return newSaved;
-            });
+            setIsDirty(true);
             return;
         }
 
@@ -57,50 +52,50 @@ export default function DisplayQuestions({ questions, saveQuestions }) {
         const newAnswers = [...answers];
         newAnswers[cardIndex] = boundedValue;
         setAnswers(newAnswers);
-        setSavedCard(prevSaved => {
-            const newSaved = [...prevSaved];
-            newSaved[cardIndex] = false;
-            return newSaved;
-        });
+        setIsDirty(true);
     }
 
-    const saveCard = async (cardIndex) => {
-        const hasNumericAnswer =
-            answers[cardIndex] !== "" &&
-            answers[cardIndex] != null &&
-            typeof answers[cardIndex] !== 'boolean' &&
-            !Number.isNaN(Number(answers[cardIndex]));
+    const handleSaveAll = async () => {
+        const newQuestions = questions.map((question, idx) => {
+            const hasNumericAnswer =
+                answers[idx] !== "" &&
+                answers[idx] != null &&
+                typeof answers[idx] !== 'boolean' &&
+                !Number.isNaN(Number(answers[idx]));
 
-        const newQuestions = questions.map((question, idx) =>
-            idx === cardIndex
-                ? {
-                    ...question,
-                    answer: answers[idx],
-                    checked: hasNumericAnswer
-                }
-                : question
-        );
-        setSavedCard(prevSaved => {
-            const newSaved = [...prevSaved];
-            newSaved[cardIndex] = true;
-            return newSaved;
+            return { ...question, answer: answers[idx], checked: hasNumericAnswer };
         });
-        await saveQuestions(newQuestions);
+
+        const ok = await saveQuestions(newQuestions);
+        if (ok) {
+            setIsDirty(false);
+        }
     }
 
     return (
-        <div className="cards-display">
-            {questions.map((question, cardIndex) => (
-                <Card
-                    key={cardIndex}
-                    title={question.title}
-                    description={question.description}
-                    answer={answers[cardIndex]}
-                    updateAnswer={(newAnswer) => updateAnswer(cardIndex, newAnswer)}
-                    saveFunc={() => saveCard(cardIndex)}
-                    saved={savedCard[cardIndex]}
-                />
-            ))}
-        </div>
+        <>
+            <div className="cards-display">
+                {questions.map((question, cardIndex) => (
+                    <Card
+                        key={cardIndex}
+                        title={question.title}
+                        description={question.description}
+                        answer={answers[cardIndex]}
+                        updateAnswer={(newAnswer) => updateAnswer(cardIndex, newAnswer)}
+                    />
+                ))}
+            </div>
+            {isDirty && (
+                <Button
+                    type="button"
+                    variant="letu"
+                    className="movie-save-button"
+                    disabled={isSaving}
+                    onClick={handleSaveAll}
+                >
+                    Save
+                </Button>
+            )}
+        </>
     )
 }

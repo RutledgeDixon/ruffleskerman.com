@@ -80,7 +80,7 @@ html, body {
 
 /* Navigation Component Styles */
 .navigation-bar {
-  background-color: rgba(11, 17, 32, 0.72);
+  background-color: rgba(20, 83, 45, 0.82); /* dark green, matches --color-green-900 */
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--site-border);

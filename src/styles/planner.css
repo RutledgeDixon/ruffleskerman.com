@@ -155,3 +155,47 @@ html, body {
     margin-top: 8px;
     margin-bottom: 8px;
 }
+
+/* Single consolidated save button for the moviepolls question cards. Sticks
+   to the bottom of the scrollable planner-content pane (to the right of
+   planner-sidebar) rather than a fixed pixel offset, so it doesn't need to
+   know the sidebar's width. Only rendered while there's an unsaved edit. */
+.movie-save-button {
+    position: sticky;
+    left: 0;
+    bottom: 16px;
+    z-index: 20;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Saving indicator for the moviepolls page, pinned to the page corner
+   (not the scrollable content pane) since it's page-level status, not
+   tied to the cards being scrolled. Only rendered while a save is in flight. */
+.movie-saving-indicator {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(20, 83, 45, 0.9);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-lg);
+    font-size: 0.875rem;
+}
+
+.movie-saving-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: movie-saving-spin 0.7s linear infinite;
+}
+
+@keyframes movie-saving-spin {
+    to { transform: rotate(360deg); }
+}
